@@ -15,7 +15,7 @@
     
 ## Stack vs Heap <button type="button" class="collapsible">+</button>
     
-<div class="content" style="display: block;" markdown="1">
+<div class="content" style="display: none;" markdown="1">
 
 Stack:
   * Contiguous memory.
