@@ -32,7 +32,7 @@
     
 <button type="button" class="collapsible">Open Collapsible</button>
     
-<div class="content">
+<div class="content" markdown="1">
 
 Stack:
   * Contiguous memory.
