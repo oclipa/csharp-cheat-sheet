@@ -11,11 +11,9 @@
 
 </script>  
 
-## Stack vs Heap
-
 <div>
     
-<button type="button" class="collapsible">Open Collapsible</button>
+## Stack vs Heap <button type="button" class="collapsible">+</button>
     
 <div class="content" markdown="1">
 
