@@ -1,3 +1,17 @@
+<script type="text/javascript">
+
+    function loadCSS(filename){ 
+
+       var file = document.createElement("link");
+       file.setAttribute("rel", "stylesheet");
+       file.setAttribute("type", "text/css");
+       file.setAttribute("href", filename);
+       document.head.appendChild(file);
+
+    }
+
+</script>  
+
 ## Stack vs Heap
 
 <button type="button" class="collapsible">Open Collapsible</button>
@@ -216,21 +230,6 @@ var result = source1.GroupBy(
                      
                      
 <script type="text/javascript">
-
-    function loadCSS(filename){ 
-
-       var file = document.createElement("link");
-       file.setAttribute("rel", "stylesheet");
-       file.setAttribute("type", "text/css");
-       file.setAttribute("href", filename);
-       document.head.appendChild(file);
-
-    }
-
-
-   //just call a function to load your CSS
-   //this path should be relative your HTML location
-   loadCSS("collapse.css");
 
     var coll = document.getElementsByClassName("collapsible");
     var i;
