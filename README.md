@@ -13,7 +13,7 @@
 
 <div>
     
-## Stack vs Heap <button type="button" class="collapsible">+</button>
+<h2>Stack vs Heap <button type="button" class="collapsible">+</button></h2>
     
 <div class="content" style="display: none;" markdown="1">
 
@@ -33,7 +33,11 @@ Heap:
 
 </div>
 
-## Structs vs Classes
+<div>
+    
+<h2>Structs vs Classes <button type="button" class="collapsible">+</button></h2>
+    
+<div class="content" style="display: none;" markdown="1">
 
 Structs:
 ```
@@ -80,7 +84,15 @@ public class MyStruct
      * Objects require initialization, which can impact performance.
      * Memory fragmentation can lead to slower performance.
 
-## Delegate vs Action vs Func vs Predicate
+</div>
+
+</div>
+
+<div>
+    
+<h2>Delegate vs Action vs Func vs Predicate <button type="button" class="collapsible">+</button></h2>
+    
+<div class="content" style="display: none;" markdown="1">
 
    * Delegate:
       * An older, generic form of Action and Func.
@@ -172,8 +184,15 @@ class Program
    * Predicate&lt;T&gt;: 
       * Basically, a special case of Func, which returns a bool.
 
+</div>
 
-## Linq
+</div>
+
+<div>
+    
+<h2>Linq <button type="button" class="collapsible">+</button></h2>
+    
+<div class="content" style="display: none;" markdown="1">
 
 Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable)
 
@@ -229,7 +248,10 @@ var result = source1.GroupBy(
                          PropertyCount = grp.Count()
                      });
 ```
-                    
+
+</div>
+
+</div>                  
                      
                      
 <script type="text/javascript">
