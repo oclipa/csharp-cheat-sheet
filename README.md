@@ -9,6 +9,10 @@
        document.head.appendChild(file);
     }
 
+   //just call a function to load your CSS
+   //this path should be relative your HTML location
+   loadCSS("collapse.css");
+   
 </script>  
 
 <div>
