@@ -43,7 +43,7 @@ Heap:
     
 <div class="content" style="display: none;" markdown="1">
 
-Structs:
+**Structs:**
 ```
 public struct MyStruct
 {
@@ -66,7 +66,7 @@ public struct MyStruct
      * Large structs can be slow to copy, which can impact performance.
      * Boxing a struct (i.e. converting it in an object) can impact performance
 
-Classes:
+**Classes:**
 ```
 public class MyStruct
 {
@@ -98,66 +98,69 @@ public class MyStruct
     
 <div class="content" style="display: none;" markdown="1">
 
-   * Delegate:
+   * **Delegate:**
       * An older, generic form of Action and Func.
       * Nowadays, prefer Action and Func (less complex; easier to read)
+      
 ```
-class Program
-{
-    public delegate int CalculateIt(int x, in y);
-    
-    static void Main(string[] args)
+    class Program
     {
-        CalculateIt calc = Add;
-        Console.WriteLine("Result = " + calc(4, 5));    // Prints out "Result = 9"
-        
-        calc = Subtract;
-        Console.WriteLine("Result = " + calc(1, 2));    // Prints out "Result = -1"
-    }
-    
-    static int Add(int a, in b)
-    {
-        return a + b;
-    }
-    
-    static void Subtract(int a, in b)
-    {
-        return a - b;
-    }
-}
+        public delegate int CalculateIt(int x, in y);
 
+        static void Main(string[] args)
+        {
+            CalculateIt calc = Add;
+            Console.WriteLine("Result = " + calc(4, 5));    // Prints out "Result = 9"
+
+            calc = Subtract;
+            Console.WriteLine("Result = " + calc(1, 2));    // Prints out "Result = -1"
+        }
+
+        static int Add(int a, in b)
+        {
+            return a + b;
+        }
+
+        static void Subtract(int a, in b)
+        {
+            return a - b;
+        }
+    }
 ```
 
-   * Action&lt;T&gt;: 
+   * **Action&lt;T&gt;:** 
       * Return type must be `void`
+      
 ```
-class Program
-{
-    static void Main(string[] args)
+    class Program
     {
-        Action<int, int> calc = Add;
-        calc(4, 5);           // Prints out "Result = 9"
- 
-        calc = Subtract;
-        calc(4, 5);           // Prints out "Result = -1"
-        
-        Action<int, int> anonymousAction = (a, b) =>  { Console.WriteLine("Result = " + (a + b)); };
-        anonymousAction.Invoke(4, 5);  // Prints out "Result = 9"
-    }
+        static void Main(string[] args)
+        {
+            Action<int, int> calc = Add;
+            calc(4, 5);           // Prints out "Result = 9"
 
-    static void Add(int a, in b)
-    {
-        Console.WriteLine("Result = " + (a + b));
+            calc = Subtract;
+            calc(4, 5);           // Prints out "Result = -1"
+
+            Action<int, int> anonymousAction = (a, b) =>  { Console.WriteLine("Result = " + (a + b)); };
+            anonymousAction.Invoke(4, 5);  // Prints out "Result = 9"
+        }
+
+        static void Add(int a, in b)
+        {
+            Console.WriteLine("Result = " + (a + b));
+        }
+
+        static void Subtract(int a, in b)
+        {
+            Console.WriteLine("Result = " + (a - b));
+        }
     }
-    
-    static void Subtract(int a, in b)
-    {
-        Console.WriteLine("Result = " + (a - b));
-    }
-}
 ```
-   * Func&lt;T&gt;: 
+
+   * **Func&lt;T&gt;:** 
       * Must return a value
+
 ```
 class Program
 {
@@ -185,7 +188,7 @@ class Program
 }
 ```
 
-   * Predicate&lt;T&gt;: 
+   * **Predicate&lt;T&gt;:** 
       * Basically, a special case of Func, which returns a bool.
 
 </div>
