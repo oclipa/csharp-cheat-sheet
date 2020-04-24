@@ -29,9 +29,9 @@
 
 ### Heap:
    * Dynamic memory which can be allocated at will.
-   * Can be fragmented since no guarantee which memory will be available at time objects are written.
-   * Creating a reference-type object reserves memory for the object, plus overhead for the pointer, plus overhead for memory management.
-   * When a reference-type object is no longer referenced from the stack (or another object), it is available to be garbage collected (which happens on occasion).
+   * Can be fragmented since no guarantee which memory will be available at time oects are written.
+   * Creating a reference-type oect reserves memory for the oect, plus overhead for the pointer, plus overhead for memory management.
+   * When a reference-type oect is no longer referenced from the stack (or another oect), it is available to be garbage collected (which happens on occasion).
 
 </div>
 
@@ -52,7 +52,7 @@ public struct MyStruct
     public byte index;
 }
 ```
-  * Value-type (entire object stored in a single memory location).
+  * Value-type (entire oect stored in a single memory location).
   * Allocated on the stack (if local to a function) or on the heap (if a class member).
   * Cannot be null (unless wrapped in a Nullable<> class)
   * Memory overhead is: (total size of fields) + (memory alignment padding)
@@ -62,9 +62,9 @@ public struct MyStruct
   * Memory is contiguous, so may improve memory access patterns and CPU caching.
   
   * Cons: 
-     * Cannot usually have multiple objects reference the same struct; each requires its own copy of the struct.
+     * Cannot usually have multiple oects reference the same struct; each requires its own copy of the struct.
      * Large structs can be slow to copy, which can impact performance.
-     * Boxing a struct (i.e. converting it in an object) can impact performance
+     * Boxing a struct (i.e. converting it in an oect) can impact performance
 
 ### Classes:
 ```C#
@@ -75,7 +75,7 @@ public class MyStruct
     public byte index;
 }
 ```
-   * Reference-type (object is referenced by a pointer).
+   * Reference-type (oect is referenced by a pointer).
    * Allocated on the heap.
    * Can be null (if pointer is not assigned to a memory location)
    * Memory overhead is: (total size of fields) + (8 byte pointer) + (16 byte memory management).
@@ -84,8 +84,8 @@ public class MyStruct
    * Memory can be fragmented.
 
   * Cons: 
-     * Extra memory overhead (which may not be immediately removed when the object is no longer referenced)
-     * Objects require initialization, which can impact performance.
+     * Extra memory overhead (which may not be immediately removed when the oect is no longer referenced)
+     * oects require initialization, which can impact performance.
      * Memory fragmentation can lead to slower performance.
 
 </div>
@@ -110,10 +110,12 @@ public class MyStruct
         static void Main(string[] args)
         {
             CalculateIt calc = Add;
-            Console.WriteLine("Result = " + calc(4, 5));    // Prints out "Result = 9"
+            // Prints out "Result = 9"
+            Console.WriteLine("Result = " + calc(4, 5));    
 
             calc = Subtract;
-            Console.WriteLine("Result = " + calc(1, 2));    // Prints out "Result = -1"
+            // Prints out "Result = -1"
+            Console.WriteLine("Result = " + calc(1, 2));
         }
 
         static int Add(int a, in b)
@@ -137,13 +139,18 @@ public class MyStruct
         static void Main(string[] args)
         {
             Action<int, int> calc = Add;
-            calc(4, 5);           // Prints out "Result = 9"
+            // Prints out "Result = 9"
+            calc(4, 5);           
 
             calc = Subtract;
-            calc(4, 5);           // Prints out "Result = -1"
-
-            Action<int, int> anonymousAction = (a, b) =>  { Console.WriteLine("Result = " + (a + b)); };
-            anonymousAction.Invoke(4, 5);  // Prints out "Result = 9"
+            // Prints out "Result = -1"
+            calc(4, 5);           
+            
+            Action<int, int> anonymousAction = (a, b) => 
+                    { Console.WriteLine("Result = " + (a + b)); };
+                    
+            // Prints out "Result = 9"
+            anonymousAction.Invoke(4, 5);  
         }
 
         static void Add(int a, in b)
@@ -166,14 +173,20 @@ class Program
 {
     static void Main(string[] args)
     {
-        Func<int, int, int> calc = Add;                 // note: Func<in, in, out>
-        Console.WriteLine("Result = " + calc(4, 5));    // Prints out "Result = 9"
+        // note: Func<in, in, out>
+        Func<int, int, int> calc = Add;
+        // Prints out "Result = 9"
+        Console.WriteLine("Result = " + calc(4, 5));    
  
         calc = Subtract;
-        Console.WriteLine("Result = " + calc(4, 5));    // Prints out "Result = -1"
+        // Prints out "Result = -1"
+        Console.WriteLine("Result = " + calc(4, 5));    
         
-        Func<int, int, int> anonymousFunc = (a, b) => { return a + b; };
-        Console.WriteLine("Result = " + anonymousFunc.Invoke(4, 5));    // Prints out "Result = 9"
+        Func<int, int, int> anonymousFunc = (a, b) => 
+                { return a + b; };
+                
+        // Prints out "Result = 9"
+        Console.WriteLine("Result = " + anonymousFunc.Invoke(4, 5));    
     }
 
     static int Add(int a, in b)
@@ -205,68 +218,73 @@ Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerabl
 
 ### Where
 ```C#
-IEnumerable<TSource> result = Where<TSource>(IEnumerable<TSource>, Func<TSource,Boolean>);
+IEnumerable<TSource> result = 
+    Where<TSource>(IEnumerable<TSource>, Func<TSource,Boolean>);
 
-var result = source.Where(obj => obj.Property == x);
+var result = source.Where(o => o.Prop == x);
 ```
 
 ### Select
 ```C#
-IEnumerable<TSource> result = Select<TSource,TResult>(IEnumerable<TSource>, Func<TSource,TResult>)
+IEnumerable<TSource> result = 
+    Select<TSource,TResult>(IEnumerable<TSource>, Func<TSource,TResult>)
 
-var result = source.Select(obj => new 
+var result = source.Select(o => new 
                     { 
-                        Property1 = obj.Property1; 
-                        Property2 = obj.Property2 
+                        Prop1 = o.Prop1; 
+                        Prop2 = o.Prop2 
                     }
                 );
 ```
 
 ### OrderBy
 ```C#
-IEnumerable<TSource> result = OrderBy<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
+IEnumerable<TSource> result = 
+    OrderBy<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
 
-var result = source.OrderBy(obj => obj.Property);
+var result = source.OrderBy(o => o.Prop);
 ```
 
 ### OrderByDescending
 ```C#
-IEnumerable<TSource> result = OrderByDescending<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
+IEnumerable<TSource> result = 
+    OrderByDescending<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
 
-var result = source.OrderByDescending(obj => obj.Property1);
+var result = source.OrderByDescending(o => o.Prop);
 ```
 
 ### ThenByDescending
 ```C#
-IEnumerable<TSource> result = OrderBy[...].ThenByDescending(IEnumerable<TSource>, Func<TSource,TKey>);
+IEnumerable<TSource> result = 
+    OrderBy[...].
+    ThenByDescending(IEnumerable<TSource>, Func<TSource,TKey>);
 
-var result = source.OrderBy(obj => obj.Property1).
-                    ThenByDescending(obj => obj.Property2);
+var result = source.OrderBy(o => o.Prop1).
+                    ThenByDescending(o => o.Prop2);
 ```
 
 ### Join
 ```C#
 var result = source1.Join(source2, 
-                     obj1 => obj1.Property1, obj2 => obj2.Property1, 
-                     (obj1, obj2) => new 
+                     o1 => o1.Prop1, o2 => o2.Prop1, 
+                     (o1, o2) => new 
                          {
-                             obj1.Property1,
-                             obj1.Property2,
-                             obj2.Property3,
-                             obj2.Property4
+                             o1.Prop1,
+                             o1.Prop2,
+                             o2.Prop3,
+                             o2.Prop4
                          }
                      );
 ```
 
 ### GroupBy
 ```C#
-var result = source1.GroupBy(
-                     obj => obj.Property).
-                     Select(grp => new
-                     {
-                         PropertyId = grp.Key,
-                         PropertyCount = grp.Count()
-                     });
+var result = source1.GroupBy(o => o.Prop).
+                                 Select(grp => new
+                                     {
+                                         PropId = grp.Key,
+                                         PropCount = grp.Count()
+                                     });
 ```
 
 ### Take
@@ -274,7 +292,7 @@ var result = source1.GroupBy(
 // select top 3
 
 var result = source.Where(
-                     obj => obj.Property == x).
+                     o => o.Prop == x).
                      Take(3);
 ```
 
@@ -282,86 +300,88 @@ var result = source.Where(
 ```C#
 // uses a mixture of query syntax and lambda syntax
 
-var result = (from obj in source
-                where obj.Property1 == x
-                orderby obj.Property2
-                select obj).Skip(2).Take(3);
+var result = (from o in source
+                where o.Prop1 == x
+                orderby o.Prop2
+                select o).Skip(2).Take(3);
 ```
 
 ### Single
 ```C#
 // throws an exception if no elements
 
-var result = source.Single(obj => obj.Property == x);
+var result = source.Single(o => o.Prop == x);
 ```
 
 ### SingleOrDefault
 ```C#
 // returns null if no elements
 
-var result = source.SingleOrDefault(obj => obj.Property == x);
+var result = source.SingleOrDefault(o => o.Prop == x);
 ```
 
 ### DefaultIfEmpty
 ```C#
-// returns a new ObjClass instance if no elements
+// returns a new OClass instance if no elements
 
-var result = source.Where(obj => obj.Property == x).
-                        DefaultIfEmpty(new ObjClass()).Single();
+var result = source.Where(o => o.Prop == x).
+                        DefaultIfEmpty(new OClass()).Single();
 ```
 
 ### Last
 ```C#
 // First, Last and ElementAt used in same way
 
-var result = source.Where(obj => obj.Property == x).
-                        OrderBy(obj => obj.Property).Last();
+var result = source.Where(o => o.Prop == x).
+                        OrderBy(o => o.Prop).Last();
 ```
 
 ### SingleOrDefault
 ```C#
 // returns 0 if no elements
 
-var result = source.Where(obj => obj.Property == x).
-                        Select(obj => obj.Property).SingleOrDefault();
+var result = source.Where(o => o.Prop == x).
+                      Select(o => o.Prop).SingleOrDefault();
 ```
 
 ### ToArray
 ```C#
 // uses query syntax
 
-string[] result = (from obj in source
-                select obj.Property).ToArray();
+string[] result = (from o in source
+                select o.Prop).ToArray();
 ```
 
 ### ToDictionary
 ```C#
 // uses lambda syntax
 
-Dictionary<int, ObjClass> result = source.ToDictionary(obj => obj.IntProperty);
+Dictionary<int, OClass> result = 
+            source.ToDictionary(o => o.IntProp);
 
 // uses a mixture of query syntax and lambda syntax
 
-Dictionary<string, double> result = (from objGrp in
-            (from obj1 in source1
-             join obj2 in source2 on obj1.Property equals obj2.Property
-             select new { obj2.StrProperty, obj1.DblProperty})
-                group objGrp by objGrp.StrProperty into grp
-                select grp).ToDictionary(grp => grp.Key, grp => grp.Max(objGrp => objGrp.DblProperty));
+Dictionary<string, double> result = 
+    (from oGrp in
+        (from o1 in source1
+         join o2 in source2 on o1.Prop equals o2.Prop
+         select new { o2.StrProp, o1.DblProp})
+            group oGrp by oGrp.StrProp into grp
+            select grp).ToDictionary(grp => grp.Key, grp => grp.Max(oGrp => oGrp.DblProp));
 ```
 
 ### ToList
 ```C#
 // uses query syntax
 
-List<ObjClass> result = (from obj in source
-                where obj.Property > x
-                orderby obj.Property).ToList();
+List<OClass> result = (from o in source
+                        where o.Prop > x
+                        orderby o.Prop).ToList();
 ```
 
 ### ToLookup
 ```C#
-ILookup<int, string> result = source.toLookup(obj => obj.IntProperty, obj.StrProperty);
+ILookup<int, string> result = source.toLookup(o => o.IntProp, o.StrProp);
 ```
 
 </div>
