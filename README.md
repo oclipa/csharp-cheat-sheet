@@ -230,11 +230,11 @@ IEnumerable<TSource> result =
     Select<TSource,TResult>(IEnumerable<TSource>, Func<TSource,TResult>)
 
 var result = source.Select(o => new 
-                    { 
-                        Prop1 = o.Prop1; 
-                        Prop2 = o.Prop2 
-                    }
-                );
+                            { 
+                                Prop1 = o.Prop1; 
+                                Prop2 = o.Prop2 
+                            }
+                        );
 ```
 
 ### OrderBy
@@ -362,12 +362,14 @@ Dictionary<int, OClass> result =
 // uses a mixture of query syntax and lambda syntax
 
 Dictionary<string, double> result = 
-    (from oGrp in
+    (from og in
         (from o1 in source1
          join o2 in source2 on o1.Prop equals o2.Prop
          select new { o2.StrProp, o1.DblProp})
-            group oGrp by oGrp.StrProp into grp
-            select grp).ToDictionary(grp => grp.Key, grp => grp.Max(oGrp => oGrp.DblProp));
+            group og by og.StrProp into g
+            select g).
+                ToDictionary(g => g.Key, 
+                                g => g.Max(og => og.DblProp));
 ```
 
 ### ToList
@@ -381,7 +383,8 @@ List<OClass> result = (from o in source
 
 ### ToLookup
 ```C#
-ILookup<int, string> result = source.toLookup(o => o.IntProp, o.StrProp);
+ILookup<int, string> result = 
+        source.toLookup(o => o.IntProp, o.StrProp);
 ```
 
 </div>
