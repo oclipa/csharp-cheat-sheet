@@ -27,8 +27,11 @@
 </script>  
 
 ## Stack vs Heap
+
 <div>
+    
 <button type="button" class="collapsible">Open Collapsible</button>
+    
 <div class="content">
 
 Stack:
@@ -44,6 +47,7 @@ Heap:
    * When a reference-type object is no longer referenced from the stack (or another object), it is available to be garbage collected (which happens on occasion).
 
 </div>
+
 </div>
 
 ## Structs vs Classes
