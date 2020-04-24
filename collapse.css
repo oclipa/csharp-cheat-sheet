@@ -22,4 +22,6 @@
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
+  border: 2px solid #444;
+  border-radius: 5px;
 }
