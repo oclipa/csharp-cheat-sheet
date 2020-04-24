@@ -13,7 +13,9 @@
 
 <div>
     
-<h2>Stack vs Heap <button type="button" class="collapsible">+</button></h2>
+## Stack vs Heap 
+
+<button type="button" class="collapsible">+</button>
     
 <div class="content" style="display: none;" markdown="1">
 
@@ -35,7 +37,7 @@ Heap:
 
 <div>
     
-<h2>Structs vs Classes <button type="button" class="collapsible">+</button></h2>
+<button type="button" class="collapsible">Structs vs Classes +</button>
     
 <div class="content" style="display: none;" markdown="1">
 
@@ -90,7 +92,7 @@ public class MyStruct
 
 <div>
     
-<h2>Delegate vs Action vs Func vs Predicate <button type="button" class="collapsible">+</button></h2>
+<button type="button" class="collapsible">Delegate vs Action vs Func vs Predicate +</button>
     
 <div class="content" style="display: none;" markdown="1">
 
@@ -190,7 +192,7 @@ class Program
 
 <div>
     
-<h2>Linq <button type="button" class="collapsible">+</button></h2>
+<button type="button" class="collapsible">Linq +</button>
     
 <div class="content" style="display: none;" markdown="1">
 
