@@ -44,7 +44,7 @@
 <div class="content" style="display: none;" markdown="1">
 
 ### Structs:
-```
+```C#
 public struct MyStruct
 {
     public float number;
@@ -67,7 +67,7 @@ public struct MyStruct
      * Boxing a struct (i.e. converting it in an object) can impact performance
 
 ### Classes:
-```
+```C#
 public class MyStruct
 {
     public float number;
@@ -102,7 +102,7 @@ public class MyStruct
       * An older, generic form of Action and Func.
       * Nowadays, prefer Action and Func (less complex; easier to read)
       
-```
+```C#
     class Program
     {
         public delegate int CalculateIt(int x, in y);
@@ -131,7 +131,7 @@ public class MyStruct
    * ### Action&lt;T&gt;: 
       * Return type must be `void`
       
-```
+```C#
     class Program
     {
         static void Main(string[] args)
@@ -161,7 +161,7 @@ public class MyStruct
    * ### Func&lt;T&gt;:
       * Must return a value
 
-```
+```C#
 class Program
 {
     static void Main(string[] args)
@@ -204,14 +204,14 @@ class Program
 Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable)
 
 ### Where
-```
+```C#
 IEnumerable<TSource> result = Where<TSource>(IEnumerable<TSource>, Func<TSource,Boolean>);
 
 var result = source.Where(obj => obj.Property == x);
 ```
 
 ### Select
-```
+```C#
 IEnumerable<TSource> result = Select<TSource,TResult>(IEnumerable<TSource>, Func<TSource,TResult>)
 
 var result = source.Select(obj => new 
@@ -223,21 +223,21 @@ var result = source.Select(obj => new
 ```
 
 ### OrderBy
-```
+```C#
 IEnumerable<TSource> result = OrderBy<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
 
 var result = source.OrderBy(obj => obj.Property);
 ```
 
 ### OrderByDescending
-```
+```C#
 IEnumerable<TSource> result = OrderByDescending<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
 
 var result = source.OrderByDescending(obj => obj.Property1);
 ```
 
 ### ThenByDescending
-```
+```C#
 IEnumerable<TSource> result = OrderBy[...].ThenByDescending(IEnumerable<TSource>, Func<TSource,TKey>);
 
 var result = source.OrderBy(obj => obj.Property1).
@@ -245,7 +245,7 @@ var result = source.OrderBy(obj => obj.Property1).
 ```
 
 ### Join
-```
+```C#
 var result = source1.Join(source2, 
                      obj1 => obj1.Property1, obj2 => obj2.Property1, 
                      (obj1, obj2) => new 
@@ -259,7 +259,7 @@ var result = source1.Join(source2,
 ```
 
 ### GroupBy
-```
+```C#
 var result = source1.GroupBy(
                      obj => obj.Property).
                      Select(grp => new
@@ -267,6 +267,101 @@ var result = source1.GroupBy(
                          PropertyId = grp.Key,
                          PropertyCount = grp.Count()
                      });
+```
+
+### Take
+```C#
+// select top 3
+
+var result = source.Where(
+                     obj => obj.Property == x).
+                     Take(3);
+```
+
+### Skip
+```C#
+// uses a mixture of query syntax and lambda syntax
+
+var result = (from obj in source
+                where obj.Property1 == x
+                orderby obj.Property2
+                select obj).Skip(2).Take(3);
+```
+
+### Single
+```C#
+// throws an exception if no elements
+
+var result = source.Single(obj => obj.Property == x);
+```
+
+### SingleOrDefault
+```C#
+// returns null if no elements
+
+var result = source.SingleOrDefault(obj => obj.Property == x);
+```
+
+### DefaultIfEmpty
+```C#
+// returns a new ObjClass instance if no elements
+
+var result = source.Where(obj => obj.Property == x).
+                        DefaultIfEmpty(new ObjClass()).Single();
+```
+
+### Last
+```C#
+// First, Last and ElementAt used in same way
+
+var result = source.Where(obj => obj.Property == x).
+                        OrderBy(obj => obj.Property).Last();
+```
+
+### SingleOrDefault
+```C#
+// returns 0 if no elements
+
+var result = source.Where(obj => obj.Property == x).
+                        Select(obj => obj.Property).SingleOrDefault();
+```
+
+### ToArray
+```C#
+// uses query syntax
+
+string[] result = (from obj in source
+                select obj.Property).ToArray();
+```
+
+### ToDictionary
+```C#
+// uses lambda syntax
+
+Dictionary<int, ObjClass> result = source.ToDictionary(obj => obj.IntProperty);
+
+// uses a mixture of query syntax and lambda syntax
+
+Dictionary<string, double> result = (from objGrp in
+            (from obj1 in source1
+             join obj2 in source2 on obj1.Property equals obj2.Property
+             select new { obj2.StrProperty, obj1.DblProperty})
+                group objGrp by objGrp.StrProperty into grp
+                select grp).ToDictionary(grp => grp.Key, grp => grp.Max(objGrp => objGrp.DblProperty));
+```
+
+### ToList
+```C#
+// uses query syntax
+
+List<ObjClass> result = (from obj in source
+                where obj.Property > x
+                orderby obj.Property).ToList();
+```
+
+### ToLookup
+```C#
+ILookup<int, string> result = source.toLookup(obj => obj.IntProperty, obj.StrProperty);
 ```
 
 </div>
