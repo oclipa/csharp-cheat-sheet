@@ -189,7 +189,7 @@ class Program
 ```
 
    * ### Predicate&lt;T&gt;:
-      * Basically, a special case of Func, which returns a bool.
+      * A special case of Func that only returns a bool.
 
 </div>
 
@@ -198,7 +198,7 @@ class Program
 <div>
     
 <button type="button" class="collapsible">+ Linq</button>
-    
+   
 <div class="content" style="display: none;" markdown="1">
 
 Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable)
