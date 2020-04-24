@@ -21,13 +21,13 @@
     
 <div class="content" style="display: none;" markdown="1">
 
-Stack:
+### Stack:
   * Contiguous memory.
   * A stack consists of frames; each frame corresponds to a method/function call.  A pointer references the current frame.
   * When a method is called, all of its value-types (and pointers) are stored as a frame which is pushed onto the top of the stack.
   * When the method returns, the frame for that method is popped off the stack (releasing the memory) and the pointer moves down to the next frame (i.e. the calling method).
 
-Heap:
+### Heap:
    * Dynamic memory which can be allocated at will.
    * Can be fragmented since no guarantee which memory will be available at time objects are written.
    * Creating a reference-type object reserves memory for the object, plus overhead for the pointer, plus overhead for memory management.
@@ -43,7 +43,7 @@ Heap:
     
 <div class="content" style="display: none;" markdown="1">
 
-**Structs:**
+### Structs:
 ```
 public struct MyStruct
 {
@@ -66,7 +66,7 @@ public struct MyStruct
      * Large structs can be slow to copy, which can impact performance.
      * Boxing a struct (i.e. converting it in an object) can impact performance
 
-**Classes:**
+### Classes:
 ```
 public class MyStruct
 {
@@ -98,7 +98,7 @@ public class MyStruct
     
 <div class="content" style="display: none;" markdown="1">
 
-   * **Delegate:**
+   * ### Delegate:
       * An older, generic form of Action and Func.
       * Nowadays, prefer Action and Func (less complex; easier to read)
       
@@ -128,7 +128,7 @@ public class MyStruct
     }
 ```
 
-   * **Action&lt;T&gt;:** 
+   * ### Action&lt;T&gt;: 
       * Return type must be `void`
       
 ```
@@ -158,7 +158,7 @@ public class MyStruct
     }
 ```
 
-   * **Func&lt;T&gt;:** 
+   * ### Func&lt;T&gt;:
       * Must return a value
 
 ```
@@ -188,7 +188,7 @@ class Program
 }
 ```
 
-   * **Predicate&lt;T&gt;:** 
+   * ### Predicate&lt;T&gt;:
       * Basically, a special case of Func, which returns a bool.
 
 </div>
@@ -203,11 +203,14 @@ class Program
 
 Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable)
 
+### Where
 ```
 IEnumerable<TSource> result = Where<TSource>(IEnumerable<TSource>, Func<TSource,Boolean>);
 
 var result = source.Where(obj => obj.Property == x);
 ```
+
+### Select
 ```
 IEnumerable<TSource> result = Select<TSource,TResult>(IEnumerable<TSource>, Func<TSource,TResult>)
 
@@ -218,22 +221,30 @@ var result = source.Select(obj => new
                     }
                 );
 ```
+
+### OrderBy
 ```
 IEnumerable<TSource> result = OrderBy<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
 
 var result = source.OrderBy(obj => obj.Property);
 ```
+
+### OrderByDescending
 ```
 IEnumerable<TSource> result = OrderByDescending<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
 
 var result = source.OrderByDescending(obj => obj.Property1);
 ```
+
+### ThenByDescending
 ```
 IEnumerable<TSource> result = OrderBy[...].ThenByDescending(IEnumerable<TSource>, Func<TSource,TKey>);
 
 var result = source.OrderBy(obj => obj.Property1).
                     ThenByDescending(obj => obj.Property2);
 ```
+
+### Join
 ```
 var result = source1.Join(source2, 
                      obj1 => obj1.Property1, obj2 => obj2.Property1, 
@@ -246,6 +257,8 @@ var result = source1.Join(source2,
                          }
                      );
 ```
+
+### GroupBy
 ```
 var result = source1.GroupBy(
                      obj => obj.Property).
