@@ -7,13 +7,27 @@
        file.setAttribute("type", "text/css");
        file.setAttribute("href", filename);
        document.head.appendChild(file);
+    }
+    
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
 
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
     }
 
 </script>  
 
 ## Stack vs Heap
-
+<div>
 <button type="button" class="collapsible">Open Collapsible</button>
 <div class="content">
 
@@ -29,6 +43,7 @@ Heap:
    * Creating a reference-type object reserves memory for the object, plus overhead for the pointer, plus overhead for memory management.
    * When a reference-type object is no longer referenced from the stack (or another object), it is available to be garbage collected (which happens on occasion).
 
+</div>
 </div>
 
 ## Structs vs Classes
