@@ -17,6 +17,18 @@
 
 <div>
     
+<button type="button" class="collapsible">+ What is C#?</button>
+    
+<div class="content" style="display: none;" markdown="1">
+
+C# is an object-oriented, type-safe, and managed language that is compiled by .Net framework to generate Microsoft Intermediate Language.
+
+</div>
+
+</div>
+
+<div>
+    
 <button type="button" class="collapsible">+ Stack vs Heap</button>
     
 <div class="content" style="display: none;" markdown="1">
@@ -52,19 +64,20 @@ public struct MyStruct
     public byte index;
 }
 ```
-  * Value-type (entire oect stored in a single memory location).
-  * Allocated on the stack (if local to a function) or on the heap (if a class member).
-  * Cannot be null (unless wrapped in a Nullable<> class)
-  * Memory overhead is: (total size of fields) + (memory alignment padding)
-  * Unless using the `ref` keyword, structs are always copied when passed into functions.
-     * When using `ref` the stack address of the value type is passed, rather than a copy of the value type.
-  * Once out of scope, memory location is immediately available to be overwritten.
-  * Memory is contiguous, so may improve memory access patterns and CPU caching.
+   * Value-type (entire object stored in a single memory location).
+   * Supports inheritance.
+   * Allocated on the stack (if local to a function) or on the heap (if a class member).
+   * Cannot be null (unless Nullable<> is used)
+   * Memory overhead is: (total size of fields) + (memory alignment padding)
+   * Unless using the `ref` keyword, structs are always copied when passed into functions.
+      * When using `ref` the stack address of the value type is passed, rather than a copy of the value type.
+   * Once out of scope, memory location is immediately available to be overwritten.
+   * Memory is contiguous, so may improve memory access patterns and CPU caching.
   
-  * Cons: 
-     * Cannot usually have multiple oects reference the same struct; each requires its own copy of the struct.
-     * Large structs can be slow to copy, which can impact performance.
-     * Boxing a struct (i.e. converting it in an oect) can impact performance
+   * Cons: 
+      * Cannot usually have multiple oects reference the same struct; each requires its own copy of the struct.
+      * Large structs can be slow to copy, which can impact performance.
+      * Boxing a struct (i.e. converting it in an oect) can impact performance
 
 ### Classes:
 ```C#
@@ -75,7 +88,8 @@ public class MyStruct
     public byte index;
 }
 ```
-   * Reference-type (oect is referenced by a pointer).
+   * Reference-type (object is referenced by a pointer).
+   * Supports inheritance.
    * Allocated on the heap.
    * Can be null (if pointer is not assigned to a memory location)
    * Memory overhead is: (total size of fields) + (8 byte pointer) + (16 byte memory management).
@@ -94,13 +108,47 @@ public class MyStruct
 
 <div>
     
+<button type="button" class="collapsible">+ Boxing vs Unboxing</button>
+    
+<div class="content" style="display: none;" markdown="1">
+
+Boxing is the conversion of a value type to an reference type, or any interface face type implemented by the value type.
+
+Boxing a value type creates an object instance containing the value and stores it on the heap.
+
+e.g. `object o = 100;`
+
+Unboxing is the reverse of this process:
+
+e.g. `int x = (int)o;`
+
+</div>
+
+</div>
+
+<div>
+    
+<button type="button" class="collapsible">+ Dependency Injection</button>
+    
+<div class="content" style="display: none;" markdown="1">
+
+* Constructor dependency
+* Property dependency
+* Method dependency
+
+</div>
+
+</div>
+
+<div>
+    
 <button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate</button>
     
 <div class="content" style="display: none;" markdown="1">
 
    * ### Delegate:
-      * An older, generic form of Action and Func.
-      * Nowadays, prefer Action and Func (less complex; easier to read)
+      * An older, generic form of Action, Func and Predicate.
+      * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
       
 ```C#
     class Program
@@ -129,6 +177,8 @@ public class MyStruct
         }
     }
 ```
+      * A multicast delegate
+      * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
 
    * ### Action&lt;T&gt;: 
       * Return type must be `void`
@@ -203,6 +253,28 @@ class Program
 
    * ### Predicate&lt;T&gt;:
       * A special case of Func that only returns a bool.
+
+### NOTE: delegates (including Action, Func and Predicate) read the state of arguments at the time they are called, not at the time they are instantiated, which means that care must be taken to ensure the correct values are used.  For example, in the following example the output will be the number 10 ten times, rather than the expected 0 to 9: 
+
+```
+delegate void Printer();
+
+static void Main()
+{
+        List<Printer> printers = new List<Printer>();
+        int i=0;
+        for(; i < 10; i++)
+        {
+            printers.Add(delegate { Console.WriteLine(i); });
+        }
+
+        foreach (var printer in printers)
+        {
+            printer();
+        }
+}
+```
+
 
 </div>
 
@@ -387,10 +459,116 @@ ILookup<int, string> result =
         source.toLookup(o => o.IntProp, o.StrProp);
 ```
 
+
 </div>
 
-</div>                  
-                     
+</div>
+
+<div>
+    
+<button type="button" class="collapsible">+ Async & Await</button>
+    
+<div class="content" style="display: none;" markdown="1">
+
+If an `async` method calls another method or function using the `await` keyword, the calling method will return instantly at the point `await` is called; any instructions after the `await` will not complete until after the awaited method completes.
+
+In the following example, the output from the program will be null, since `result` will not be initialized until after `Task.Delay(5)` returns, which will not happen until after WriteLine() is called.
+
+```C#
+class Program {
+  private static string result;
+ 
+  static void Main() {
+    SaySomething();
+    Console.WriteLine(result);
+  }
+ 
+  static async Task<string> SaySomething() {
+    await Task.Delay(5);
+    result = "Hello world!";
+    return “Something”;
+  }
+}
+```
+
+An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Delay(5)`, since this will cause the main thread to block until the `Sleep()` method returns, so that `result` will be initialized before the `SaySomething` method returns.  In this case, the program will return `Hello world!`.
+</div>
+
+</div>
+
+<div>
+    
+<button type="button" class="collapsible">+ Arrays</button>
+    
+<div class="content" style="display: none;" markdown="1">
+
+See: http://zetcode.com/lang/csharp/arrays/
+And: https://www.geeksforgeeks.org/c-sharp-join-method-set-1/  (and Split)
+
+What is a Jagged Array?
+
+</div>
+
+</div>
+
+<div>
+    
+<button type="button" class="collapsible">+ Data Structures</button>
+    
+<div class="content" style="display: none;" markdown="1">
+
+Should create a separate page that goes through these in depth
+
+### Array
+### ArrayList
+### Stack
+### Queue
+### LinkedList<T> (Doubly-Linked List)
+### HashTable
+### Dictionary<TKey, TValue>
+### SortedSet<T> (Red-Black Tree)
+
+See here: https://stackoverflow.com/questions/1806511/objects-that-represent-trees
+
+### Singly-Linked List
+### Skip List
+### Binary Search Tree
+### Cartesian Tree
+### B-Tree
+### Splay Tree
+### AVL Tree
+### KD Tree
+
+
+</div>
+
+</div>
+
+<div>
+    
+<button type="button" class="collapsible">+ Static Members</button>
+    
+<div class="content" style="display: none;" markdown="1">
+
+See: https://www.toptal.com/c-sharp/interview-questions - see example using TestStatic class
+
+</div>
+
+</div>
+
+<div>
+    
+<button type="button" class="collapsible">+ Dependency Injection</button>
+    
+<div class="content" style="display: none;" markdown="1">
+
+* Constructor dependency
+* Property dependency
+* Method dependency
+
+</div>
+
+</div>
                      
 <script type="text/javascript">
 
