@@ -41,7 +41,7 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 </div>
 </div>
 
-<div><a id="structs" />  
+<div id="structs">  
 <button type="button" class="collapsible">+ Structs vs Classes</button>  
 <div class="content" style="display: none;" markdown="1">
 
@@ -97,7 +97,7 @@ public class MyStruct
 </div>
 </div>
 
-<div><a id="boxing" />  
+<div id="boxing">  
 <button type="button" class="collapsible">+ Boxing vs Unboxing</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -114,7 +114,7 @@ e.g. `int x = (int)o;`
 </div>
 </div>
 
-<div><a id="dependency" />    
+<div id="dependency">    
 <button type="button" class="collapsible">+ Dependency Injection</button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -125,7 +125,7 @@ e.g. `int x = (int)o;`
 </div>
 </div>
 
-<div><a id="delegates" />   
+<div id="delegates">   
 <button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate</button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -345,7 +345,7 @@ class PrinterClosure
 </div>
 </div>
 
-<div><a id="linq" />  
+<div id="linq">  
 <button type="button" class="collapsible">+ Linq</button> 
 <div class="content" style="display: none;" markdown="1">
 
@@ -572,7 +572,7 @@ An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Del
 </div>
 </div>
 
-<div><a id="arrays" />   
+<div id="arrays">   
 <button type="button" class="collapsible">+ Arrays</button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -613,7 +613,7 @@ See here: https://stackoverflow.com/questions/1806511/objects-that-represent-tre
 </div>
 </div>
 
-<div><a id="static" /> 
+<div id="static"> 
 <button type="button" class="collapsible">+ Static Members</button>   
 <div class="content" style="display: none;" markdown="1">
 
