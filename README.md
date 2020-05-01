@@ -7,8 +7,7 @@
 
 &nbsp;
 
-
-<button type="button"><a id="toggle-all" value="none">Expand All Sections</button>
+<button type="button" id="toggle-all" value="none">Expand All Sections</button>
 
 &nbsp;
 
