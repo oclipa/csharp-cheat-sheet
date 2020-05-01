@@ -1,36 +1,30 @@
-<script type="text/javascript">
+<div style="display: inline-block;">
+<a class="link" href="http://oclipa.github.io/">&lt; home</a>
+<a class="link" href="http://oclipa.github.io/toolbox.html">&lt; toolbox</a>
+</div> 
 
-    function loadCSS(filename){ 
+## C#
 
-       var file = document.createElement("link");
-       file.setAttribute("rel", "stylesheet");
-       file.setAttribute("type", "text/css");
-       file.setAttribute("href", filename);
-       document.head.appendChild(file);
-    }
+&nbsp;
 
-   //just call a function to load your CSS
-   //this path should be relative your HTML location
-   loadCSS("collapse.css");
-   
-</script>  
 
-<div>
-    
+<button type="button" id="toggle-all" value="none">Expand All Sections</button>
+
+&nbsp;
+
+-------------------------------------------------------------------------------------------------------
+
+<div>  
 <button type="button" class="collapsible">+ What is C#?</button>
-    
 <div class="content" style="display: none;" markdown="1">
 
 C# is an object-oriented, type-safe, and managed language that is compiled by .Net framework to generate Microsoft Intermediate Language.
 
 </div>
-
 </div>
 
 <div>
-    
 <button type="button" class="collapsible">+ Stack vs Heap</button>
-    
 <div class="content" style="display: none;" markdown="1">
 
 ### Stack:
@@ -46,16 +40,14 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
    * When a reference-type oect is no longer referenced from the stack (or another oect), it is available to be garbage collected (which happens on occasion).
 
 </div>
-
 </div>
 
-<div>
-    
-<button type="button" class="collapsible">+ Structs vs Classes</button>
-    
+<div>  
+<button type="button" class="collapsible">+ Structs vs Classes</button>  
 <div class="content" style="display: none;" markdown="1">
 
 ### Structs:
+
 ```C#
 public struct MyStruct
 {
@@ -80,6 +72,7 @@ public struct MyStruct
       * Boxing a struct (i.e. converting it in an oect) can impact performance
 
 ### Classes:
+
 ```C#
 public class MyStruct
 {
@@ -103,13 +96,10 @@ public class MyStruct
      * Memory fragmentation can lead to slower performance.
 
 </div>
-
 </div>
 
-<div>
-    
+<div>  
 <button type="button" class="collapsible">+ Boxing vs Unboxing</button>
-    
 <div class="content" style="display: none;" markdown="1">
 
 Boxing is the conversion of a value type to an reference type, or any interface face type implemented by the value type.
@@ -123,13 +113,10 @@ Unboxing is the reverse of this process:
 e.g. `int x = (int)o;`
 
 </div>
-
 </div>
 
-<div>
-    
-<button type="button" class="collapsible">+ Dependency Injection</button>
-    
+<div>    
+<button type="button" class="collapsible">+ Dependency Injection</button>   
 <div class="content" style="display: none;" markdown="1">
 
 * Constructor dependency
@@ -137,13 +124,10 @@ e.g. `int x = (int)o;`
 * Method dependency
 
 </div>
-
 </div>
 
-<div>
-    
-<button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate</button>
-    
+<div>   
+<button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate</button>   
 <div class="content" style="display: none;" markdown="1">
 
    * ### Delegate:
@@ -274,21 +258,17 @@ static void Main()
         }
 }
 ```
-
-
+</div>
 </div>
 
-</div>
-
-<div>
-    
-<button type="button" class="collapsible">+ Linq</button>
-   
+<div>  
+<button type="button" class="collapsible">+ Linq</button> 
 <div class="content" style="display: none;" markdown="1">
 
 Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable)
 
 ### Where
+
 ```C#
 IEnumerable<TSource> result = 
     Where<TSource>(IEnumerable<TSource>, Func<TSource,Boolean>);
@@ -297,6 +277,7 @@ var result = source.Where(o => o.Prop == x);
 ```
 
 ### Select
+
 ```C#
 IEnumerable<TSource> result = 
     Select<TSource,TResult>(IEnumerable<TSource>, Func<TSource,TResult>)
@@ -310,6 +291,7 @@ var result = source.Select(o => new
 ```
 
 ### OrderBy
+
 ```C#
 IEnumerable<TSource> result = 
     OrderBy<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
@@ -318,6 +300,7 @@ var result = source.OrderBy(o => o.Prop);
 ```
 
 ### OrderByDescending
+
 ```C#
 IEnumerable<TSource> result = 
     OrderByDescending<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
@@ -326,6 +309,7 @@ var result = source.OrderByDescending(o => o.Prop);
 ```
 
 ### ThenByDescending
+
 ```C#
 IEnumerable<TSource> result = 
     OrderBy[...].
@@ -336,6 +320,7 @@ var result = source.OrderBy(o => o.Prop1).
 ```
 
 ### Join
+
 ```C#
 var result = source1.Join(source2, 
                      o1 => o1.Prop1, o2 => o2.Prop1, 
@@ -350,6 +335,7 @@ var result = source1.Join(source2,
 ```
 
 ### GroupBy
+
 ```C#
 var result = source1.GroupBy(o => o.Prop).
                                  Select(grp => new
@@ -360,6 +346,7 @@ var result = source1.GroupBy(o => o.Prop).
 ```
 
 ### Take
+
 ```C#
 // select top 3
 
@@ -369,6 +356,7 @@ var result = source.Where(
 ```
 
 ### Skip
+
 ```C#
 // uses a mixture of query syntax and lambda syntax
 
@@ -379,6 +367,7 @@ var result = (from o in source
 ```
 
 ### Single
+
 ```C#
 // throws an exception if no elements
 
@@ -386,6 +375,7 @@ var result = source.Single(o => o.Prop == x);
 ```
 
 ### SingleOrDefault
+
 ```C#
 // returns null if no elements
 
@@ -393,6 +383,7 @@ var result = source.SingleOrDefault(o => o.Prop == x);
 ```
 
 ### DefaultIfEmpty
+
 ```C#
 // returns a new OClass instance if no elements
 
@@ -401,6 +392,7 @@ var result = source.Where(o => o.Prop == x).
 ```
 
 ### Last
+
 ```C#
 // First, Last and ElementAt used in same way
 
@@ -409,6 +401,7 @@ var result = source.Where(o => o.Prop == x).
 ```
 
 ### SingleOrDefault
+
 ```C#
 // returns 0 if no elements
 
@@ -417,6 +410,7 @@ var result = source.Where(o => o.Prop == x).
 ```
 
 ### ToArray
+
 ```C#
 // uses query syntax
 
@@ -425,6 +419,7 @@ string[] result = (from o in source
 ```
 
 ### ToDictionary
+
 ```C#
 // uses lambda syntax
 
@@ -445,6 +440,7 @@ Dictionary<string, double> result =
 ```
 
 ### ToList
+
 ```C#
 // uses query syntax
 
@@ -454,20 +450,16 @@ List<OClass> result = (from o in source
 ```
 
 ### ToLookup
+
 ```C#
 ILookup<int, string> result = 
         source.toLookup(o => o.IntProp, o.StrProp);
 ```
-
-
+</div>
 </div>
 
-</div>
-
-<div>
-    
-<button type="button" class="collapsible">+ Async & Await</button>
-    
+<div> 
+<button type="button" class="collapsible">+ Async & Await</button> 
 <div class="content" style="display: none;" markdown="1">
 
 If an `async` method calls another method or function using the `await` keyword, the calling method will return instantly at the point `await` is called; any instructions after the `await` will not complete until after the awaited method completes.
@@ -475,6 +467,7 @@ If an `async` method calls another method or function using the `await` keyword,
 In the following example, the output from the program will be null, since `result` will not be initialized until after `Task.Delay(5)` returns, which will not happen until after WriteLine() is called.
 
 ```C#
+
 class Program {
   private static string result;
  
@@ -493,13 +486,10 @@ class Program {
 
 An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Delay(5)`, since this will cause the main thread to block until the `Sleep()` method returns, so that `result` will be initialized before the `SaySomething` method returns.  In this case, the program will return `Hello world!`.
 </div>
-
 </div>
 
-<div>
-    
-<button type="button" class="collapsible">+ Arrays</button>
-    
+<div>   
+<button type="button" class="collapsible">+ Arrays</button>   
 <div class="content" style="display: none;" markdown="1">
 
 See: http://zetcode.com/lang/csharp/arrays/
@@ -508,13 +498,10 @@ And: https://www.geeksforgeeks.org/c-sharp-join-method-set-1/  (and Split)
 What is a Jagged Array?
 
 </div>
-
 </div>
 
-<div>
-    
-<button type="button" class="collapsible">+ Data Structures</button>
-    
+<div>  
+<button type="button" class="collapsible">+ Data Structures</button>  
 <div class="content" style="display: none;" markdown="1">
 
 Should create a separate page that goes through these in depth
@@ -539,27 +526,20 @@ See here: https://stackoverflow.com/questions/1806511/objects-that-represent-tre
 ### AVL Tree
 ### KD Tree
 
-
+</div>
 </div>
 
-</div>
-
-<div>
-    
-<button type="button" class="collapsible">+ Static Members</button>
-    
+<div> 
+<button type="button" class="collapsible">+ Static Members</button>   
 <div class="content" style="display: none;" markdown="1">
 
 See: https://www.toptal.com/c-sharp/interview-questions - see example using TestStatic class
 
 </div>
-
 </div>
 
-<div>
-    
-<button type="button" class="collapsible">+ Dependency Injection</button>
-    
+<div>   
+<button type="button" class="collapsible">+ Dependency Injection</button>   
 <div class="content" style="display: none;" markdown="1">
 
 * Constructor dependency
@@ -567,24 +547,40 @@ See: https://www.toptal.com/c-sharp/interview-questions - see example using Test
 * Method dependency
 
 </div>
-
 </div>
-                     
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+-------------------------------------------------------------------------------------------------------
+
+**Move along; nothing to see here...**
+
 <script type="text/javascript">
 
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
+    const loadCSS = (filename) => { 
 
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-          content.style.display = "none";
-        } else {
-          content.style.display = "block";
-        }
-      });
-    }
+       const file = document.createElement("link");
+       file.setAttribute("rel", "stylesheet");
+       file.setAttribute("type", "text/css");
+       file.setAttribute("href", filename);
+       document.head.appendChild(file);
+    };
 
-</script> 
+    const loadJS = (filename) => { 
+
+       const file = document.createElement("script");
+       file.setAttribute("type", "text/javascript");
+       file.setAttribute("src", filename);
+       document.head.appendChild(file);
+    };
+   
+    //just call a function to load your CSS
+    //this path should be relative your HTML location
+    loadCSS("../collapse.css");
+    loadJS("../collapse.js");
+
+</script>
