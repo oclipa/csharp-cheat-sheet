@@ -34,9 +34,9 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 
 ### Heap:
    * Dynamic memory which can be allocated at will.
-   * Can be fragmented since no guarantee which memory will be available at time oects are written.
-   * Creating a reference-type oect reserves memory for the oect, plus overhead for the pointer, plus overhead for memory management.
-   * When a reference-type oect is no longer referenced from the stack (or another oect), it is available to be garbage collected (which happens on occasion).
+   * Can be fragmented since no guarantee which memory will be available at time objects are written.
+   * Creating a reference-type objects reserves memory for the objects, plus overhead for the pointer, plus overhead for memory management.
+   * When a reference-type objects is no longer referenced from the stack (or another objects), it is available to be garbage collected (which happens on occasion).
 
 </div>
 </div>
@@ -66,9 +66,9 @@ public struct MyStruct
    * Memory is contiguous, so may improve memory access patterns and CPU caching.
   
    * Cons: 
-      * Cannot usually have multiple oects reference the same struct; each requires its own copy of the struct.
+      * Cannot usually have multiple objects reference the same struct; each requires its own copy of the struct.
       * Large structs can be slow to copy, which can impact performance.
-      * Boxing a struct (i.e. converting it in an oect) can impact performance
+      * Boxing a struct (i.e. converting it in an objects) can impact performance
 
 ### Classes:
 
@@ -90,8 +90,8 @@ public class MyStruct
    * Memory can be fragmented.
 
   * Cons: 
-     * Extra memory overhead (which may not be immediately removed when the oect is no longer referenced)
-     * oects require initialization, which can impact performance.
+     * Extra memory overhead (which may not be immediately removed when the objects is no longer referenced)
+     * objects require initialization, which can impact performance.
      * Memory fragmentation can lead to slower performance.
 
 </div>
@@ -129,7 +129,7 @@ e.g. `int x = (int)o;`
 <button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate</button>   
 <div class="content" style="display: none;" markdown="1">
 
-**Be sure to also read the section on Closures**
+**Be sure to also read the section on Closures.**
 
    * ### Delegate:
       * An older, generic form of Action, Func and Predicate.
@@ -246,7 +246,7 @@ class Program
 <button type="button" class="collapsible">+ Closures</button> 
 <div class="content" style="display: none;" markdown="1">
 
-Closures are essentially used to encapsulate variables with the methods that require them, but without initializing the variables.  
+Closures are used to encapsulate variables with the methods that require them, but without initializing the variables.  
 
 They are particularly relevant to Delegates (including Action, Func and Predicate), since they mean that the state of arguments can be read at the time they are called, not at the time they are instantiated.  However, this does means that care must be taken to ensure the correct values are applied.  
 
@@ -576,10 +576,10 @@ An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Del
 <button type="button" class="collapsible">+ Arrays</button>   
 <div class="content" style="display: none;" markdown="1">
 
-See: http://zetcode.com/lang/csharp/arrays/
-And: https://www.geeksforgeeks.org/c-sharp-join-method-set-1/  (and Split)
+See: [Arrays](http://zetcode.com/lang/csharp/arrays/)
+And: [Join](https://www.geeksforgeeks.org/c-sharp-join-method-set-1/)  (and Split)
 
-What is a Jagged Array?
+* Jagged Arrays
 
 </div>
 </div>
@@ -599,7 +599,7 @@ Should create a separate page that goes through these in depth
 ### Dictionary<TKey, TValue>
 ### SortedSet<T> (Red-Black Tree)
 
-See here: https://stackoverflow.com/questions/1806511/objects-that-represent-trees
+See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-trees).
 
 ### Singly-Linked List
 ### Skip List
@@ -617,7 +617,7 @@ See here: https://stackoverflow.com/questions/1806511/objects-that-represent-tre
 <button type="button" class="collapsible">+ Static Members</button>   
 <div class="content" style="display: none;" markdown="1">
 
-See: https://www.toptal.com/c-sharp/interview-questions - see example using TestStatic class
+See [here](https://www.toptal.com/c-sharp/interview-questions) - see example using TestStatic class
 
 </div>
 </div>
