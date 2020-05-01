@@ -130,6 +130,8 @@ e.g. `int x = (int)o;`
 <button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate</button>   
 <div class="content" style="display: none;" markdown="1">
 
+**Be sure to also read the section on Closures**
+
    * ### Delegate:
       * An older, generic form of Action, Func and Predicate.
       * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
@@ -237,27 +239,110 @@ class Program
 
    * ### Predicate&lt;T&gt;:
       * A special case of Func that only returns a bool.
+      
+</div>
+</div>
 
-### NOTE: delegates (including Action, Func and Predicate) read the state of arguments at the time they are called, not at the time they are instantiated, which means that care must be taken to ensure the correct values are used.  For example, in the following example the output will be the number 10 ten times, rather than the expected 0 to 9: 
+<div>  
+<button type="button" class="collapsible">+ Closures</button> 
+<div class="content" style="display: none;" markdown="1">
+
+Closures are essentially used to encapsulate variables with the methods that require them, but without initializing the variables.  
+
+They are particularly relevant to Delegates (including Action, Func and Predicate), since they mean that the state of arguments can be read at the time they are called, not at the time they are instantiated.  However, this does means that care must be taken to ensure the correct values are applied.  
+
+For example, in the following code the output will be the number 10 ten times, rather than the expected 0 to 9:
 
 ```
 delegate void Printer();
 
 static void Main()
 {
-        List<Printer> printers = new List<Printer>();
-        int i=0;
-        for(; i < 10; i++)
-        {
-            printers.Add(delegate { Console.WriteLine(i); });
-        }
+    List<Printer> printers = new List<Printer>();
+    
+    int i=0;
+    for(; i < 10; i++)
+    {
+        printers.Add(delegate { Console.WriteLine(i); });
+    }
 
-        foreach (var printer in printers)
-        {
-            printer();
-        }
+    foreach (var printer in printers)
+    {
+        printer();
+    }
 }
 ```
+At first glance, the above code would seem to indicate that `i` is incremented for each new delegate added to `printers`, however in practice what happens is that the compiler has associated the delegates with the variable `i` and the runtime will use whatever the value of `i` is at the time the delegate method is called (in the `foreach` loop).
+
+Conceptually, the compiler does something like this:
+
+```
+// "replace" the delegate with a closure
+// that includes the method and any variables
+// if depends on.
+class PrinterClosure
+{
+    public int CurrentI;
+    public void Printer() => Console.WriteLine(this.currentI);
+}
+
+static void Main()
+{
+    // "replace" all references to
+    // Printer with PrinterClosure
+    List<PrinterClosure> printers = new List<PrinterClosure>();
+    
+    int i=0;
+    for(; i < 10; i++)
+    {
+        // PrinterClosure is assigned a value
+        // for i, but doesn't use it here
+        printers.Add(new PrinterClosure() { i } );
+    }
+
+    foreach (PrinterClosure printer in printers)
+    {
+        // PrinterClosure now picks up the
+        // value of i (10)
+        printer.CurrentI = i;
+        printer.printer();
+    }
+}
+```
+
+To avoid this, the value of `i` should be passed as an argument, rather than as a scoped variable:
+
+```
+delegate void Printer(int i);
+
+static void Main()
+{
+    List<Printer> printers = new List<Printer>();
+    
+    int i=0;
+    for(; i < 10; i++)
+    {
+        printers.Add(delegate(i) { Console.WriteLine(i); });
+    }
+
+    foreach (var printer in printers)
+    {
+        // prints out 0..9 as expected
+        printer();
+    }
+}
+```
+
+In this case, the compiler (again, conceptually) generates a closure similar to the following:
+
+```
+class PrinterClosure
+{
+    // i will be scoped to the Printer method
+    public void Printer(int i) => Console.WriteLine(i);
+}
+```
+
 </div>
 </div>
 
