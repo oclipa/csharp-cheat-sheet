@@ -13,7 +13,7 @@
 
 -------------------------------------------------------------------------------------------------------
 
-<div><a id="intro" />  
+<div id="intro">  
 <button type="button" class="collapsible">+ What is C#?</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -22,7 +22,7 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 </div>
 </div>
 
-<div><a id="memory" />
+<div id="memory">
 <button type="button" class="collapsible">+ Stack vs Heap</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -242,7 +242,7 @@ class Program
 </div>
 </div>
 
-<div><a id="closures" />  
+<div id="closures">  
 <button type="button" class="collapsible">+ Closures</button> 
 <div class="content" style="display: none;" markdown="1">
 
