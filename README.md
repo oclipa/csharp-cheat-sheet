@@ -14,7 +14,7 @@
 
 -------------------------------------------------------------------------------------------------------
 
-<div>  
+<div id="intro">  
 <button type="button" class="collapsible">+ What is C#?</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -23,7 +23,7 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 </div>
 </div>
 
-<div>
+<div id="memory">
 <button type="button" class="collapsible">+ Stack vs Heap</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -42,7 +42,7 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 </div>
 </div>
 
-<div>  
+<div id="structs">  
 <button type="button" class="collapsible">+ Structs vs Classes</button>  
 <div class="content" style="display: none;" markdown="1">
 
@@ -98,7 +98,7 @@ public class MyStruct
 </div>
 </div>
 
-<div>  
+<div id="boxing">  
 <button type="button" class="collapsible">+ Boxing vs Unboxing</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -115,7 +115,7 @@ e.g. `int x = (int)o;`
 </div>
 </div>
 
-<div>    
+<div id="dependency">    
 <button type="button" class="collapsible">+ Dependency Injection</button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -126,7 +126,7 @@ e.g. `int x = (int)o;`
 </div>
 </div>
 
-<div>   
+<div id="delegates">   
 <button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate</button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -243,7 +243,7 @@ class Program
 </div>
 </div>
 
-<div>  
+<div id="closures">  
 <button type="button" class="collapsible">+ Closures</button> 
 <div class="content" style="display: none;" markdown="1">
 
@@ -346,7 +346,7 @@ class PrinterClosure
 </div>
 </div>
 
-<div>  
+<div id="linq">  
 <button type="button" class="collapsible">+ Linq</button> 
 <div class="content" style="display: none;" markdown="1">
 
@@ -573,7 +573,7 @@ An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Del
 </div>
 </div>
 
-<div>   
+<div id="arrays">   
 <button type="button" class="collapsible">+ Arrays</button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -614,22 +614,11 @@ See here: https://stackoverflow.com/questions/1806511/objects-that-represent-tre
 </div>
 </div>
 
-<div> 
+<div id="static"> 
 <button type="button" class="collapsible">+ Static Members</button>   
 <div class="content" style="display: none;" markdown="1">
 
 See: https://www.toptal.com/c-sharp/interview-questions - see example using TestStatic class
-
-</div>
-</div>
-
-<div>   
-<button type="button" class="collapsible">+ Dependency Injection</button>   
-<div class="content" style="display: none;" markdown="1">
-
-* Constructor dependency
-* Property dependency
-* Method dependency
 
 </div>
 </div>
