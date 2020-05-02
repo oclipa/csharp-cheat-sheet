@@ -47,7 +47,7 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 
 ### Structs:
 
-```C#
+```csharp
 public struct MyStruct
 {
     public float number;
@@ -72,7 +72,7 @@ public struct MyStruct
 
 ### Classes:
 
-```C#
+```csharp
 public class MyStruct
 {
     public float number;
@@ -135,75 +135,76 @@ e.g. `int x = (int)o;`
       * An older, generic form of Action, Func and Predicate.
       * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
       
-```C#
-    class Program
+```csharp
+class Program
+{
+    public delegate int CalculateIt(int x, in y);
+
+    static void Main(string[] args)
     {
-        public delegate int CalculateIt(int x, in y);
+        CalculateIt calc = Add;
+        // Prints out "Result = 9"
+        Console.WriteLine("Result = " + calc(4, 5));    
 
-        static void Main(string[] args)
-        {
-            CalculateIt calc = Add;
-            // Prints out "Result = 9"
-            Console.WriteLine("Result = " + calc(4, 5));    
-
-            calc = Subtract;
-            // Prints out "Result = -1"
-            Console.WriteLine("Result = " + calc(1, 2));
-        }
-
-        static int Add(int a, in b)
-        {
-            return a + b;
-        }
-
-        static void Subtract(int a, in b)
-        {
-            return a - b;
-        }
+        calc = Subtract;
+        // Prints out "Result = -1"
+        Console.WriteLine("Result = " + calc(1, 2));
     }
+
+    static int Add(int a, in b)
+    {
+        return a + b;
+    }
+
+    static void Subtract(int a, in b)
+    {
+        return a - b;
+    }
+}
 ```
-      * A multicast delegate
+      * TODO: A multicast delegate
       * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
 
    * ### Action&lt;T&gt;: 
       * Return type must be `void`
       
-```C#
-    class Program
+```csharp
+class Program
+{
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Action<int, int> calc = Add;
-            // Prints out "Result = 9"
-            calc(4, 5);           
+        Action<int, int> calc = Add;
+        // Prints out "Result = 9"
+        calc(4, 5);           
 
-            calc = Subtract;
-            // Prints out "Result = -1"
-            calc(4, 5);           
-            
-            Action<int, int> anonymousAction = (a, b) => 
-                    { Console.WriteLine("Result = " + (a + b)); };
-                    
-            // Prints out "Result = 9"
-            anonymousAction.Invoke(4, 5);  
-        }
+        calc = Subtract;
+        // Prints out "Result = -1"
+        calc(4, 5);           
 
-        static void Add(int a, in b)
-        {
-            Console.WriteLine("Result = " + (a + b));
-        }
+        Action<int, int> anonymousAction = (a, b) => { 
+          Console.WriteLine("Result = " + (a + b)); 
+        };
 
-        static void Subtract(int a, in b)
-        {
-            Console.WriteLine("Result = " + (a - b));
-        }
+        // Prints out "Result = 9"
+        anonymousAction.Invoke(4, 5);  
     }
+
+    static void Add(int a, in b)
+    {
+        Console.WriteLine("Result = " + (a + b));
+    }
+
+    static void Subtract(int a, in b)
+    {
+        Console.WriteLine("Result = " + (a - b));
+    }
+}
 ```
 
    * ### Func&lt;T&gt;:
       * Must return a value
 
-```C#
+```csharp
 class Program
 {
     static void Main(string[] args)
@@ -211,17 +212,20 @@ class Program
         // note: Func<in, in, out>
         Func<int, int, int> calc = Add;
         // Prints out "Result = 9"
-        Console.WriteLine("Result = " + calc(4, 5));    
+        Console.WriteLine("Result = " 
+                           + calc(4, 5));    
  
         calc = Subtract;
         // Prints out "Result = -1"
-        Console.WriteLine("Result = " + calc(4, 5));    
+        Console.WriteLine("Result = " 
+                            + calc(4, 5));    
         
-        Func<int, int, int> anonymousFunc = (a, b) => 
-                { return a + b; };
+        Func<int, int, int> anonFunc = 
+                 (a, b) => { return a + b; };
                 
         // Prints out "Result = 9"
-        Console.WriteLine("Result = " + anonymousFunc.Invoke(4, 5));    
+        Console.WriteLine("Result = " 
+                    + anonFunc.Invoke(4, 5));    
     }
 
     static int Add(int a, in b)
@@ -252,17 +256,20 @@ They are particularly relevant to Delegates (including Action, Func and Predicat
 
 For example, in the following code the output will be the number 10 ten times, rather than the expected 0 to 9:
 
-```
+```csharp
 delegate void Printer();
 
 static void Main()
 {
-    List<Printer> printers = new List<Printer>();
+    List<Printer> printers = 
+             new List<Printer>();
     
     int i=0;
     for(; i < 10; i++)
     {
-        printers.Add(delegate { Console.WriteLine(i); });
+        printers.Add(delegate { 
+            Console.WriteLine(i); 
+        });
     }
 
     foreach (var printer in printers)
@@ -275,28 +282,32 @@ At first glance, the above code would seem to indicate that `i` is incremented f
 
 Conceptually, the compiler does something like this:
 
-```
+```csharp
 // "replace" the delegate with a closure
 // that includes the method and any variables
 // if depends on.
 class PrinterClosure
 {
     public int CurrentI;
-    public void Printer() => Console.WriteLine(this.currentI);
+    public void Printer() => 
+          Console.WriteLine(this.currentI);
 }
 
 static void Main()
 {
     // "replace" all references to
     // Printer with PrinterClosure
-    List<PrinterClosure> printers = new List<PrinterClosure>();
+    List<PrinterClosure> printers = 
+                new List<PrinterClosure>();
     
     int i=0;
     for(; i < 10; i++)
     {
         // PrinterClosure is assigned a value
         // for i, but doesn't use it here
-        printers.Add(new PrinterClosure() { i } );
+        printers.Add(
+            new PrinterClosure() { i } 
+        );
     }
 
     foreach (PrinterClosure printer in printers)
@@ -311,17 +322,20 @@ static void Main()
 
 To avoid this, the value of `i` should be passed as an argument, rather than as a scoped variable:
 
-```
+```csharp
 delegate void Printer(int i);
 
 static void Main()
 {
-    List<Printer> printers = new List<Printer>();
+    List<Printer> printers = 
+              new List<Printer>();
     
     int i=0;
     for(; i < 10; i++)
     {
-        printers.Add(delegate(i) { Console.WriteLine(i); });
+        printers.Add(delegate(i) { 
+            Console.WriteLine(i); 
+        });
     }
 
     foreach (var printer in printers)
@@ -334,11 +348,14 @@ static void Main()
 
 In this case, the compiler (again, conceptually) generates a closure similar to the following:
 
-```
+```csharp
 class PrinterClosure
 {
-    // i will be scoped to the Printer method
-    public void Printer(int i) => Console.WriteLine(i);
+    // i will be scoped to 
+    // the Printer method
+    public void Printer(int i) => {
+        Console.WriteLine(i);
+    };
 }
 ```
 
@@ -353,61 +370,70 @@ Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerabl
 
 ### Where
 
-```C#
+```csharp
 IEnumerable<TSource> result = 
-    Where<TSource>(IEnumerable<TSource>, Func<TSource,Boolean>);
+    Where<TSource>(
+        IEnumerable<TSource>, Func<TSource,Boolean>
+    );
 
 var result = source.Where(o => o.Prop == x);
 ```
 
 ### Select
 
-```C#
+```csharp
 IEnumerable<TSource> result = 
-    Select<TSource,TResult>(IEnumerable<TSource>, Func<TSource,TResult>)
+    Select<TSource,TResult>(
+        IEnumerable<TSource>, Func<TSource,TResult>
+    );
 
-var result = source.Select(o => new 
-                            { 
-                                Prop1 = o.Prop1; 
-                                Prop2 = o.Prop2 
-                            }
-                        );
+var result = source.Select(o => new { 
+                     Prop1 = o.Prop1; 
+                     Prop2 = o.Prop2 
+             });
 ```
 
 ### OrderBy
 
-```C#
+```csharp
 IEnumerable<TSource> result = 
-    OrderBy<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
+    OrderBy<TSource,TKey>(
+        IEnumerable<TSource>, Func<TSource,TKey>
+    );
 
 var result = source.OrderBy(o => o.Prop);
 ```
 
 ### OrderByDescending
 
-```C#
+```csharp
 IEnumerable<TSource> result = 
-    OrderByDescending<TSource,TKey>(IEnumerable<TSource>, Func<TSource,TKey>)
+    OrderByDescending<TSource,TKey>(
+        IEnumerable<TSource>, Func<TSource,TKey>
+    )
 
 var result = source.OrderByDescending(o => o.Prop);
 ```
 
 ### ThenByDescending
 
-```C#
+```csharp
 IEnumerable<TSource> result = 
     OrderBy[...].
-    ThenByDescending(IEnumerable<TSource>, Func<TSource,TKey>);
+    ThenByDescending(
+        IEnumerable<TSource>, Func<TSource,TKey>
+    );
 
 var result = source.OrderBy(o => o.Prop1).
-                    ThenByDescending(o => o.Prop2);
+               ThenByDescending(o => o.Prop2);
 ```
 
 ### Join
 
-```C#
+```csharp
 var result = source1.Join(source2, 
-                     o1 => o1.Prop1, o2 => o2.Prop1, 
+                     o1 => o1.Prop1, 
+                     o2 => o2.Prop1, 
                      (o1, o2) => new 
                          {
                              o1.Prop1,
@@ -420,18 +446,18 @@ var result = source1.Join(source2,
 
 ### GroupBy
 
-```C#
+```csharp
 var result = source1.GroupBy(o => o.Prop).
-                                 Select(grp => new
-                                     {
-                                         PropId = grp.Key,
-                                         PropCount = grp.Count()
-                                     });
+                 Select(grp => new {
+                     PropId = grp.Key,
+                     PropCount = grp.Count()
+                 }
+             );
 ```
 
 ### Take
 
-```C#
+```csharp
 // select top 3
 
 var result = source.Where(
@@ -441,7 +467,7 @@ var result = source.Where(
 
 ### Skip
 
-```C#
+```csharp
 // uses a mixture of query syntax and lambda syntax
 
 var result = (from o in source
@@ -452,50 +478,57 @@ var result = (from o in source
 
 ### Single
 
-```C#
+```csharp
 // throws an exception if no elements
 
-var result = source.Single(o => o.Prop == x);
+var result = source.Single(
+                 o => o.Prop == x
+             );
 ```
 
 ### SingleOrDefault
 
-```C#
+```csharp
 // returns null if no elements
 
-var result = source.SingleOrDefault(o => o.Prop == x);
+var result = source.SingleOrDefault(
+                 o => o.Prop == x
+             );
 ```
 
 ### DefaultIfEmpty
 
-```C#
+```csharp
 // returns a new OClass instance if no elements
 
 var result = source.Where(o => o.Prop == x).
-                        DefaultIfEmpty(new OClass()).Single();
+                 DefaultIfEmpty(new OClass()).
+                 Single();
 ```
 
 ### Last
 
-```C#
+```csharp
 // First, Last and ElementAt used in same way
 
 var result = source.Where(o => o.Prop == x).
-                        OrderBy(o => o.Prop).Last();
+                 OrderBy(o => o.Prop).
+                 Last();
 ```
 
 ### SingleOrDefault
 
-```C#
+```csharp
 // returns 0 if no elements
 
 var result = source.Where(o => o.Prop == x).
-                      Select(o => o.Prop).SingleOrDefault();
+                 Select(o => o.Prop).
+                 SingleOrDefault();
 ```
 
 ### ToArray
 
-```C#
+```csharp
 // uses query syntax
 
 string[] result = (from o in source
@@ -504,40 +537,45 @@ string[] result = (from o in source
 
 ### ToDictionary
 
-```C#
+```csharp
 // uses lambda syntax
 
 Dictionary<int, OClass> result = 
-            source.ToDictionary(o => o.IntProp);
+        source.ToDictionary(o => o.IntProp);
 
-// uses a mixture of query syntax and lambda syntax
+// uses a mixture of query syntax and 
+// lambda syntax
 
 Dictionary<string, double> result = 
-    (from og in
-        (from o1 in source1
-         join o2 in source2 on o1.Prop equals o2.Prop
-         select new { o2.StrProp, o1.DblProp})
-            group og by og.StrProp into g
-            select g).
-                ToDictionary(g => g.Key, 
-                                g => g.Max(og => og.DblProp));
+  (from og in
+    (from o1 in source1
+     join o2 in source2 on o1.Prop equals o2.Prop
+     select new { o2.StrProp, o1.DblProp})
+      group og by og.StrProp into g
+      select g).
+        ToDictionary(g => g.Key, 
+                     g => g.Max(og => og.DblProp)
+        );
 ```
 
 ### ToList
 
-```C#
+```csharp
 // uses query syntax
 
-List<OClass> result = (from o in source
-                        where o.Prop > x
-                        orderby o.Prop).ToList();
+List<OClass> res = (from o in source
+                    where o.Prop > x
+                    orderby o.Prop
+                   ).ToList();
 ```
 
 ### ToLookup
 
-```C#
+```sharp
 ILookup<int, string> result = 
-        source.toLookup(o => o.IntProp, o.StrProp);
+    source.toLookup(o => 
+                    o.IntProp, o.StrProp
+    );
 ```
 </div>
 </div>
@@ -550,8 +588,7 @@ If an `async` method calls another method or function using the `await` keyword,
 
 In the following example, the output from the program will be null, since `result` will not be initialized until after `Task.Delay(5)` returns, which will not happen until after WriteLine() is called.
 
-```C#
-
+```csharp
 class Program {
   private static string result;
  
