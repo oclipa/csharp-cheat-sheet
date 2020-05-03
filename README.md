@@ -250,7 +250,11 @@ class Program
 <button type="button" class="collapsible">+ Closures</button> 
 <div class="content" style="display: none;" markdown="1">
 
-Closures are used to encapsulate variables with the methods that require them, but without initializing the variables.  
+Closures are used to encapsulate variables with the methods that require them.  
+
+There are two basic uses cases:
+1. Storing the state of data to be used in a particular method at a later time.
+1. Hiding data but leaving it accessible to a particular method.
 
 They are particularly relevant to Delegates (including Action, Func and Predicate), since they mean that the state of arguments can be read at the time they are called, not at the time they are instantiated.  However, this does means that care must be taken to ensure the correct values are applied.  
 
