@@ -663,6 +663,492 @@ See [here](https://www.toptal.com/c-sharp/interview-questions) - see example usi
 </div>
 </div>
 
+<div id="interview"> 
+<button type="button" class="collapsible">+ Interview Questions</button>   
+<div class="content" style="display: none;" markdown="1">
+
+<div id="interview-encapsulation"> 
+  <button type="button" class="collapsible">+ What is Encapsulation?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-polymorphism"> 
+  <button type="button" class="collapsible">+ What is Polymorphism?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-inheritance"> 
+  <button type="button" class="collapsible">+ What is Inheritance?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-abstraction"> 
+  <button type="button" class="collapsible">+ What is Abstraction?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+
+<div id="interview-classvsobj"> 
+  <button type="button" class="collapsible">+ What is the difference between a Class and an Object?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-accessmodifiers"> 
+  <button type="button" class="collapsible">+ What are Class Access Modifiers?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-whilevsfor"> 
+  <button type="button" class="collapsible">+ What is the difference between a While and a For loop?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-dowhilevswhile"> 
+  <button type="button" class="collapsible">+ What is the difference between Do-While and a While loop?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-continuevsbreak"> 
+  <button type="button" class="collapsible">+ What is the difference between Continue and Break?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-abstractvsvirtual"> 
+  <button type="button" class="collapsible">+ What is the difference between Abstract and Virtual?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-partial"> 
+  <button type="button" class="collapsible">+ What is a Partial Class?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-sealed"> 
+  <button type="button" class="collapsible">+ What is a Sealed Class?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+
+<div id="interview-interfacevsabstract"> 
+  <button type="button" class="collapsible">+ What is the difference between an Interface and an Abstract Class?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-accessmodifiers"> 
+  <button type="button" class="collapsible">+ What are Interface Access Modifiers?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-multipleinterfaces"> 
+  <button type="button" class="collapsible">+ How can you use multiple Interfaces in a single Class?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-static"> 
+  <button type="button" class="collapsible">+ What is the difference between Static and Non-Static?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-const"> 
+  <button type="button" class="collapsible">+ What is the difference between Const and Read-Only?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-overload"> 
+  <button type="button" class="collapsible">+ What is the difference between Overriding and Overloading?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-hiding"> 
+  <button type="button" class="collapsible">+ How can a method be hidden?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-privateconstruct"> 
+  <button type="button" class="collapsible">+ Why used a Private Constructor?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-privateconstruct"> 
+  <button type="button" class="collapsible">+ Why use a Static Constructor?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-string"> 
+  <button type="button" class="collapsible">+ What is the difference between String and StringBuilder?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-passbyvalue"> 
+  <button type="button" class="collapsible">+ What is Pass By Value?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-passbyrefeence"> 
+  <button type="button" class="collapsible">+ What is Pass By Reference?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-refvsout"> 
+  <button type="button" class="collapsible">+ What is difference between Ref and Out?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-boxing"> 
+  <button type="button" class="collapsible">+ What are Boxing and Unboxing?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-structvsclass"> 
+  <button type="button" class="collapsible">+ What is the difference between Struct and Class?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-asvsis"> 
+  <button type="button" class="collapsible">+ What is the difference between As and Is?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-exceptions"> 
+  <button type="button" class="collapsible">+ What is the difference between Throw Exception and Throw?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-tryblock"> 
+  <button type="button" class="collapsible">+ Can you have a Try Block without a Catch?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-finally"> 
+  <button type="button" class="collapsible">+ Why would you use Finally?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-attribute"> 
+  <button type="button" class="collapsible">+ What is an Attribute?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-getset"> 
+  <button type="button" class="collapsible">+ What are Get and Set?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-closure"> 
+  <button type="button" class="collapsible">+ When would you use a Closure?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-caching"> 
+  <button type="button" class="collapsible">+ What is Caching?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-genericconstraints"> 
+  <button type="button" class="collapsible">+ Can you set Constraints on Generic Classes?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-extensions"> 
+  <button type="button" class="collapsible">+ What are Extension Methods?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-anontype"> 
+  <button type="button" class="collapsible">+ What is an Anonymous Type?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-dllvsexe"> 
+  <button type="button" class="collapsible">+ What is the difference between an EXE and a DLL?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-gac"> 
+  <button type="button" class="collapsible">+ What is the GAC?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-objpool"> 
+  <button type="button" class="collapsible">+ What is an Object Pool?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-defvsimed"> 
+  <button type="button" class="collapsible">+ What is Deferred Execution vs Immediate Execution?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-stream"> 
+  <button type="button" class="collapsible">+ What is a Stream?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-tddvsddd"> 
+  <button type="button" class="collapsible">+ What are TDD and DDD?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-getvspost"> 
+  <button type="button" class="collapsible">+ What is the difference between GET and POST?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-controller"> 
+  <button type="button" class="collapsible">+ In MVC, what is a Controller?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-requestflow"> 
+  <button type="button" class="collapsible">+ In MVC, what is the Request Flow?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-mvc"> 
+  <button type="button" class="collapsible">+ What is MVC?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-viewvssession"> 
+  <button type="button" class="collapsible">+ What is the difference between ViewState and SessionState?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-xsd"> 
+  <button type="button" class="collapsible">+ What is an XSD file?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-xml"> 
+  <button type="button" class="collapsible">+ What is the difference between an XML Fragment and an XML Document?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-cors"> 
+  <button type="button" class="collapsible">+ What is CORS?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-gitreset"> 
+  <button type="button" class="collapsible">+ What does git reset do?<br/>
+    <code class="ex">xxxxxxxx</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+</div>
+</div>
+
 &nbsp;
 
 &nbsp;
