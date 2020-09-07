@@ -1686,15 +1686,6 @@ See [here](https://www.toptal.com/c-sharp/interview-questions) - see example usi
 </div>
 </div>
 
-<div id="interview-gitpush"> 
-  <button type="button" class="collapsible">+ What does `git push origin master` do?<br/>
-    <code class="ex">xxxxxxxx</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 </div>
 </div>
 
