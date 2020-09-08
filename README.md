@@ -669,43 +669,166 @@ See [here](https://www.toptal.com/c-sharp/interview-questions) - see example usi
 
 <div id="interview-encapsulation"> 
   <button type="button" class="collapsible">+ What is Encapsulation?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">data + behaviour = class</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-</div>
-</div>
+As the name suggestions, Encapsulation is the combination of an objects data and behaviours in a single unit, e.g. a Class.
 
-<div id="interview-polymorphism"> 
-  <button type="button" class="collapsible">+ What is Polymorphism?<br/>
-    <code class="ex">xxxxxxxx</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+The benefits of encapsulation are:
+1. protection of data
+1. control of accessibility
+1. reduction of complexity (allows extensibility)
+1. improved maintainability (reduces coupling between objects)
 
 </div>
 </div>
 
 <div id="interview-inheritance"> 
   <button type="button" class="collapsible">+ What is Inheritance?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+     Inheritance is the ability for multiple derived classes with similar features to be treated as objects of a common base class (or interface).
+     To prevent inheritance of a class, use 'sealed class'.
+     To stop inheritance of a virtual or abstract member, use 'sealed override myMember'.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace Sandbox
+{
+    public class Car
+    {
+        public int Wheels { get { return 4; } }
+    }
+
+    public class Audi : Car { }
+    public class BMW : Car { }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Car myAudi = new Audi();
+            Car myBmw = new BMW();
+
+            Console.WriteLine(myAudi.Wheels); // 4
+            Console.WriteLine(myBmw.Wheels); // 4
+        }
+    }
+}
+```
+  
+</div>
+</div>
+
+<div id="interview-polymorphism"> 
+  <button type="button" class="collapsible">+ What is Polymorphism?<br/>
+    <code class="ex">
+     Polymorphism is the ability for derived classes to override properties of a common base class.
+     Static = Overloading
+     Dynamic = Interfaces, Abstract Classes, Virtual Members
+   </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace Sandbox
+{
+    public interface IVehicle
+    {
+        int Wheels { get; }
+    }
+
+    public class Car : IVehicle
+    {
+        public int Wheels { get { return 4; } }
+    }
+
+    public class Bike : IVehicle
+    {
+        public int Wheels { get { return 2; } }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IVehicle myCar = new Car();
+            IVehicle myBike = new Bike();
+
+            Console.WriteLine(myCar.Wheels); // 4
+            Console.WriteLine(myBike.Wheels); // 2
+        }
+    }
+}
+```
 
 </div>
 </div>
 
 <div id="interview-abstraction"> 
   <button type="button" class="collapsible">+ What is Abstraction?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+    Abstraction hiding internal implementation details by making a class/interface as 'abstract' as possible.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+```cs
+using System;
+
+namespace Sandbox
+{
+    public interface IVehicle
+    {
+        void Start();
+    }
+
+    public class Car : IVehicle
+    {
+        public void Start() { startEngine(); }
+        private void startEngine()
+        {
+            Console.WriteLine("Brrm brrm");
+        }
+    }
+
+    public class Bike : IVehicle
+    {
+        public void Start() { startPeddling(); }
+        private void startPeddling()
+        {
+            Console.WriteLine("Puff puff");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IVehicle myCar = new Car();
+            IVehicle myBike = new Bike();
+
+            myCar.Start(); // Brrm Brrm
+            myBike.Start(); // Puff puff
+        }
+    }
+}
+```
 </div>
 </div>
 
 <div id="interview-classvsobj"> 
   <button type="button" class="collapsible">+ What is the difference between a Class and an Object?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+    Class = Definition of an object.
+    Object = Instantiation of an class.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -714,9 +837,20 @@ See [here](https://www.toptal.com/c-sharp/interview-questions) - see example usi
 
 <div id="interview-accessmodifiers"> 
   <button type="button" class="collapsible">+ What are Class Access Modifiers?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+    public, internal protected, private, protected internal, private protected
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Modifiers are used to provide some control over how the API is used.
+
+* `public` = Accessible anywhere within the project.
+* `internal` = Accessible only within the assembly.
+* `protected` = Accessible only within the current class and its derived classes.
+* `private` = Accessible only within the current class.
+* `protected internal` = Accessible anywhere within the assembly, and in any derived classes in the project.
+* `private protected` = Accessible within any derived classes in the assembly. 
 
 </div>
 </div>
