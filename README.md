@@ -2055,37 +2055,104 @@ Modifiers are used to provide some control over how the API is used.
 </div>
 
 <div id="interview-innerhtml"> 
-  <button type="button" class="collapsible">+ What does `.innerHTML()` do?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What does `.innerHTML` do?<br/>
+    <code class="ex">
+Inserts free-form HTML into the DOM, requiring a complete rebuild of the parent element.
+Reserve for large DOM changes (e.g. long lists).
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+As shown in the following example, using `.innerHTML` can result in cleaner code, however it can be expensive to run.
+
+```js
+myDiv.innerHTML += '<p class="paragraph" onclick="doSomething()">New Element</p>'
+```
+
+`.innerHTML` is best reserved for case where multiple changes must be made to the DOM (e.g. appending many items to a list):
+
+```js
+let newElements = ''; 
+for (i = 0; i < 100; i++) { 
+ newElements += `<p>New Element Number: ${i}</p>` 
+} 
+myDiv.innerHTML =+ newElements;
+```
 
 </div>
 </div>
 
 <div id="interview-appendchild"> 
-  <button type="button" class="collapsible">+ What does `.appendChild()` do?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What do `.createElement()` and `.appendChild()` do?<br/>
+    <code class="ex">Add single elements to the DOM without requiring a complete rebuild.</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Using `.createElement()` and `.appendChild()` is far more efficient when doing small updates to the DOM.  
+
+`.createElement()` is limited however, since it cannot add attributes to the element (e.g. classes or handlers).
+
+```js
+let newElement = document.createElement('p'); 
+newElement.textContent = 'New Element'; 
+myDiv.appendChild(newElement);
+```
+
+If multiple updates must be made to the DOM (e.g. updating a long list), using `.createElement()` and `.appendChild()` can be much less efficient that `.innerHTML`:
+
+```js
+for (i = 0; i < 100; i++) { 
+ let newElement = document.createElement('p'); 
+ newElement.textContent = 'New Element Number: ' + i;  
+ div.appendChild(newElement); 
+}
+```
 
 </div>
 </div>
 
 <div id="interview-eval"> 
   <button type="button" class="collapsible">+ What does `.eval()` do?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+It runs the interpreter, which is inefficient, and runs with elevated privileges, which can be dangerous.  Avoid.
+If necessary, use `.Function()` instead, but other alternatives are preferable.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+The main problem is that `.eval()` runs with the privileges of the caller, so in a server-side app, the caller could access features that are not permitted.
+
+In client-side apps, `.eval()` is OK, although inefficient.
+
+In server-side apps, it is a very bad idea unless you have complete control of what gets executed where.
+
+An alternative is `.Function()`, which is both much faster and less insecure since it only runs in global scope (making it less likely to access something it shouldn't).
+
+The best solution is to avoid whatever pattern is causing this type of function to be used.
+
+For further information, see:
+* [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval)
 
 </div>
 </div>
 
 <div id="interview-hidecode"> 
   <button type="button" class="collapsible">+ How can you hide code?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+You can't!
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Do not use the following:
+
+```html
+<script language="javascript">
+<!-- //
+code here
+//-->
+</script>
+```
 
 </div>
 </div>
@@ -2099,46 +2166,215 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-sqlcommands"> 
   <button type="button" class="collapsible">+ What are common SQL commands?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+SELECT, UPDATE, DELETE, INSERT INTO, CREATE DATABASE, ALTER DATABASE, CREATE TABLE, ALTER TABLE, DROP TABLE, CREATE INDEX, DROP INDEX
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+`SELECT` - extracts data from a database
+`UPDATE` - updates data in a database
+`DELETE` - deletes data from a database
+`INSERT INTO` - inserts new data into a database
+`CREATE DATABASE` - creates a new database
+`ALTER DATABASE` - modifies a database
+`CREATE TABLE` - creates a new table
+`ALTER TABLE` - modifies a table
+`DROP TABLE` - deletes a table
+`CREATE INDEX` - creates an index (search key)
+`DROP INDEX` - deletes an index
 
 </div>
 </div>
 
 <div id="interview-sqlorder"> 
   <button type="button" class="collapsible">+ In what order should SQL commands be used?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+     SELECT 
+     FROM 
+     WHERE 
+     GROUP BY 
+     HAVING 
+     ORDER BY
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+`WHERE` is used to filter **before** `GROUP BY`
+
+`HAVING` is used to filter **after** `GROUP BY`
 
 </div>
 </div>
 
 <div id="interview-sqljoin"> 
   <button type="button" class="collapsible">+ What are the different types of Join?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+(INNER) JOIN: Intersection only
+LEFT (OUTER) JOIN: Intersection and Left only.
+RIGHT (OUTER) JOIN: Intersection and Right only.
+FULL (OUTER) JOIN : Everything.
+SELF JOIN: Table is joined with itself.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Inner Join: "Select all rows from table1 and table2 where the column_name matches"
+
+```sql
+SELECT 
+    column_name(s)
+  FROM 
+    table1
+INNER JOIN 
+    table2
+  ON 
+    table1.column_name = table2.column_name;
+```
+
+Left Join: "Select all rows from table1 plus those from table2 where the column_name matches a row in table1"
+
+```sql
+SELECT 
+    column_name(s)
+  FROM 
+    table1
+LEFT JOIN 
+    table2
+  ON 
+    table1.column_name = table2.column_name;
+```
+
+Right Join: "Select all rows from table2 plus those from table1 where the column_name matches a row in table1"
+
+```sql
+SELECT 
+    column_name(s)
+  FROM 
+    table1
+RIGHT JOIN 
+    table2
+  ON 
+    table1.column_name = table2.column_name;
+```
+
+Full Outer Join: "Select all rows from table1 or table2 where the column_name matches"
+
+```sql
+SELECT 
+    column_name(s)
+  FROM 
+    table1
+FULL OUTER JOIN 
+    table2
+  ON 
+    table1.column_name = table2.column_name;
+```
+
+Self Join: "Select all rows from table1 where column_name1 does not match but column_name2 does match"
+
+```sql
+SELECT 
+    column_name(s)
+  FROM 
+    table1 AS T1, // alias
+    table1 AS T2  // alias
+WHERE 
+  T1.column_name1 <> T2.column_name1
+AND 
+  T1.column_name2 = T2.column_name2
+```
 
 </div>
 </div>
 
 <div id="interview-sqlcursor"> 
   <button type="button" class="collapsible">+ What is the SQL Cursor?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+Temporary work area containing select statement and rows to be acted on.
+Effectively the same as a for/while loop (while has row, do something).
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+An SQL cursor is a temporary work area in memory where an SQL statement is executed.  The cursor knows the select statement and the rows of data accessed.
+
+The cursor can hold multiple rows but can only access one row at a time.  The set of rows is called the Active Set.
+
+The cursor effectively acts like a for/while loop, in that it can be used to iterate over a collection of rows.
+
+A cursor is declared:
+
+```sql
+DECLARE 
+  @person_id INT, 
+  @name NVARCHAR(200);
+DECLARE sample_cursor CURSOR 
+FOR SELECT 
+    person_id,
+    name 
+  FROM 
+    company;
+```
+
+And used:
+
+```sql
+OPEN sample_cursor 
+// get first row
+FETCH NEXT FROM sample_cursor INTO 
+  @person_id,
+  @name; 
+// while fetch is successful
+WHILE @@FETCH_STATUS=0 
+  BEGIN
+    // do something
+    
+    // get next row
+    FETCH NEXT FROM sample_cursor INTO 
+      @person_id,
+      @name;
+  END; 
+CLOSE sample_cursor; 
+DEALLOCATE sample_cursor;
+```
 
 </div>
 </div>
 
 <div id="interview-frag"> 
   <button type="button" class="collapsible">+ What is Index Fragmentation?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+8KB pages of data no longer match logical order due to update actions.
+Impact performance (Internal: unoptimized space; External: pages out of order).
+5-30% = reorganize indexes.
+>30% = rebuild indexes.
+Base index keys on INSERT statements; don't update keys, don't use random keys; monitor database.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+SQL databases have indexes that allow improved query performance.  There are two types:
+  * Clustered Index: one index per table; determines physical order of data in table (rows are stored physically on disk in this order)
+  * Non-Clustered Index: multiple indexes per table; essentially pointers to physical rows (additional indexes decrease performance)
+
+In both cases, an index points to pages, which are the smallest unit of data in the database, with each page consisting of 8KB of data (for legacy reasons related to HDD disk block sizes).  In addition to data, each page contains pointers to the next and previous pages in the logical order.
+
+Initially, the pages of data in a table will match the logical order of its sort keys and space will be optimized, however as actions are performed on the database (INSERT, UPDATE, DELETE) the pages will need to be split and moved around to accomodate new data.  This is what is termed Index Fragmentation.
+
+There are two types of Index Fragmentation:
+  * Internal: pages gain empty space as data is moved between pages, which increases the number of logical reads required.
+  * External: the order of the pages no longer matches their logical sort order, which increases the number of physical reads required.
+  
+If fragmention is between 5-30%, the indexes should be reorganized (fix external fragmentation by re-ordering pages).
+
+If fragmention is greater than 30%, the indexes should be rebuilt (fix both internal and external fragmentation by re-creating all pages from scratch).
+
+To reduce fragmentation:
+  * Choose index keys that suit most common INSERT statements.
+  * Don't update index key columns.
+  * Don't choose random key values.
+  * Monitor and maintain the database.
 </div>
 </div>
 
