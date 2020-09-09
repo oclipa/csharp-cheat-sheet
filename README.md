@@ -687,9 +687,9 @@ The benefits of encapsulation are:
 <div id="interview-inheritance"> 
   <button type="button" class="collapsible">+ What is Inheritance?<br/>
     <code class="ex">
-     Inheritance is the ability for multiple derived classes with similar features to be treated as objects of a common base class (or interface).
-     To prevent inheritance of a class, use 'sealed class'.
-     To stop inheritance of a virtual or abstract member, use 'sealed override myMember'.
+Inheritance is the ability for multiple derived classes with similar features to be treated as objects of a common base class (or interface). 
+To prevent inheritance of a class, use 'sealed class'.
+To stop inheritance of a virtual or abstract member, use 'sealed override myMember'.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -727,9 +727,9 @@ namespace Sandbox
 <div id="interview-polymorphism"> 
   <button type="button" class="collapsible">+ What is Polymorphism?<br/>
     <code class="ex">
-     Polymorphism is the ability for derived classes to override properties of a common base class.
-     Static = Overloading
-     Dynamic = Interfaces, Abstract Classes, Virtual Members
+Polymorphism is the ability for derived classes to override properties of a common base class.
+Static = Overloading
+Dynamic = Interfaces, Abstract Classes, Virtual Members
    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -774,7 +774,7 @@ namespace Sandbox
 <div id="interview-abstraction"> 
   <button type="button" class="collapsible">+ What is Abstraction?<br/>
     <code class="ex">
-    Abstraction hiding internal implementation details by making a class/interface as 'abstract' as possible.
+Abstraction hiding internal implementation details by making a class/interface as 'abstract' as possible.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -826,8 +826,8 @@ namespace Sandbox
 <div id="interview-classvsobj"> 
   <button type="button" class="collapsible">+ What is the difference between a Class and an Object?<br/>
     <code class="ex">
-    Class = Definition of an object.
-    Object = Instantiation of an class.
+Class = Definition of an object.
+Object = Instantiation of an class.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -838,7 +838,7 @@ namespace Sandbox
 <div id="interview-accessmodifiers"> 
   <button type="button" class="collapsible">+ What are Class Access Modifiers?<br/>
     <code class="ex">
-    public, internal protected, private, protected internal, private protected
+public, internal protected, private, protected internal, private protected
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
