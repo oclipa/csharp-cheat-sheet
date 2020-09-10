@@ -1551,18 +1551,41 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-remoting"> 
   <button type="button" class="collapsible">+ What is .NET Remoting?<br/>
-    <code class="ex">xxxxxxxx</code>
+   <code class="ex">
+Enables interprocess/domain communication (HTTP, TCP, and SMTP protocols)
+Legacy feature.
+Windows Communication Framework (WCF) is preferred (better performance, more flexible, HTTP, TCP, SMTP, named pipes, MSMQ)
+   </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-(include comment about preference for WCF)
+1. Makes reference to remotable object available to a client application (using an Activation URL).
+1. Client application instantiates it (by connecting to the URL) .
+1. Client use the remotable object as if it were a local object, however the actual code execution happens at the server-side. 
+1. Remoting runtime creates a listener for the object when the server registers the channel that is used to connect to the remotable object. 
+1. At the client side, the remoting infrastructure creates a proxy that stands-in as a pseudo-instantiation of the remotable object. 
+1. The client does not implement the functionality of the remotable object, but presents a similar interface. 
+1. The remoting infrastructure needs to know the public interface of the remotable object beforehand. 
+1. Any method calls made against the object, including the identity of the method and any parameters passed, are serialized to a byte stream and transferred over a communication protocol-dependent Channel to a recipient proxy object at the server side ("marshalled"), by writing to the Channel's transport sink.
+1. At the server side, the proxy reads the stream off the sink and makes the call to the remotable object on the behalf of the client. 
+1. The results are serialized and transferred over the sink to the client, where the proxy reads the result and hands it over to the calling application.
+1. If the remotable object needs to make a callback to a client object for some services, the client application must mark it as remotable and have a remoting runtime host a listener for it.
+1. The server can connect to it over a different Channel, or over the already existent one if the underlying connection supports bidirectional communication.
+1. A channel can be composed of a number of different Channel objects, possibly with different heterogeneous transports. 
+1. Remoting can also work across systems separated by an interconnection of heterogeneous networks, including the internet.
+1. Type safety is enforced by the Common Type System and the .NET Remoting runtime. 
+1. Remote method calls are inherently synchronous; asynchronous calls can be implemented using threading libraries. 
+1. Authentication and access control can be implemented for clients by either using custom Channels or by hosting the remotable objects in IIS and then using the IIS authentication system.
 
 </div>
 </div>
 
 <div id="interview-assemblyload"> 
   <button type="button" class="collapsible">+ When would you use `Assembly.LoadFrom()` or `Assembly.LoadslFile()`?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+LoadFrom: Searches for assembly, so could load wrong one (useful if don't know/care where assembly is)
+LoadFile: Only loads from the specified path, so avoids risk of loading the wrong assembly.
+   </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1571,7 +1594,12 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-strongnaming"> 
   <button type="button" class="collapsible">+ What are the benefits of Strongly Named Assemblies?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+Only strongly named assemblies can be included in GAC.
+Creates a unique identifier for the assembly.
+Slightly more secure than anonymous assemblies (will only access other strongly named assemblies).
+Strong name verification can be disabled by user.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1580,16 +1608,100 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-expressiontrees"> 
   <button type="button" class="collapsible">+ What are Expression Trees?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+A way of breaking down functions into a tree like structure.
+Expression trees were created for the task of converting code such as a query expression into a string that can be passed to some other process and executed there.
+Of particular relevance to LINQ.
+   </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Given the following expression:
+
+```cs
+Expression<Func<Student, bool>> isTeenagerExpr = s => s.age > 12 && s.age < 20;
+```
+
+The compiler will break this down into:
+
+```cs
+Expression.Lambda<Func<Student, bool>>(
+                Expression.AndAlso(
+                    Expression.GreaterThan(Expression.Property(pe, "Age"), Expression.Constant(12, typeof(int))),
+                    Expression.LessThan(Expression.Property(pe, "Age"), Expression.Constant(20, typeof(int)))),
+                        new[] { pe });
+```
+
+Expressions can also be built manually.  Take the following example:
+
+```cs
+Func<Student, bool> isAdult = s => s.age >= 18;
+```
+
+This is identical to:
+
+```cs
+public bool function(Student s)
+{
+  return s.Age > 18;
+}
+```
+
+To construct this as an expression, first the parameters are extracted:
+
+```cs
+ParameterExpression pe = Expression.Parameter(typeof(Student), "s");
+```
+
+And then the members:
+
+```cs
+MemberExpression me = Expression.Property(pe, "Age");
+```
+
+And then constants:
+
+```cs
+ConstantExpression constant = Expression.Constant(18, typeof(int));
+```
+
+And then any binary expressions:
+
+```cs
+BinaryExpression body = Expression.GreaterThanOrEqual(me, constant);
+```
+
+Finally, this can all be put together as:
+
+```cs
+// var = Expression<Func <Student, bool>>
+var expressionTree = Expression.Lambda<Func<Student, bool>>(body, new[] { pe });
+```
+
+This can then be accessed in the following manner:
+
+```cs
+Console.WriteLine("Expression Tree: {0}", expressionTree); // Expression Tree: s => (s.Age >= 18)
+		
+Console.WriteLine("Expression Tree Body: {0}", expressionTree.Body); // Expression Tree Body: (s.Age >= 18)
+		
+Console.WriteLine("Number of Parameters in Expression Tree: {0}", 
+                                expressionTree.Parameters.Count); // Number of Parameters in Expression Tree: 1
+		
+Console.WriteLine("Parameters in Expression Tree: {0}", expressionTree.Parameters[0]); // Parameters in Expression Tree: s
+```
+
+Note: the goal is not to generate a result but to generate an expression.
 
 </div>
 </div>
 
 <div id="interview-cicd"> 
   <button type="button" class="collapsible">+ What is CI/CD?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+CI: Continuous Integration - every push triggers a build and then runs tests before changes are integrated into master.
+CD: Continuous Deployment - CI + deploys new release build to customers.
+   </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1598,7 +1710,12 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-cloud"> 
   <button type="button" class="collapsible">+ What are differences between Cloud and On-Premise?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+Cloud reduces complexity of testing and deploying app.
+Cloud allows better data analysis (state + usage).
+Cloud adds risk in terms of privacy and data protection.
+Cloud means you are responsible for resources, rather than customer.
+   </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1607,27 +1724,230 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-threadparams"> 
   <button type="button" class="collapsible">+ Can a Thread have Parameters?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">
+Yes if thread delegate has a single object parameter.
+Compiler automatically creates a ParameterizedThreadStarter.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+using System.Threading;
+
+public class ThreadA
+{
+    long endTime;
+
+    public ThreadA()
+    {
+        long startTime = DateTime.Now.Ticks;
+        long deltaTime = TimeSpan.TicksPerSecond * 10;
+        endTime = startTime + deltaTime;
+    }
+
+    // threadKiller is not required, but is added to give an
+    // example of passing a delegate into a thread
+    public void Run(Action<Exception> threadKiller)
+    {
+        while (true)
+        {
+            try
+            {
+                Thread.Sleep(1000); // wait 1 second for something to happen.
+
+                DateTime now = DateTime.Now;
+
+                Console.WriteLine(now.ToLongTimeString());
+
+                if (now.Ticks > endTime) // what im waiting for...
+                    threadKiller.Invoke(new OperationCanceledException());
+            }
+            catch
+            {
+                Console.WriteLine("Thread exited");
+                break;
+            }
+        }
+        //perform cleanup if there is any...
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        FireThread();
+    }
+
+    private static void FireThread()
+    {
+        Action<Exception> threadKiller = (ex) =>
+        {
+            killTheThread(ex);
+        };
+
+        Thread thread = new Thread(startThread);
+        thread.Start(threadKiller);
+    }
+    
+    // specifying a single object as a parameter makes the
+    // compiler use a ParameterizedThreadStarter, which
+    // allows data to be passed to the thread.
+    private static void startThread(object o)
+    {
+        Action<Exception> threadKiller = o as Action<Exception>;
+        new ThreadA().Run(threadKiller);
+    }
+
+    private static void killTheThread(Exception ex)
+    {
+        throw ex;
+    }
+}
+```
 
 </div>
 </div>
 
 <div id="interview-overloadgeneric"> 
   <button type="button" class="collapsible">+ Can you overload a Generic Method?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">Yes</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+```cs
+public class Dog
+{
+    public string Name { get; set; }
+ 
+    public Dog(string name)
+    {
+        Name = name;
+    }
+ 
+    public void Bury(Bone b)
+    {
+        Console.WriteLine("{0} is burying: {1}", Name, b);
+    }
+ 
+    public void Bury(Lawyer l)
+    {
+        Console.WriteLine("{0} is burying: {1}", Name, l);
+    }
+ 
+    public void Bury<T>(T thing)
+    {
+        Console.WriteLine("{0} is burying: {1}", Name, thing);
+    }
+ 
+    public void Bury<T>(T thing, string msg)
+    {
+        Console.WriteLine("{0} : {1}", msg, thing);
+    }
+ 
+    public void Bury<T1, T2>(T1 thing1, T2 thing2)
+    {
+        Console.WriteLine("{0} is burying: {1}", Name, thing1);
+        Console.WriteLine("{0} is burying: {1}", Name, thing2);
+    }
+}
+```
+
+```cs
+Dog fido = new Dog("Fido");
+ 
+fido.Bury(new Bone());
+fido.Bury(new Lawyer());
+fido.Bury<Cow>(new Cow("Bessie"));
+fido.Bury<Lawyer>(new Lawyer(), "One less lawyer");
+fido.Bury<Cow,Cat>(new Cow("Bessie"), new Cat("Puffy"));
+```
 
 </div>
 </div>
 
 <div id="interview-stopthread"> 
   <button type="button" class="collapsible">+ How can you Stop a Thread?<br/>
-    <code class="ex">xxxxxxxx</code>
+    <code class="ex">Create global variable for thread to check</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+using System.Threading;
+
+public class ThreadA
+{
+    long endTime;
+
+    public ThreadA()
+    {
+        long startTime = DateTime.Now.Ticks;
+        long deltaTime = TimeSpan.TicksPerSecond * 10;
+        endTime = startTime + deltaTime;
+    }
+
+    // threadKiller is not required, but is added to give an
+    // example of passing a delegate into a thread
+    public void Run(Action<Exception> threadKiller)
+    {
+        while (true)
+        {
+            try
+            {
+                Thread.Sleep(1000); // wait 1 second for something to happen.
+
+                DateTime now = DateTime.Now;
+
+                Console.WriteLine(now.ToLongTimeString());
+
+                if (now.Ticks > endTime) // what im waiting for...
+                    threadKiller.Invoke(new OperationCanceledException());
+            }
+            catch
+            {
+                Console.WriteLine("Thread exited");
+                break;
+            }
+        }
+        //perform cleanup if there is any...
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        FireThread();
+    }
+
+    private static void FireThread()
+    {
+        Action<Exception> threadKiller = (ex) =>
+        {
+            killTheThread(ex);
+        };
+
+        Thread thread = new Thread(startThread);
+        thread.Start(threadKiller);
+    }
+    
+    // specifying a single object as a parameter makes the
+    // compiler use a ParameterizedThreadStarter, which
+    // allows data to be passed to the thread.
+    private static void startThread(object o)
+    {
+        Action<Exception> threadKiller = o as Action<Exception>;
+        new ThreadA().Run(threadKiller);
+    }
+
+    private static void killTheThread(Exception ex)
+    {
+        throw ex;
+    }
+}
+```
 
 </div>
 </div>
