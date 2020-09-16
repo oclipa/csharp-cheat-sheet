@@ -13,7 +13,7 @@
 
 -------------------------------------------------------------------------------------------------------
 
-<div id="intro">  
+<div id="intro">
 <button type="button" class="collapsible">+ What is C#?</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -836,9 +836,15 @@ Object = Instantiation of an class.
 </div>
 
 <div id="interview-accessmodifiers"> 
-  <button type="button" class="collapsible">+ What are Class Access Modifiers?<br/>
+  <button type="button" class="collapsible">+ What are access modifiers?<br/>
     <code class="ex">
 public, internal protected, private, protected internal, private protected
+
+Classes and interfaces can only be public or internal.
+
+The default access for everything in C# is "the most restricted access you could declare for that member".
+The default class and interface access modifier is internal.
+The default member access modifier is private (except in a property getter or setter, which inherits from the property)
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -849,15 +855,21 @@ Modifiers are used to provide some control over how the API is used.
 * `internal` = Accessible only within the assembly.
 * `protected` = Accessible only within the current class and its derived classes.
 * `private` = Accessible only within the current class.
-* `protected internal` = Accessible anywhere within the assembly, and in any derived classes in the project.
-* `private protected` = Accessible within any derived classes in the assembly. 
+* `protected internal` = Accessible anywhere within the assembly, and within any derived classes within the project.
+* `private protected` = Accessible within any derived classes within the assembly. 
+
+Interfaces members cannot have access modifiers (they are always the same as the interface).
 
 </div>
 </div>
 
 <div id="interview-whilevsfor"> 
-  <button type="button" class="collapsible">+ What is the difference between a While and a For loop?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What is the difference between a while and a for loop?<br/>
+    <code class="ex">
+For is used when number of repeats is known.
+While is used when a sentinel loop is necessary.
+Exactly the same after compilation.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -865,8 +877,11 @@ Modifiers are used to provide some control over how the API is used.
 </div>
 
 <div id="interview-dowhilevswhile"> 
-  <button type="button" class="collapsible">+ What is the difference between Do-While and a While loop?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What is the difference between do-while and a while loop?<br/>
+     <code class="ex">
+Do-While is used if the loop should always runs at least once.
+While is used if a test should be evaluated before the loop runs.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -874,8 +889,11 @@ Modifiers are used to provide some control over how the API is used.
 </div>
 
 <div id="interview-continuevsbreak"> 
-  <button type="button" class="collapsible">+ What is the difference between Continue and Break?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What is the difference between continue and break?<br/>
+     <code class="ex">
+Break exists a loop.
+Continue skips to the next iteration of a loop.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -883,45 +901,145 @@ Modifiers are used to provide some control over how the API is used.
 </div>
 
 <div id="interview-abstractvsvirtual"> 
-  <button type="button" class="collapsible">+ What is the difference between Abstract and Virtual?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What is the difference between abstract and virtual?<br/>
+     <code class="ex">
+Abstract methods cannot have functionality.
+Virtual methods provide a default implementation.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+* Abstract methods can only be declared in abstract classes.
+* Abstract classes cannot be instantiated.
+* An abstract sub-class can inherit from an abstract super-class without providing an implementation.
+
+* In the abstract and virtual cases, use the `override` key word to provide an implementation in a sub-class.
+
+
+```cs
+using System;
+
+public abstract class Vehicle
+{
+    public Vehicle() { }
+    public virtual int Wheels { get { return 4; } }
+}
+
+public class Truck : Vehicle
+{
+    private int wheels;
+
+    public Truck(int wheels) : base() { this.wheels = wheels; }
+    public override int Wheels { get { return this.wheels; } }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Vehicle truck = new Truck(12);
+
+        Console.WriteLine(truck.Wheels);
+    }
+}
+```
 
 </div>
 </div>
 
 <div id="interview-partial"> 
-  <button type="button" class="collapsible">+ What is a Partial Class?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What is a partial class?<br/>
+     <code class="ex">
+A class that is constructed from functionality defined in multiple files.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+The functionality from multiple partial classes can be combined into a single class at runtime. 
+
+Partial class are declared using the `partial` keyword.
+
+* Every part of the partial class definition should be in the same assembly and namespace, but you can use different source file name.
+* Every part of the partial class definition should have the same accessibility like private, protected, etc.
+* If any part of the partial class is declared as `abstract` or `sealed`, then the whole class is declared of the same type.
+
+Generally only encountered with generated code, where a portion of the code is automatically generated but another portion may be edited by the developer.  Splitting the parts across separate files can make things cleaner.
+
+```cs
+public partial class MyPartialClass 
+{ 
+    public void Method1() 
+    { 
+    } 
+}
+
+public partial class MyPartialClass 
+{ 
+    public void Method2() 
+    { 
+    } 
+}
+```
+
+After compilation, this becomes:
+
+```cs
+public class MyPartialClass 
+{ 
+    public void Method1() 
+    { 
+    } 
+    
+    public void Method2() 
+    { 
+    } 
+}
+```
 
 </div>
 </div>
 
 <div id="interview-sealed"> 
-  <button type="button" class="collapsible">+ What is a Sealed Class?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What does the sealed keyword mean?<br/>
+     <code class="ex">
+Sealed classes cannot be inherited.
+Sealed methods cannot be overrriden.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+The following code will not compile:
+
+```cs
+// Creating a sealed class
+sealed class Test : OptionalBaseClass 
+{ 
+} 
+
+// Inheriting the Sealed Class 
+class Example : Test 
+{ 
+}
+```
+
+Reasons for using a sealed class:
+
+* To prevent tampering of important classes that compromise security or performance.
+* If the class inherits many virtual members, it may be more efficient than sealing each individually.
+* The class is an attribute that requires a very fast runtime look-up (sealed attributes have slightly better performance).
 </div>
 </div>
 
 
 <div id="interview-interfacevsabstract"> 
-  <button type="button" class="collapsible">+ What is the difference between an Interface and an Abstract Class?<br/>
-    <code class="ex">xxxxxxxx</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-accessmodifiers"> 
-  <button type="button" class="collapsible">+ What are Interface Access Modifiers?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ What is the difference between an interface and an abstract class?<br/>
+     <code class="ex">
+Interfaces allow multiple inheritance (composition - "has a"); abstract classes do not (inheritance - "is a").
+Abstract classes have a constructor, interfaces cannot.
+Abstract classes can have static members, interfaces cannot.
+The members of an abstract class can have access modifiers, those in an interface cannot.
+Abstract classes can provide implementation, interfaces cannot.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -929,17 +1047,80 @@ Modifiers are used to provide some control over how the API is used.
 </div>
 
 <div id="interview-multipleinterfaces"> 
-  <button type="button" class="collapsible">+ How can you use multiple Interfaces in a single Class?<br/>
-    <code class="ex">xxxxxxxx</code>
+  <button type="button" class="collapsible">+ Can you implement multiple interfaces with the same method a single class?<br/>
+     <code class="ex">
+Yes, but they need to be accessed explicitly.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+```cs
+interface T1 
+{ 
+    void Set(); 
+} 
+
+interface T2 
+{ 
+    void Set(); 
+}
+```
+
+```cs
+// implements both interfaces 
+class Example : T1, T2
+{
+    void T1.Set()
+    {
+        Console.WriteLine("T1");
+    }
+    void T2.Set()
+    {
+        Console.WriteLine("T2");
+    }
+}
+```
+
+```cs
+static public void Main () 
+{ 
+    T1 t1 = new Example(); 
+
+    // calling T1 interface method 
+    t1.Set(); 
+
+    // Creating object of Example 
+    // of T2 interface 
+    T2 t2 = new Example(); 
+
+    // calling T2 interface method 
+    t2.Set(); 
+}
+```
+
+**Caveat**
+
+An alternative - but not recommended solution - is to make the shared member public:
+
+```cs
+class Example : T1, T2 
+{ 
+    public void Set() 
+    { 
+    } 
+}
+```
+
+This will work, however it is ambiguous to which interface the implementation refers.
 
 </div>
 </div>
 
 <div id="interview-static"> 
   <button type="button" class="collapsible">+ What is the difference between Static and Non-Static?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -948,7 +1129,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-const"> 
   <button type="button" class="collapsible">+ What is the difference between Const and Read-Only?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -957,7 +1140,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-overload"> 
   <button type="button" class="collapsible">+ What is the difference between Overriding and Overloading?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -966,7 +1151,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-hiding"> 
   <button type="button" class="collapsible">+ How can a method be hidden?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -975,7 +1162,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-privateconstruct"> 
   <button type="button" class="collapsible">+ Why used a Private Constructor?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -984,7 +1173,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-privateconstruct"> 
   <button type="button" class="collapsible">+ Why use a Static Constructor?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -993,7 +1184,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-string"> 
   <button type="button" class="collapsible">+ What is the difference between String and StringBuilder?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1002,7 +1195,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-passbyvalue"> 
   <button type="button" class="collapsible">+ What is Pass By Value?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1011,7 +1206,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-passbyrefeence"> 
   <button type="button" class="collapsible">+ What is Pass By Reference?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1020,7 +1217,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-refvsout"> 
   <button type="button" class="collapsible">+ What is difference between Ref and Out?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1029,7 +1228,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-boxing"> 
   <button type="button" class="collapsible">+ What are Boxing and Unboxing?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1038,7 +1239,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-structvsclass"> 
   <button type="button" class="collapsible">+ What is the difference between Struct and Class?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1047,7 +1250,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-asvsis"> 
   <button type="button" class="collapsible">+ What is the difference between As and Is?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1056,7 +1261,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-exceptions"> 
   <button type="button" class="collapsible">+ What is the difference between Throw Exception and Throw?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1065,7 +1272,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-tryblock"> 
   <button type="button" class="collapsible">+ Can you have a Try Block without a Catch?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1074,7 +1283,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-finally"> 
   <button type="button" class="collapsible">+ Why would you use Finally?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1083,7 +1294,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-attribute"> 
   <button type="button" class="collapsible">+ What is an Attribute?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1092,7 +1305,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-getset"> 
   <button type="button" class="collapsible">+ What are Get and Set?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1101,7 +1316,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-closure"> 
   <button type="button" class="collapsible">+ When would you use a Closure?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1110,7 +1327,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-caching"> 
   <button type="button" class="collapsible">+ What is Caching?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1119,7 +1338,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-genericconstraints"> 
   <button type="button" class="collapsible">+ Can you set Constraints on Generic Classes?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1128,7 +1349,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-extensions"> 
   <button type="button" class="collapsible">+ What are Extension Methods?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1137,7 +1360,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-anontype"> 
   <button type="button" class="collapsible">+ What is an Anonymous Type?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1146,7 +1371,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-dllvsexe"> 
   <button type="button" class="collapsible">+ What is the difference between an EXE and a DLL?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1155,7 +1382,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-gac"> 
   <button type="button" class="collapsible">+ What is the GAC?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1164,7 +1393,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-objpool"> 
   <button type="button" class="collapsible">+ What is an Object Pool?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1173,7 +1404,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-defvsimed"> 
   <button type="button" class="collapsible">+ What is Deferred Execution vs Immediate Execution?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1182,7 +1415,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-stream"> 
   <button type="button" class="collapsible">+ What is a Stream?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1191,7 +1426,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-tddvsddd"> 
   <button type="button" class="collapsible">+ What are TDD and DDD?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1200,7 +1437,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-kiss"> 
   <button type="button" class="collapsible">+ What does KISS mean in OOP?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1209,7 +1448,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-dry"> 
   <button type="button" class="collapsible">+ What does DRY mean in OOP?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1218,7 +1459,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-yagni"> 
   <button type="button" class="collapsible">+ What does YAGNI mean in OOP?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1227,7 +1470,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-tda"> 
   <button type="button" class="collapsible">+ What does TDA mean in OOP?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1236,7 +1481,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-inheritaccessmod"> 
   <button type="button" class="collapsible">+ What are Inheritance Access Modifiers?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1245,7 +1492,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-managed"> 
   <button type="button" class="collapsible">+ What is the difference between Managed and Unmanaged Code?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1254,7 +1503,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-stackvsheap"> 
   <button type="button" class="collapsible">+ What is the difference between the Stack and the Heap?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1263,7 +1514,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-compilation"> 
   <button type="button" class="collapsible">+ How is C# compiled?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1272,7 +1525,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-strongvsweak"> 
   <button type="button" class="collapsible">+ What is the difference between String and Weak Typing?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1281,7 +1536,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-equals"> 
   <button type="button" class="collapsible">+ What is the difference between `Equals()` and `==`?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1290,7 +1547,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-binding"> 
   <button type="button" class="collapsible">+ What is the difference between Early-Binding and Late-Binding?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1299,7 +1558,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-type"> 
   <button type="button" class="collapsible">+ What is the difference between `typeof` and `GetType()`?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1308,7 +1569,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-linq"> 
   <button type="button" class="collapsible">+ What is the difference between LINQ and Stored Procedures?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1317,7 +1580,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-staticthis"> 
   <button type="button" class="collapsible">+ Can you use `this` inside a static method in C#?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1326,7 +1591,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-delegate"> 
   <button type="button" class="collapsible">+ What are Delegates?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1335,7 +1602,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-serialization"> 
   <button type="button" class="collapsible">+ What is the difference between XML and Binary Serialization?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1344,7 +1613,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-genericperf"> 
   <button type="button" class="collapsible">+ How can you improve the Performance of Generic Classes?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1353,7 +1624,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-deadlocksql"> 
   <button type="button" class="collapsible">+ What is the difference between an SQL Deadlock and a C# Deadlock?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1362,7 +1635,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-reflection"> 
   <button type="button" class="collapsible">+ What is Reflection?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1371,7 +1646,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-yield"> 
   <button type="button" class="collapsible">+ What does `yield return` do?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1380,7 +1657,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-list"> 
   <button type="button" class="collapsible">+ What are some common List Interfaces?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1389,7 +1668,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-enumerable"> 
   <button type="button" class="collapsible">+ What is the difference between IEnumerable and IQueryable?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1398,7 +1679,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-threadvsprocess"> 
   <button type="button" class="collapsible">+ What is the difference between a Thread and a Process?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1407,7 +1690,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-deadlocks"> 
   <button type="button" class="collapsible">+ How are Deadlocks handled in Multithreaded Processes?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1416,7 +1701,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-threads"> 
   <button type="button" class="collapsible">+ How are Threads managed?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1425,7 +1712,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-interprocess"> 
   <button type="button" class="collapsible">+ How can you send data between Processes?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1434,7 +1723,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-threadstates"> 
   <button type="button" class="collapsible">+ What states can a Thread have?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1443,7 +1734,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-solid"> 
   <button type="button" class="collapsible">+ What are the SOLID Principles?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1452,7 +1745,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-srp"> 
   <button type="button" class="collapsible">+ What is the SRP SOLID Principle?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1461,7 +1756,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-ocp"> 
   <button type="button" class="collapsible">+ What is the OCP SOLID Principle?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1470,7 +1767,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-lsp"> 
   <button type="button" class="collapsible">+ What is the LSP SOLID Principle?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1479,7 +1778,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-isp"> 
   <button type="button" class="collapsible">+ What is the ISP SOLID Principle?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1488,7 +1789,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-isp"> 
   <button type="button" class="collapsible">+ What is the DIP SOLID Principle?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1497,7 +1800,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-di"> 
   <button type="button" class="collapsible">+ What is Dependency Injection (DI)?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1506,7 +1811,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-ioc"> 
   <button type="button" class="collapsible">+ What is Inversion Of Control (IoC)?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1515,7 +1822,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-dispose"> 
   <button type="button" class="collapsible">+ What is the difference between Dispose and Finalize?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1524,7 +1833,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-gc"> 
   <button type="button" class="collapsible">+ How does Garbage Collection work?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1533,7 +1844,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-querycomp"> 
   <button type="button" class="collapsible">+ What is Query Comprehension/Syntax?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1542,7 +1855,9 @@ Modifiers are used to provide some control over how the API is used.
 
 <div id="interview-covar"> 
   <button type="button" class="collapsible">+ In Generics, what is the difference between Covariance and Contravariance?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1682,12 +1997,12 @@ This can then be accessed in the following manner:
 
 ```cs
 Console.WriteLine("Expression Tree: {0}", expressionTree); // Expression Tree: s => (s.Age >= 18)
-		
+    
 Console.WriteLine("Expression Tree Body: {0}", expressionTree.Body); // Expression Tree Body: (s.Age >= 18)
-		
+    
 Console.WriteLine("Number of Parameters in Expression Tree: {0}", 
                                 expressionTree.Parameters.Count); // Number of Parameters in Expression Tree: 1
-		
+    
 Console.WriteLine("Parameters in Expression Tree: {0}", expressionTree.Parameters[0]); // Parameters in Expression Tree: s
 ```
 
@@ -1961,7 +2276,9 @@ class Program
  
 <div id="interview-builder"> 
   <button type="button" class="collapsible">+ What is the Builder Pattern?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1970,7 +2287,9 @@ class Program
  
 <div id="interview-builder"> 
   <button type="button" class="collapsible">+ What is the Factory Pattern?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1981,7 +2300,9 @@ class Program
   
 <div id="interview-decorator"> 
   <button type="button" class="collapsible">+ What is the Decorator Pattern?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -1990,7 +2311,9 @@ class Program
 
 <div id="interview-chainofreponse"> 
   <button type="button" class="collapsible">+ What is the Chain of Responsibility Pattern?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2001,7 +2324,9 @@ class Program
 
 <div id="interview-adapter"> 
   <button type="button" class="collapsible">+ What is the Adapter Pattern?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2010,7 +2335,9 @@ class Program
  
 <div id="interview-iterator"> 
   <button type="button" class="collapsible">+ What is the Iterator Pattern?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2019,7 +2346,9 @@ class Program
  
 <div id="interview-nullobject"> 
   <button type="button" class="collapsible">+ What is the NullObject Pattern?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2028,7 +2357,9 @@ class Program
  
 <div id="interview-visitor"> 
   <button type="button" class="collapsible">+ What is the Visitor Pattern?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2045,7 +2376,9 @@ class Program
  
 <div id="interview-getvspost"> 
   <button type="button" class="collapsible">+ What is the difference between GET and POST?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2054,7 +2387,9 @@ class Program
 
 <div id="interview-controller"> 
   <button type="button" class="collapsible">+ In MVC, what is a Controller?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2063,7 +2398,9 @@ class Program
 
 <div id="interview-requestflow"> 
   <button type="button" class="collapsible">+ In MVC, what is the Request Flow?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2072,7 +2409,9 @@ class Program
 
 <div id="interview-mvcdesc"> 
   <button type="button" class="collapsible">+ What is MVC?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2081,7 +2420,9 @@ class Program
 
 <div id="interview-viewvssession"> 
   <button type="button" class="collapsible">+ What is the difference between ViewState and SessionState?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2090,7 +2431,9 @@ class Program
 
 <div id="interview-xsd"> 
   <button type="button" class="collapsible">+ What is an XSD file?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2099,7 +2442,9 @@ class Program
 
 <div id="interview-xml"> 
   <button type="button" class="collapsible">+ What is the difference between an XML Fragment and an XML Document?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2108,7 +2453,9 @@ class Program
 
 <div id="interview-cors"> 
   <button type="button" class="collapsible">+ What is CORS?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2124,7 +2471,9 @@ class Program
  
 <div id="interview-gitreset"> 
   <button type="button" class="collapsible">+ What does `git reset` do?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2133,7 +2482,9 @@ class Program
 
 <div id="interview-gitpush"> 
   <button type="button" class="collapsible">+ What does `git push origin master` do?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2149,7 +2500,9 @@ class Program
  
 <div id="interview-divspan"> 
   <button type="button" class="collapsible">+ What is the difference between Div and Span?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2158,7 +2511,9 @@ class Program
 
 <div id="interview-htmlvscss"> 
   <button type="button" class="collapsible">+ Why is it a good idea to split HTML and CSS?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2167,7 +2522,9 @@ class Program
 
 <div id="interview-classvsid"> 
   <button type="button" class="collapsible">+ What is the difference between Classes and Ids?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2176,7 +2533,9 @@ class Program
 
 <div id="interview-marginvspadding"> 
   <button type="button" class="collapsible">+ What is the difference between Margin and Padding?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2185,7 +2544,9 @@ class Program
 
 <div id="interview-hyperlinks"> 
   <button type="button" class="collapsible">+ To which elements can a hyperlink be applied?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2194,7 +2555,9 @@ class Program
 
 <div id="interview-doctype"> 
   <button type="button" class="collapsible">+ What is the significant of a DocType?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2210,7 +2573,9 @@ class Program
  
 <div id="interview-sessionvslocal"> 
   <button type="button" class="collapsible">+ What is the difference between Session Storage and Local Storage?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2219,7 +2584,9 @@ class Program
 
 <div id="interview-strict"> 
   <button type="button" class="collapsible">+ What does Strict mean?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2228,7 +2595,9 @@ class Program
 
 <div id="interview-nan"> 
   <button type="button" class="collapsible">+ What does NaN mean?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2237,7 +2606,9 @@ class Program
 
 <div id="interview-timers"> 
   <button type="button" class="collapsible">+ How do Timers work?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2246,7 +2617,9 @@ class Program
 
 <div id="interview-timers"> 
   <button type="button" class="collapsible">+ How can you enumerate data types?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2255,7 +2628,9 @@ class Program
 
 <div id="interview-eventbubble"> 
   <button type="button" class="collapsible">+ How do you define Event Bubbling?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2264,7 +2639,9 @@ class Program
 
 <div id="interview-eventbubble"> 
   <button type="button" class="collapsible">+ How do you define Event Bubbling?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2273,7 +2650,9 @@ class Program
 
 <div id="interview-typescript"> 
   <button type="button" class="collapsible">+ What is the difference between TypeScript and JavaScript?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2282,7 +2661,9 @@ class Program
 
 <div id="interview-casesensitive"> 
   <button type="button" class="collapsible">+ Is JavaScript Case Sensitive?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2291,7 +2672,9 @@ class Program
 
 <div id="interview-objinheritance"> 
   <button type="button" class="collapsible">+ How does Object Inheritance work in JavaScript?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2300,7 +2683,9 @@ class Program
 
 <div id="interview-this"> 
   <button type="button" class="collapsible">+ How does the `this` keyword work in JavaScript?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2311,7 +2696,9 @@ class Program
 
 <div id="interview-ajax"> 
   <button type="button" class="collapsible">+ What is Ajax?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2320,7 +2707,9 @@ class Program
 
 <div id="interview-privatemembers"> 
   <button type="button" class="collapsible">+ Can you have private members in JavaScript?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2331,7 +2720,9 @@ class Program
 
 <div id="interview-errors"> 
   <button type="button" class="collapsible">+ What are some types of JavaScript errors?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2340,7 +2731,9 @@ class Program
 
 <div id="interview-arrays"> 
   <button type="button" class="collapsible">+ How can you empty an array?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2349,7 +2742,9 @@ class Program
 
 <div id="interview-hoisting"> 
   <button type="button" class="collapsible">+ What is Function Hoisting?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2358,7 +2753,9 @@ class Program
 
 <div id="interview-deferred"> 
   <button type="button" class="collapsible">+ What is the Deferred Attribute?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -2367,7 +2764,9 @@ class Program
 
 <div id="interview-async"> 
   <button type="button" class="collapsible">+ What is the Async Attribute?<br/>
-    <code class="ex">xxxxxxxx</code>
+     <code class="ex">
+xxxxxxxx
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
