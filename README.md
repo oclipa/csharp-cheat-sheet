@@ -12,7 +12,251 @@
 &nbsp;
 
 -------------------------------------------------------------------------------------------------------
+<div id="stupid">
+<button type="button" class="collapsible">+ Stupid Simple Stuff That I Keep Forgetting</button>
+<div class="content" style="display: none;" markdown="1">
 
+<div id="stupid-class">
+<button type="button" class="collapsible">+ Class Syntax</button>
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace MyNamespace
+{
+    public abstract class MySuperClass
+    {
+        public MySuperClass()
+        {
+        }
+
+        public abstract void Output();
+    }
+
+    public class MySubClass : MySuperClass
+    {
+        private int val;
+
+        public MySubClass(int val = 5)
+        {
+            this.val = val;
+        }
+
+        public override void Output()
+        {
+            Console.WriteLine($"{this.val}");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MySuperClass myClass = new MySubClass();
+
+            myClass.Output(); // output 5
+
+            myClass = new MySubClass(10);
+
+            myClass.Output(); // output 10
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="stupid-struct">
+<button type="button" class="collapsible">+ Struct Syntax</button>
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace MyNamespace
+{
+    public struct MyStruct1
+    {
+        public int x;
+        public int y;
+    }
+    
+    public struct MyStruct2
+    {
+        public MyStruct2(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        
+        public int x;
+        public int y;
+    }
+    
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MyStruct1 myStruct1 = new MyStruct1();
+            myStruct1.x = 5;
+            myStruct1.y = 6;
+            
+            Console.WriteLine($"{myStruct1.x}, {myStruct1.y}"); // output: 5, 6
+            
+            MyStruct2 myStruct2 = new MyStruct2(7, 8);
+            
+            Console.WriteLine($"{myStruct2.x}, {myStruct2.y}"); // output: 7, 8
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="stupid-enum">
+<button type="button" class="collapsible">+ Enum Syntax</button>
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace MyNamespace
+{
+    enum MyEnum
+    {
+        Val1,     // 0
+        Val2,     // 1
+        Val3 = 6, // 6
+        Val4,     // 7
+        Val5,     // 8
+        Val6      // 9
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(MyEnum.Val2); // output: Val2 
+            int val = (int)MyEnum.Val2; // enum to int conversion
+            Console.WriteLine(val); // output: 1 
+
+            var en = (MyEnum)8; // int to enum conversion
+            Console.WriteLine(en); // output: Val5 
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="stupid-switch">
+<button type="button" class="collapsible">+ Switch Syntax</button>
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace MyNamespace
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int x = 10;
+
+            switch (x)
+            { 
+                case 5:
+                    Console.WriteLine("Value of x is 5");
+                    break;
+                case 10:
+                    Console.WriteLine("Value of x is 10");
+                    break;
+                case 15:
+                    Console.WriteLine("Value of x is 15");
+                    break;
+                default:
+                    Console.WriteLine("Unknown value");
+                    break;
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="stupid-switch">
+<button type="button" class="collapsible">+ Event Syntax</button>
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace MyNamespace
+{
+    public class MyClass
+    {
+        public MyClass()
+        {
+        }
+
+        public void TriggerEvent()
+        {
+            Changed(10);
+        }
+
+        public event Action<int> Changed;
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MyClass myClass = new MyClass();
+
+            myClass.Changed += ChangeHandler;
+
+            myClass.TriggerEvent(); // output: 10
+        }
+
+        static void ChangeHandler(int val)
+        {
+            Console.WriteLine($"{val}");
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="stupid-strings">
+<button type="button" class="collapsible">+ Displaying Strings</button>
+<div class="content" style="display: none;" markdown="1">
+
+String Formatter:
+
+```cs
+Console.WriteLine(string.Format("{0} & {1}", var1, var2));
+```
+
+String Interpolation:
+
+```cs
+Console.WriteLine($"{var1} & {var2}");
+```
+</div>
+</div>
+
+</div>
+</div>
+ 
 <div id="intro">
 <button type="button" class="collapsible">+ What is C#?</button>
 <div class="content" style="display: none;" markdown="1">
@@ -138,29 +382,34 @@ e.g. `int x = (int)o;`
       * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
       
 ```csharp
-class Program
+using System;
+
+namespace MyNamespace
 {
-    public delegate int CalculateIt(int x, in y);
-
-    static void Main(string[] args)
+    class Program
     {
-        CalculateIt calc = Add;
-        // Prints out "Result = 9"
-        Console.WriteLine("Result = " + calc(4, 5));    
+        public delegate int CalculateIt(int x, int y);
 
-        calc = Subtract;
-        // Prints out "Result = -1"
-        Console.WriteLine("Result = " + calc(1, 2));
-    }
+        static void Main(string[] args)
+        {
+            CalculateIt calc = Add;
+            // Prints out "Result = 9"
+            Console.WriteLine("Result = " + calc(4, 5));
 
-    static int Add(int a, in b)
-    {
-        return a + b;
-    }
+            calc = Subtract;
+            // Prints out "Result = -1"
+            Console.WriteLine("Result = " + calc(1, 2));
+        }
 
-    static void Subtract(int a, in b)
-    {
-        return a - b;
+        static int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        static int Subtract(int a, int b)
+        {
+            return a - b;
+        }
     }
 }
 ```
@@ -171,34 +420,40 @@ class Program
       * Return type must be `void`
       
 ```csharp
-class Program
+using System;
+
+namespace MyNamespace
 {
-    static void Main(string[] args)
+    class Program
     {
-        Action<int, int> calc = Add;
-        // Prints out "Result = 9"
-        calc(4, 5);           
+        static void Main(string[] args)
+        {
+            Action<int, int> calc = Add;
+            // Prints out "Result = 9"
+            calc(4, 5);
 
-        calc = Subtract;
-        // Prints out "Result = -1"
-        calc(4, 5);           
+            calc = Subtract;
+            // Prints out "Result = -1"
+            calc(4, 5);
 
-        Action<int, int> anonymousAction = (a, b) => { 
-          Console.WriteLine("Result = " + (a + b)); 
-        };
+            Action<int, int> anonymousAction = (a, b) =>
+            {
+                Console.WriteLine("Result = " + (a + b));
+            };
 
-        // Prints out "Result = 9"
-        anonymousAction.Invoke(4, 5);  
-    }
+            // Prints out "Result = 9"
+            anonymousAction.Invoke(4, 5);
+        }
 
-    static void Add(int a, in b)
-    {
-        Console.WriteLine("Result = " + (a + b));
-    }
+        static void Add(int a, int b)
+        {
+            Console.WriteLine("Result = " + (a + b));
+        }
 
-    static void Subtract(int a, in b)
-    {
-        Console.WriteLine("Result = " + (a - b));
+        static void Subtract(int a, int b)
+        {
+            Console.WriteLine("Result = " + (a - b));
+        }
     }
 }
 ```
@@ -207,37 +462,42 @@ class Program
       * Must return a value
 
 ```csharp
-class Program
-{
-    static void Main(string[] args)
-    {
-        // note: Func<in, in, out>
-        Func<int, int, int> calc = Add;
-        // Prints out "Result = 9"
-        Console.WriteLine("Result = " 
-                           + calc(4, 5));    
- 
-        calc = Subtract;
-        // Prints out "Result = -1"
-        Console.WriteLine("Result = " 
-                            + calc(4, 5));    
-        
-        Func<int, int, int> anonFunc = 
-                 (a, b) => { return a + b; };
-                
-        // Prints out "Result = 9"
-        Console.WriteLine("Result = " 
-                    + anonFunc.Invoke(4, 5));    
-    }
+using System;
 
-    static int Add(int a, in b)
+namespace MyNamespace
+{
+    class Program
     {
-        return a + b;
-    }
-    
-    static int Subtract(int a, in b)
-    {
-        return a - b;
+        static void Main(string[] args)
+        {
+            // note: Func<in, in, out>
+            Func<int, int, int> calc = Add;
+            // Prints out "Result = 9"
+            Console.WriteLine("Result = "
+                               + calc(4, 5));
+
+            calc = Subtract;
+            // Prints out "Result = -1"
+            Console.WriteLine("Result = "
+                                + calc(4, 5));
+
+            Func<int, int, int> anonFunc =
+                     (a, b) => { return a + b; };
+
+            // Prints out "Result = 9"
+            Console.WriteLine("Result = "
+                        + anonFunc.Invoke(4, 5));
+        }
+
+        static int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        static int Subtract(int a, int b)
+        {
+            return a - b;
+        }
     }
 }
 ```
@@ -262,25 +522,35 @@ They are particularly relevant to Delegates (including Action, Func and Predicat
 
 For example, in the following code the output will be the number 10 ten times, rather than the expected 0 to 9:
 
-```csharp
-delegate void Printer();
+```cs
+using System;
+using System.Collections.Generic;
 
-static void Main()
+namespace MyNamespace
 {
-    List<Printer> printers = 
-             new List<Printer>();
-    
-    int i=0;
-    for(; i < 10; i++)
+    class Program
     {
-        printers.Add(delegate { 
-            Console.WriteLine(i); 
-        });
-    }
+        delegate void Printer();
 
-    foreach (var printer in printers)
-    {
-        printer();
+        static void Main()
+        {
+            List<Printer> printers =
+                     new List<Printer>();
+
+            int i = 0;
+            for (; i < 10; i++)
+            {
+                printers.Add(delegate
+                {
+                    Console.WriteLine(i);
+                });
+            }
+
+            foreach (var printer in printers)
+            {
+                printer();
+            }
+        }
     }
 }
 ```
