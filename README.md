@@ -1139,9 +1139,9 @@ All static objects, whether reference-type or value-type, are maintained on the 
 <div id="interview-const"> 
   <button type="button" class="collapsible">+ What is the difference between const and read-Only?<br/>
      <code class="ex">
-const = cannot be changed after compile time; only applies to primitive types (it is implicitly static).
+const = cannot be changed after compile time; only applies to primitive types (it is implicitly static).  Should only be used if value will never, ever change.
 read-only = can only be set when a class is instantiated (i.e. in the class declaration or constructor)
-static readonly = effectively the same as const, although there are subtleties (see inside).
+static readonly = effectively the same as const, although there are some significant subtleties (see inside).
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1197,7 +1197,7 @@ public class MyData
 }
 ```
 
-Now, when `WriteNumbers()` is run, the output will **still be `6 & 12`**.
+Now, when `WriteNumbers()` is run, **the output will still be `6 & 12`**.
 
 This is because, being a `const`, the value of `CONSTANT_NUMBER` will be "baked" into the IL of Assembly B at compile time, so it will ignore any subsequent changes to this value in Assembly A.
 
