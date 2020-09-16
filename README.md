@@ -1119,7 +1119,7 @@ This will work, however it is ambiguous to which interface the implementation re
 </div>
 
 <div id="interview-static"> 
-  <button type="button" class="collapsible">+ What is the difference between Static and Non-Static?<br/>
+  <button type="button" class="collapsible">+ What is the difference between static and non-static?<br/>
      <code class="ex">
 Static classes cannot be instantiated.
 Non-static classes must be instantiated.
@@ -1137,18 +1137,77 @@ All static objects, whether reference-type or value-type, are maintained on the 
 </div>
 
 <div id="interview-const"> 
-  <button type="button" class="collapsible">+ What is the difference between Const and Read-Only?<br/>
+  <button type="button" class="collapsible">+ What is the difference between const and read-Only?<br/>
      <code class="ex">
-xxxxxxxx
+const = cannot be changed after compile time; only applies to primitive types (it is implicitly static).
+read-only = can only be set when a class is instantiated (i.e. in the class declaration or constructor)
+static readonly = effectively the same as const, although there are subtleties (see inside).
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+The primary difference between `const` and `static readonly` is illustrated by the following example:
+
+Assembly A:
+
+```cs
+public class MyData
+{
+    public const int CONSTANT_NUMBER = 6;
+    public readonly int READONLY_NUMBER = 12;
+}
+```
+
+Assembly B:
+
+```cs
+public class MyLogic
+{
+    private int myConstantNumber;
+    private int myReadOnlyNumber;
+
+    public MyLogic()
+    {
+        this.myConstantNumber = MyData.CONSTANT_NUMBER;
+
+        MyData myData = new MyData();
+        this.myReadOnlyNumber = myData.READONLY_NUMBER;
+    }
+
+    public void WriteNumbers()
+    {
+        Console.WriteLine(string.Format("{0} & {1}", this.myConstantNumber, this.myReadOnlyNumber));
+    }
+}
+```
+
+Note that Assembly B depends on Assembly A.
+
+When initially run, `WriteNumbers()` will output `6 & 12`.
+
+Subsequently, the value of `CONSTANT_NUMBER` is changed in Assembly A, which is recompiled.  Assembly B, however, is not recompiled.
+
+Assembly A:
+
+```cs
+public class MyData
+{
+    public const int CONSTANT_NUMBER = 20;
+    public readonly int READONLY_NUMBER = 12;
+}
+```
+
+Now, when `WriteNumbers()` is run, the output will **still be `6 & 12`**.
+
+This is because, being a `const`, the value of `CONSTANT_NUMBER` will be "baked" into the IL of Assembly B at compile time, so it will ignore any subsequent changes to this value in Assembly A.
+
+For this reason, it is recommended that `const` only be used if you know that this value will never, ever, *ever* change for any reason.  If you are unsure, use `readonly`. 
 
 </div>
 </div>
 
 <div id="interview-overload"> 
-  <button type="button" class="collapsible">+ What is the difference between Overriding and Overloading?<br/>
+  <button type="button" class="collapsible">+ What is the difference between overriding and overloading?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
