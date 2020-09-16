@@ -38,6 +38,8 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
    * Creating a reference-type objects reserves memory for the objects, plus overhead for the pointer, plus overhead for memory management.
    * When a reference-type objects is no longer referenced from the stack (or another objects), it is available to be garbage collected (which happens on occasion).
 
+<img src="assets/images/dotnet_memory.png" />
+
 </div>
 </div>
 
@@ -1128,6 +1130,8 @@ Non-static classes can have static members but static members cannot access non-
 <div class="content" style="display: none;" markdown="1">
 
 All static objects, whether reference-type or value-type, are maintained on the **heap**, just the same as any other object, however they exist for the life of the app and so are not garbage collected (more specifically, static objects are stored in the **high-frequency heap**, which is a **loader heap**, which is separate to the normal **GC heap**).
+
+<img src="assets/images/dotnet_memory.png" />
 
 </div>
 </div>
