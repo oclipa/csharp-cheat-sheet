@@ -3094,7 +3094,7 @@ class Program
 <div id="interview-overloadgeneric"> 
   <button type="button" class="collapsible">+ Can you overload a Generic Method?<br/>
     <code class="ex">
-Yes - Method(), Method&ltT&gt;(T t), Methodd&ltT&gt;(T t, int i), Methodd&ltT1, T2&gt;(T1 t1, T2 t2), etc.
+Yes - Method(), Method&lt;T&gt;(T t), Methodd&lt;T&gt;(T t, int i), Methodd&lt;T1, T2&gt;(T1 t1, T2 t2), etc.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
