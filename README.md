@@ -258,16 +258,23 @@ Console.WriteLine($"{var1} & {var2}");
 </div>
  
 <div id="intro">
-<button type="button" class="collapsible">+ What is C#?</button>
+<button type="button" class="collapsible">+ What is C#?
+    <code class="ex">
+C# is an object-oriented, type-safe, and managed language that is compiled by .NET Framework to generate Microsoft Intermediate Language.
+    </code>
+</button>
 <div class="content" style="display: none;" markdown="1">
-
-C# is an object-oriented, type-safe, and managed language that is compiled by .Net framework to generate Microsoft Intermediate Language.
-
+    
 </div>
 </div>
 
 <div id="memory">
-<button type="button" class="collapsible">+ Stack vs Heap</button>
+<button type="button" class="collapsible">+ Stack vs Heap
+    <code class="ex">
+Stack: contiguous memory; consists of frames, each of which corresponds to a method; frames are pushed to the stack, or popped from the stack (hence "call-stack")
+Heap: dynamic memory; objects are garbage collected on occasion.
+    </code>
+</button>
 <div class="content" style="display: none;" markdown="1">
 
 ### Stack:
@@ -288,7 +295,12 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 </div>
 
 <div id="structs">  
-<button type="button" class="collapsible">+ Structs vs Classes</button>  
+<button type="button" class="collapsible">+ Structs vs Classes
+    <code class="ex">
+Struct: value-type; cannot be null (unless Nullable<>); cannot have multiple objects reference the same struct (must be copied).
+Class: reference-type; can consume more memory and lead to memory fragmentation; can be slower to initialize.
+    </code>
+</button>
 <div class="content" style="display: none;" markdown="1">
 
 ### Structs:
@@ -344,7 +356,14 @@ public class MyStruct
 </div>
 
 <div id="boxing">  
-<button type="button" class="collapsible">+ Boxing vs Unboxing</button>
+<button type="button" class="collapsible">+ Boxing vs Unboxing
+    <code class="ex">
+Only works for value types.
+box: object o = 100; // value type to reference type
+unbox: int x = (int)o; // reference type to value type
+Avoid; slow performance.  Use Generics.
+    </code>
+</button>
 <div class="content" style="display: none;" markdown="1">
 
 Boxing is the conversion of a value type to an reference type, or any interface face type implemented by the value type.
@@ -361,7 +380,14 @@ e.g. `int x = (int)o;`
 </div>
 
 <div id="delegates">   
-<button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate</button>   
+<button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate
+    <code class="ex">
+Delegate: older, generic form of Action, Func and Predicate.
+Action: Accept arguments; does not return.
+Func: Accept arguments; returns a value.
+Predicate: Special case of Func that only returns a bool.
+    </code>
+</button>
 <div class="content" style="display: none;" markdown="1">
 
 **Be sure to also read the section on Closures.**
@@ -498,10 +524,14 @@ namespace MyNamespace
 </div>
 
 <div id="closures">  
-<button type="button" class="collapsible">+ Closures</button> 
+<button type="button" class="collapsible">+ Closures
+    <code class="ex">
+Closures are used to encapsulate variables within the methods that require them.
+    </code>
+</button>
 <div class="content" style="display: none;" markdown="1">
 
-Closures are used to encapsulate variables with the methods that require them.  
+Closures are used to encapsulate variables within the methods that require them.  
 
 There are two basic uses cases:
 1. Storing the state of data to be used in a particular method at a later time.
@@ -628,9 +658,14 @@ class PrinterClosure
 </div>
 
 <div id="linq">  
-<button type="button" class="collapsible">+ Linq</button> 
+<button type="button" class="collapsible">+ Linq
+    <code class="ex">
+LINQ (Language Integrated Query) is uniform query syntax to retrieve data from different sources and formats.
+Like SQL for .NET data sources.
+    </code>
+</button>
 <div class="content" style="display: none;" markdown="1">
-
+      
 Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable)
 
 ### Where
@@ -846,7 +881,12 @@ ILookup<int, string> result =
 </div>
 
 <div> 
-<button type="button" class="collapsible">+ Async & Await</button> 
+<button type="button" class="collapsible">+ Async & Await
+    <code class="ex">
+Async: indicates that a method performs asynchronous actions.
+Await: indicates that the calling method should return immediately; the rest of the calling method will complete once the awaited method returns.
+    </code>
+</button>
 <div class="content" style="display: none;" markdown="1">
 
 If an `async` method calls another method or function using the `await` keyword, the calling method will return instantly at the point `await` is called; any instructions after the `await` will not complete until after the awaited method completes.
@@ -911,15 +951,6 @@ See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-tr
 ### Splay Tree
 ### AVL Tree
 ### KD Tree
-
-</div>
-</div>
-
-<div id="static"> 
-<button type="button" class="collapsible">+ Static Members</button>   
-<div class="content" style="display: none;" markdown="1">
-
-See [here](https://www.toptal.com/c-sharp/interview-questions) - see example using TestStatic class
 
 </div>
 </div>
@@ -1384,6 +1415,7 @@ Static classes cannot be instantiated.
 Non-static classes must be instantiated.
 Only static members can be accessed from a static class.
 Non-static classes can have static members but static members cannot access non-static variables.
+A static constructor is called before any other constructor.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1391,6 +1423,55 @@ Non-static classes can have static members but static members cannot access non-
 All static objects, whether reference-type or value-type, are maintained on the **heap**, just the same as any other object, however they exist for the life of the app and so are not garbage collected (more specifically, static objects are stored in the **high-frequency heap**, which is a **loader heap**, which is separate to the normal **GC heap**).
 
 <img src="assets/images/dotnet_memory.png" />
+
+**Static Constructors**
+
+Static members and classes are initialized when an app first starts.  This means that static constructors will always be called before non-static ones.
+
+See the following example:
+
+```cs
+using System;
+
+class Program
+{
+    public class TestStatic
+    {
+        public static int TestValue;
+
+        public TestStatic()
+        {
+            if (TestValue == 0)
+            {
+                TestValue = 5;
+            }
+        }
+        
+        static TestStatic()
+        {
+            if (TestValue == 0)
+            {
+                TestValue = 10;
+            }
+        }
+
+        public void Print()
+        {
+            if (TestValue == 5)
+            {
+                TestValue = 6;
+            }
+            Console.WriteLine("TestValue : " + TestValue);
+        }
+    }
+
+    static void Main(string[] args)
+    {
+        TestStatic t = new TestStatic();
+        t.Print(); // output: 10
+    }
+}
+```
 
 </div>
 </div>
@@ -2510,17 +2591,6 @@ namespace MyNamespace.Consumer
     }
 }
 ```
-
-</div>
-</div>
-
-<div id="interview-srp"> 
-  <button type="button" class="collapsible">+ What is the SRP SOLID Principle?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
 
 </div>
 </div>
