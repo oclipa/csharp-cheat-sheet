@@ -1939,6 +1939,7 @@ class Program {
 ```
 
 An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Delay(5)`, since this will cause the main thread to block until the `Sleep()` method returns, so that `result` will be initialized before the `SaySomething` method returns.  In this case, the program will return `Hello world!`.
+
 </div>
 </div>
 
@@ -2244,9 +2245,9 @@ Reasons for using a sealed class:
 * To prevent tampering of important classes that compromise security or performance.
 * If the class inherits many virtual members, it may be more efficient than sealing each individually.
 * The class is an attribute that requires a very fast runtime look-up (sealed attributes have slightly better performance).
-</div>
-</div>
 
+</div>
+</div>
 
 <div id="interview-interfacevsabstract"> 
   <button type="button" class="collapsible">+ What is the difference between an interface and an abstract class?<br/>
@@ -2779,7 +2780,6 @@ xxxxxxxx
 </div>
 </div>
 
-
 <div id="interview-reflection"> 
   <button type="button" class="collapsible">+ What is Reflection?<br/>
      <code class="ex">
@@ -3151,8 +3151,10 @@ fido.Bury<Cow,Cat>(new Cow("Bessie"), new Cat("Puffy"));
 </div>
 
 <div id="interview-stopthread"> 
-  <button type="button" class="collapsible">+ How can you Stop a Thread?<br/>
-    <code class="ex">Create global variable for thread to check</code>
+  <button type="button" class="collapsible">+ How can you stop a thread?<br/>
+    <code class="ex">
+Create global variable for thread to check
+     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -3240,7 +3242,7 @@ class Program
 
 -------------------------------------------------------------------------------------------------------
 
-<div id="basics">
+<div id="config">
 <button type="button" class="collapsible">+ Configuration</button>
 <div class="content" style="display: none;" markdown="1">
 
