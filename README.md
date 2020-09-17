@@ -1001,6 +1001,51 @@ xxxxxxxx
 </div>
 </div>
 
+
+<div id="interview-kiss"> 
+  <button type="button" class="collapsible">+ What does KISS mean in OOP?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-dry"> 
+  <button type="button" class="collapsible">+ What does DRY mean in OOP?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-yagni"> 
+  <button type="button" class="collapsible">+ What does YAGNI mean in OOP?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-tda"> 
+  <button type="button" class="collapsible">+ What does TDA mean in OOP?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
 <div id="interview-builder"> 
   <button type="button" class="collapsible">+ What is the Builder Pattern?<br/>
      <code class="ex">
@@ -1093,13 +1138,188 @@ xxxxxxxx
 </div>
 </div>
 
+<div id="interview-managed"> 
+  <button type="button" class="collapsible">+ What is the difference between Managed and Unmanaged Code?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-strongvsweak"> 
+  <button type="button" class="collapsible">+ What is the difference between Strong and Weak Typing?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-deadlocksql"> 
+  <button type="button" class="collapsible">+ What is the difference between an SQL Deadlock and a C# Deadlock?<br/>
+     <code class="ex">
+A deadlock is  when separate threads are waiting for 2 objects, each one being locked by the other thread. So they are waiting for each other to unfreeze that object.
+SQL can recover from a deadlock, because it has like a timeout by default.
+C# application does not have a timeout and so it freezes and much be fixed.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+Roughly speaking, SQL can recover from a deadlock because it assigns priorities to each transaction and will kill the lowest priority if a deadlock occurs.
+
+The following is an example of C# code that will cause a deadlock:
+
+```cs
+using System.Threading;
+
+class Program
+{
+    static object object1 = new object();
+    static object object2 = new object();
+
+    public static void Method1()
+    {
+        lock (object1)
+        {
+            Thread.Sleep(1000); // Wait for the Method2 to unlock objects 
+            lock (object2)
+            {
+                Console.WriteLine("Finished Method1");
+            }
+        }
+    }
+
+    public static void Method2()
+    {
+        lock (object2)
+        {
+            Thread.Sleep(1000); // Wait for the Method2 to unlock objects 
+            lock (object1)
+            {
+                Console.WriteLine("Finished Method2");
+            }
+        }
+    }
+
+    static void Main()
+    {
+        var tasks = new List<Task>();
+
+        Action writer1 = Method1;
+        // Execute a writer.
+        tasks.Add(Task.Run(writer1));
+
+        Action writer2 = Method2;
+        // Execute a writer.
+        tasks.Add(Task.Run(writer2));
+
+        // Wait for all three tasks to complete.
+        Task.WaitAll(tasks.ToArray()); // deadlock!
+
+        Console.WriteLine("Finished all tasks");
+    }
+}
+```
+
+A suggestion for a way to avoid such a deadlock is to use System.Threading.ReaderWriteLockSlim, which allows multiple threads to read a resource while allowing exclusive access for writing.  In the following example, this approach is to use to ensure that any thread that sleeps for too long will abort.
+
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+// See https://docs.microsoft.com/en-us/dotnet/api/system.threading.readerwriterlockslim?view=netcore-3.1
+// for a fuller implementation
+public class SynchronizedWriter
+{
+    private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
+
+    static object object1 = new object();
+    static object object2 = new object();
+
+    public bool WriteWithTimeout(string value, int millisecondsTimeout)
+    {
+        if (cacheLock.TryEnterWriteLock(millisecondsTimeout))
+        {
+            try
+            {
+                lock (object1)
+                {
+                    Thread.Sleep(1000); // Wait for the Method2 to unlock objects 
+                    lock (object2)
+                    {
+                        Console.WriteLine(value);
+                    }
+                }
+            }
+            finally
+            {
+                cacheLock.ExitWriteLock();
+            }
+            return true;
+        }
+        else
+        {
+            Console.WriteLine($"Failed to write \"{value}\"");
+            return false;
+        }
+    }
+
+    ~SynchronizedWriter()
+    {
+        if (cacheLock != null) cacheLock.Dispose();
+    }
+}
+
+class Program
+{
+    public static void Method1(SynchronizedWriter sw)
+    {
+        sw.WriteWithTimeout("Finished Method1", 500);
+    }
+
+    public static void Method2(SynchronizedWriter sw)
+    {
+        sw.WriteWithTimeout("Finished Method2", 500);
+    }
+
+    static void Main()
+    {
+        var sw = new SynchronizedWriter();
+        var tasks = new List<Task>();
+
+        Action<SynchronizedWriter> writer1 = Method1;
+        // Execute a writer.
+        tasks.Add(Task.Run(() => writer1(sw)));
+
+        Action<SynchronizedWriter> writer2 = Method2;
+        // Execute a writer.
+        tasks.Add(Task.Run(() => writer2(sw)));
+
+        // Wait for all three tasks to complete.
+        Task.WaitAll(tasks.ToArray());
+
+        Console.WriteLine("Finished all tasks");
+    }
+}
+```
+  
+</div>
+</div>
+
 </div>
 </div>
 
 -------------------------------------------------------------------------------------------------------
 
 <div id="basics">
-<button type="button" class="collapsible">+ Basics</button>
+<button type="button" class="collapsible">+ Coding</button>
 <div class="content" style="display: none;" markdown="1">
     
 <div id="structs">  
@@ -1771,8 +1991,7 @@ public, internal protected, private, protected internal, private protected
 Classes and interfaces can only be public or internal.
 
 The default access for everything in C# is "the most restricted access you could declare for that member".
-The default class and interface access modifier is internal.
-The default member access modifier is private (except in a property getter or setter, which inherits from the property)
+(except in a property getter or setter, which inherits from the property)
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1787,6 +2006,76 @@ Modifiers are used to provide some control over how the API is used.
 * `private protected` = Accessible within any derived classes within the assembly. 
 
 Interfaces members cannot have access modifiers (they are always the same as the interface).
+
+**Inheritance Access Modifiers**
+
+By definition, inheritance means that a sub-class contains all members of its direct super-class (except for constructors and destructors).  This includes all private members: they are inaccessible, but still occupy memory.
+
+In a sub-class, the methods of the super-class can be overridden using either the `new` or `override` keywords.
+  * `new`: in this case, the sub-class version of the method will be called if the super-class has been downcast to the sub-class (otherwise the super-class version will be called).
+  * `override`: in this case, the sub-class version of the method will always be called, even if the sub-class has been upcast to the super-class.
+  
+Using the `base` keyword in a sub-class method will access the super-class version of the methods.
+
+```cs
+using System;
+
+class BaseClass
+{
+    public virtual void Method1()
+    {
+        Console.WriteLine("Base - Method1");
+    }
+
+    public void Method2()
+    {
+        Console.WriteLine("Base - Method2");
+    }
+
+    public virtual void Method3()
+    {
+        Console.WriteLine("Base - Method3");
+    }
+}
+
+class DerivedClass : BaseClass
+{
+    public override void Method1()
+    {
+        Console.WriteLine("Derived - Method1");
+    }
+
+    public new void Method2()
+    {
+        Console.WriteLine("Derived - Method2");
+    }
+
+    public override void Method3()
+    {
+        base.Method3();
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        BaseClass bc = new BaseClass();
+        DerivedClass dc = new DerivedClass();
+        BaseClass bcdc = new DerivedClass();
+
+        bc.Method1();   // Base - Method1
+        bc.Method2();   // Base - Method2
+        bc.Method3();   // Base - Method3
+        dc.Method1();   // Derived - Method1
+        dc.Method2();   // Derived - Method2
+        dc.Method3();   // Base - Method3
+        bcdc.Method1(); // Derived - Method1
+        bcdc.Method2(); // Derived - Method1
+        bcdc.Method3(); // Base - Method2
+    }
+}
+```
 
 </div>
 </div>
@@ -2380,28 +2669,6 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-dllvsexe"> 
-  <button type="button" class="collapsible">+ What is the difference between an EXE and a DLL?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-gac"> 
-  <button type="button" class="collapsible">+ What is the GAC?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 <div id="interview-objpool"> 
   <button type="button" class="collapsible">+ What is an Object Pool?<br/>
      <code class="ex">
@@ -2426,105 +2693,6 @@ xxxxxxxx
 
 <div id="interview-stream"> 
   <button type="button" class="collapsible">+ What is a Stream?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-tddvsddd"> 
-  <button type="button" class="collapsible">+ What are TDD and DDD?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-kiss"> 
-  <button type="button" class="collapsible">+ What does KISS mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-dry"> 
-  <button type="button" class="collapsible">+ What does DRY mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-yagni"> 
-  <button type="button" class="collapsible">+ What does YAGNI mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-tda"> 
-  <button type="button" class="collapsible">+ What does TDA mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-inheritaccessmod"> 
-  <button type="button" class="collapsible">+ What are Inheritance Access Modifiers?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-managed"> 
-  <button type="button" class="collapsible">+ What is the difference between Managed and Unmanaged Code?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-compilation"> 
-  <button type="button" class="collapsible">+ How is C# compiled?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-strongvsweak"> 
-  <button type="button" class="collapsible">+ What is the difference between String and Weak Typing?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -2600,17 +2768,6 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-serialization"> 
-  <button type="button" class="collapsible">+ What is the difference between XML and Binary Serialization?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 <div id="interview-genericperf"> 
   <button type="button" class="collapsible">+ How can you improve the Performance of Generic Classes?<br/>
      <code class="ex">
@@ -2622,16 +2779,6 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-deadlocksql"> 
-  <button type="button" class="collapsible">+ What is the difference between an SQL Deadlock and a C# Deadlock?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
 
 <div id="interview-reflection"> 
   <button type="button" class="collapsible">+ What is Reflection?<br/>
@@ -2691,7 +2838,7 @@ xxxxxxxx
 <div id="interview-deadlocks"> 
   <button type="button" class="collapsible">+ How are Deadlocks handled in Multithreaded Processes?<br/>
      <code class="ex">
-xxxxxxxx
+lock, semaphores, mutex
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2702,7 +2849,7 @@ xxxxxxxx
 <div id="interview-threads"> 
   <button type="button" class="collapsible">+ How are Threads managed?<br/>
      <code class="ex">
-xxxxxxxx
+SystemThread, ThreadPool, Delegate.BeginInvoke
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2743,16 +2890,6 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-gc"> 
-  <button type="button" class="collapsible">+ How does Garbage Collection work?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
 
 <div id="interview-querycomp"> 
   <button type="button" class="collapsible">+ What is Query Comprehension/Syntax?<br/>
@@ -2769,63 +2906,6 @@ xxxxxxxx
   <button type="button" class="collapsible">+ In Generics, what is the difference between Covariance and Contravariance?<br/>
      <code class="ex">
 xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-remoting"> 
-  <button type="button" class="collapsible">+ What is .NET Remoting?<br/>
-   <code class="ex">
-Enables interprocess/domain communication (HTTP, TCP, and SMTP protocols)
-Legacy feature.
-Windows Communication Framework (WCF) is preferred (better performance, more flexible, HTTP, TCP, SMTP, named pipes, MSMQ)
-   </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-1. Makes reference to remotable object available to a client application (using an Activation URL).
-1. Client application instantiates it (by connecting to the URL) .
-1. Client use the remotable object as if it were a local object, however the actual code execution happens at the server-side. 
-1. Remoting runtime creates a listener for the object when the server registers the channel that is used to connect to the remotable object. 
-1. At the client side, the remoting infrastructure creates a proxy that stands-in as a pseudo-instantiation of the remotable object. 
-1. The client does not implement the functionality of the remotable object, but presents a similar interface. 
-1. The remoting infrastructure needs to know the public interface of the remotable object beforehand. 
-1. Any method calls made against the object, including the identity of the method and any parameters passed, are serialized to a byte stream and transferred over a communication protocol-dependent Channel to a recipient proxy object at the server side ("marshalled"), by writing to the Channel's transport sink.
-1. At the server side, the proxy reads the stream off the sink and makes the call to the remotable object on the behalf of the client. 
-1. The results are serialized and transferred over the sink to the client, where the proxy reads the result and hands it over to the calling application.
-1. If the remotable object needs to make a callback to a client object for some services, the client application must mark it as remotable and have a remoting runtime host a listener for it.
-1. The server can connect to it over a different Channel, or over the already existent one if the underlying connection supports bidirectional communication.
-1. A channel can be composed of a number of different Channel objects, possibly with different heterogeneous transports. 
-1. Remoting can also work across systems separated by an interconnection of heterogeneous networks, including the internet.
-1. Type safety is enforced by the Common Type System and the .NET Remoting runtime. 
-1. Remote method calls are inherently synchronous; asynchronous calls can be implemented using threading libraries. 
-1. Authentication and access control can be implemented for clients by either using custom Channels or by hosting the remotable objects in IIS and then using the IIS authentication system.
-
-</div>
-</div>
-
-<div id="interview-assemblyload"> 
-  <button type="button" class="collapsible">+ When would you use `Assembly.LoadFrom()` or `Assembly.LoadslFile()`?<br/>
-    <code class="ex">
-LoadFrom: Searches for assembly, so could load wrong one (useful if don't know/care where assembly is)
-LoadFile: Only loads from the specified path, so avoids risk of loading the wrong assembly.
-   </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-strongnaming"> 
-  <button type="button" class="collapsible">+ What are the benefits of Strongly Named Assemblies?<br/>
-    <code class="ex">
-Only strongly named assemblies can be included in GAC.
-Creates a unique identifier for the assembly.
-Slightly more secure than anonymous assemblies (will only access other strongly named assemblies).
-Strong name verification can be disabled by user.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2923,32 +3003,6 @@ Note: the goal is not to generate a result but to generate an expression.
 </div>
 </div>
 
-<div id="interview-cicd"> 
-  <button type="button" class="collapsible">+ What is CI/CD?<br/>
-    <code class="ex">
-CI: Continuous Integration - every push triggers a build and then runs tests before changes are integrated into master.
-CD: Continuous Deployment - CI + deploys new release build to customers.
-   </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-cloud"> 
-  <button type="button" class="collapsible">+ What are differences between Cloud and On-Premise?<br/>
-    <code class="ex">
-Cloud reduces complexity of testing and deploying app.
-Cloud allows better data analysis (state + usage).
-Cloud adds risk in terms of privacy and data protection.
-Cloud means you are responsible for resources, rather than customer.
-   </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 <div id="interview-threadparams"> 
   <button type="button" class="collapsible">+ Can a Thread have Parameters?<br/>
     <code class="ex">
@@ -3039,7 +3093,9 @@ class Program
 
 <div id="interview-overloadgeneric"> 
   <button type="button" class="collapsible">+ Can you overload a Generic Method?<br/>
-    <code class="ex">Yes</code>
+    <code class="ex">
+Yes - Method(), Method<T>(T t), Method<T>(T t, int i), Method<T1, T2>(T1 t1, T2 t2), etc.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -3175,6 +3231,164 @@ class Program
     }
 }
 ```
+
+</div>
+</div>
+
+</div>
+</div>
+
+-------------------------------------------------------------------------------------------------------
+
+<div id="basics">
+<button type="button" class="collapsible">+ Configuration</button>
+<div class="content" style="display: none;" markdown="1">
+
+<div id="interview-gc"> 
+  <button type="button" class="collapsible">+ How does Garbage Collection work?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-remoting"> 
+  <button type="button" class="collapsible">+ What is .NET Remoting?<br/>
+   <code class="ex">
+Enables interprocess/domain communication (HTTP, TCP, and SMTP protocols)
+Legacy feature.
+Windows Communication Framework (WCF) is preferred (better performance, more flexible, HTTP, TCP, SMTP, named pipes, MSMQ)
+   </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+1. Makes reference to remotable object available to a client application (using an Activation URL).
+1. Client application instantiates it (by connecting to the URL) .
+1. Client use the remotable object as if it were a local object, however the actual code execution happens at the server-side. 
+1. Remoting runtime creates a listener for the object when the server registers the channel that is used to connect to the remotable object. 
+1. At the client side, the remoting infrastructure creates a proxy that stands-in as a pseudo-instantiation of the remotable object. 
+1. The client does not implement the functionality of the remotable object, but presents a similar interface. 
+1. The remoting infrastructure needs to know the public interface of the remotable object beforehand. 
+1. Any method calls made against the object, including the identity of the method and any parameters passed, are serialized to a byte stream and transferred over a communication protocol-dependent Channel to a recipient proxy object at the server side ("marshalled"), by writing to the Channel's transport sink.
+1. At the server side, the proxy reads the stream off the sink and makes the call to the remotable object on the behalf of the client. 
+1. The results are serialized and transferred over the sink to the client, where the proxy reads the result and hands it over to the calling application.
+1. If the remotable object needs to make a callback to a client object for some services, the client application must mark it as remotable and have a remoting runtime host a listener for it.
+1. The server can connect to it over a different Channel, or over the already existent one if the underlying connection supports bidirectional communication.
+1. A channel can be composed of a number of different Channel objects, possibly with different heterogeneous transports. 
+1. Remoting can also work across systems separated by an interconnection of heterogeneous networks, including the internet.
+1. Type safety is enforced by the Common Type System and the .NET Remoting runtime. 
+1. Remote method calls are inherently synchronous; asynchronous calls can be implemented using threading libraries. 
+1. Authentication and access control can be implemented for clients by either using custom Channels or by hosting the remotable objects in IIS and then using the IIS authentication system.
+
+</div>
+</div>
+
+<div id="interview-assemblyload"> 
+  <button type="button" class="collapsible">+ When would you use `Assembly.LoadFrom()` or `Assembly.LoadslFile()`?<br/>
+    <code class="ex">
+LoadFrom: Searches for assembly, so could load wrong one (useful if don't know/care where assembly is)
+LoadFile: Only loads from the specified path, so avoids risk of loading the wrong assembly.
+   </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-strongnaming"> 
+  <button type="button" class="collapsible">+ What are the benefits of Strongly Named Assemblies?<br/>
+    <code class="ex">
+Only strongly named assemblies can be included in GAC.
+Creates a unique identifier for the assembly.
+Slightly more secure than anonymous assemblies (will only access other strongly named assemblies).
+Strong name verification can be disabled by user.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-cicd"> 
+  <button type="button" class="collapsible">+ What is CI/CD?<br/>
+    <code class="ex">
+CI: Continuous Integration - every push triggers a build and then runs tests before changes are integrated into master.
+CD: Continuous Deployment - CI + deploys new release build to customers.
+   </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-cloud"> 
+  <button type="button" class="collapsible">+ What are differences between Cloud and On-Premise?<br/>
+    <code class="ex">
+Cloud reduces complexity of testing and deploying app.
+Cloud allows better data analysis (state + usage).
+Cloud adds risk in terms of privacy and data protection.
+Cloud means you are responsible for resources, rather than customer.
+   </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-dllvsexe"> 
+  <button type="button" class="collapsible">+ What is the difference between an EXE and a DLL?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-gac"> 
+  <button type="button" class="collapsible">+ What is the GAC?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-tddvsddd"> 
+  <button type="button" class="collapsible">+ What are TDD and DDD?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-compilation"> 
+  <button type="button" class="collapsible">+ How is C# compiled?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-serialization"> 
+  <button type="button" class="collapsible">+ What is the difference between XML and Binary Serialization?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
 
 </div>
 </div>
