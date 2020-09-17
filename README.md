@@ -256,7 +256,11 @@ Console.WriteLine($"{var1} & {var2}");
 
 </div>
 </div>
- 
+
+<div id="theory">
+<button type="button" class="collapsible">+ Theory</button>
+<div class="content" style="display: none;" markdown="1">
+    
 <div id="intro">
 <button type="button" class="collapsible">+ What is C#?
     <code class="ex">
@@ -294,6 +298,805 @@ Heap: dynamic memory; objects are garbage collected on occasion.
 </div>
 </div>
 
+<div id="interview-encapsulation"> 
+  <button type="button" class="collapsible">+ What is Encapsulation?<br/>
+    <code class="ex">data + behaviour = class</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+As the name suggestions, Encapsulation is the combination of an objects data and behaviours in a single unit, e.g. a Class.
+
+The benefits of encapsulation are:
+1. protection of data
+1. control of accessibility
+1. reduction of complexity (allows extensibility)
+1. improved maintainability (reduces coupling between objects)
+
+</div>
+</div>
+
+<div id="interview-inheritance"> 
+  <button type="button" class="collapsible">+ What is Inheritance?<br/>
+    <code class="ex">
+Inheritance is the ability for multiple derived classes with similar features to be treated as objects of a common base class (or interface). 
+To prevent inheritance of a class, use 'sealed class'.
+To stop inheritance of a virtual or abstract member, use 'sealed override myMember'.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace Sandbox
+{
+    public class Car
+    {
+        public int Wheels { get { return 4; } }
+    }
+
+    public class Audi : Car { }
+    public class BMW : Car { }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Car myAudi = new Audi();
+            Car myBmw = new BMW();
+
+            Console.WriteLine(myAudi.Wheels); // 4
+            Console.WriteLine(myBmw.Wheels); // 4
+        }
+    }
+}
+```
+  
+</div>
+</div>
+
+<div id="interview-polymorphism"> 
+  <button type="button" class="collapsible">+ What is Polymorphism?<br/>
+    <code class="ex">
+Polymorphism is the ability for derived classes to override properties of a common base class.
+Static = Overloading
+Dynamic = Interfaces, Abstract Classes, Virtual Members
+   </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace Sandbox
+{
+    public interface IVehicle
+    {
+        int Wheels { get; }
+    }
+
+    public class Car : IVehicle
+    {
+        public int Wheels { get { return 4; } }
+    }
+
+    public class Bike : IVehicle
+    {
+        public int Wheels { get { return 2; } }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IVehicle myCar = new Car();
+            IVehicle myBike = new Bike();
+
+            Console.WriteLine(myCar.Wheels); // 4
+            Console.WriteLine(myBike.Wheels); // 2
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="interview-abstraction"> 
+  <button type="button" class="collapsible">+ What is Abstraction?<br/>
+    <code class="ex">
+Abstraction hiding internal implementation details by making a class/interface as 'abstract' as possible.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+
+namespace Sandbox
+{
+    public interface IVehicle
+    {
+        void Start();
+    }
+
+    public class Car : IVehicle
+    {
+        public void Start() { startEngine(); }
+        private void startEngine()
+        {
+            Console.WriteLine("Brrm brrm");
+        }
+    }
+
+    public class Bike : IVehicle
+    {
+        public void Start() { startPeddling(); }
+        private void startPeddling()
+        {
+            Console.WriteLine("Puff puff");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IVehicle myCar = new Car();
+            IVehicle myBike = new Bike();
+
+            myCar.Start(); // Brrm Brrm
+            myBike.Start(); // Puff puff
+        }
+    }
+}
+```
+</div>
+</div>
+
+<div id="interview-classvsobj"> 
+  <button type="button" class="collapsible">+ What is the difference between a Class and an Object?<br/>
+    <code class="ex">
+Class = Definition of an object.
+Object = Instantiation of an class.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-solid"> 
+  <button type="button" class="collapsible">+ What are the SOLID Principles?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="srp">    
+<button type="button" class="collapsible">+ What is the Single Responsibility Principle (SRP)?
+    <code class="ex">
+Responsibility = "a reason to change"
+Single Responsibility Principle = "A class should have only one reason to change"
+A class should have one responsibility, which should be entirely encapsulated by the class.
+    </code>
+</button>    
+<div class="content" style="display: none;" markdown="1">
+
+As an example, consider a module that compiles and prints a report. Imagine such a module can be changed for two reasons:
+1. The content of the report could change.
+1. The format of the report could change. 
+
+These two things change for very different causes; one substantive, and one cosmetic. 
+
+The Single Responsibility Principle says that these two aspects of the problem are really two separate responsibilities, and should, therefore, be in separate classes or modules. 
+
+It would be a bad design to couple two things that change for different reasons at different times.
+
+The reason it is important to keep a class focused on a single concern is that it makes the class more robust. Continuing with the foregoing example, if there is a change to the report compilation process (i.e. the content), there is a greater danger that the printing (i.e. formatting) code will break if it is part of the same class.
+
+</div>
+</div>
+
+<div id="ioc">    
+<button type="button" class="collapsible">+ What is the Inversion Of Control (IoC) Principle?
+    <code class="ex">
+Any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
+Achieved using Dependency Inversion Principle (DIP), and the Dependency Injection (DI) and Strategy patterns.
+    </code>
+</button>    
+<div class="content" style="display: none;" markdown="1">
+
+IoC is a design principle which recommends the inversion of different kinds of controls in object-oriented design to achieve loose coupling between application classes.  It is closely related to the Single Responsibility Principle (SRP).
+
+In this case, control refers to any additional responsibilities a class has, other than its main responsibility, such as control over the flow of an application, or control over the dependent object creation and binding.
+
+The goal is that any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
+
+This is achieved using the Dependency Injection (DI) and Strategy patterns.
+
+Adopting IoC is a prerequisite of TDD.
+    
+</div>
+</div>
+
+<div id="ioc">    
+<button type="button" class="collapsible">+ What is the Dependency Inversion Principle (DIP)? 
+    <code class="ex">
+DIP suggests that high-level modules should not depend on low level modules. Both should depend on abstraction.
+Extending this principle leading the the Dependency Injection (DI) pattern.
+    </code>
+</button>    
+<div class="content" style="display: none;" markdown="1">
+
+DIP is demonstrated in the following example:
+
+First, the responsibility we want to abstract out is defined and made public.
+The concrete implementation(s) of this responsibility can then be instantiated using a public factory class.
+
+```cs
+namespace MyNamespace.Dependency
+{
+    public interface ICustomerDataAccess
+    {
+        string GetCustomerName(int id);
+    }
+    
+    internal class CustomerDataAccess: ICustomerDataAccess
+    {
+        public CustomerDataAccess()
+        {
+        }
+
+        public string GetCustomerName(int id) {
+            return "Dummy Customer Name";        
+        }
+    }
+    
+    public class DataAccessFactory
+    {
+        public static ICustomerDataAccess GetCustomerDataAccessObj() 
+        {
+            return new CustomerDataAccess();
+        }
+    }
+}
+```
+
+The abstracted responsibility can then be referenced by a consumer without the consumer needing to be aware of the details:
+
+```cs
+using System;
+using MyNamespace.Dependency;
+
+namespace MyNamespace.Consumer
+{
+    public class CustomerBusinessLogic
+    {
+        ICustomerDataAccess _custDataAccess;
+
+        public CustomerBusinessLogic()
+        {
+            _custDataAccess = DataAccessFactory.GetCustomerDataAccessObj();
+        }
+
+        public string GetCustomerName(int id)
+        {
+            return _custDataAccess.GetCustomerName(id);
+        }
+    }
+    
+    class Program
+    {
+        static void Main()
+        {
+            CustomerBusinessLogic customerBL = new CustomerBusinessLogic();
+            Console.WriteLine(customerBL.GetCustomerName(123));
+        }
+    }
+}
+```
+   
+</div>
+</div>
+
+<div id="dependency">    
+<button type="button" class="collapsible">+ What is the Dependency Injection (DI) pattern?
+    <code class="ex">
+Secondary responsibilities are injected into a class, to avoid direct dependencies or unnecessary encapsulation.
+Constructor Injection, Property Injection & Method Injection.
+A refinement of DI is the Strategy pattern.
+    </code>
+</button>   
+<div class="content" style="display: none;" markdown="1">
+
+The Dependency Injection is a pattern used to implement IoC (Inversion of Control), which allows for loosely coupled classes.
+
+The pattern involves 3 types of classes:
+
+  * Client Class: The client class (dependent class) is a class which depends on the service class
+  * Service Class: The service class (dependency) is a class that provides service to the client class.
+  * Injector Class: The injector class injects the service class object into the client class.
+
+There are three types of Dependency Injection:
+
+  * Constructor Injection
+  * Property Injection
+  * Method Injection
+
+Each is described below.  
+
+In each of the examples, the dependency (a.k.a. Service Class) to be injected is the following:
+
+```cs
+namespace MyNamespace.Dependency
+{
+    // public interface defines dependency
+    public interface ICustomerDataAccess
+    {
+        string GetCustomerName(int id);
+    }
+
+    // INTERNAL SERVICE: concrete implementation of dependency
+    internal class CustomerDataAccess : ICustomerDataAccess
+    {
+        public CustomerDataAccess()
+        {
+        }
+
+        public string GetCustomerName(int id)
+        {
+            //get the customer name from the db in real application        
+            return "Dummy Customer Name";
+        }
+    }
+}
+```
+
+And the logic (a.k.a. Client Class) is consumed by the following:
+```cs
+using System;
+using MyNamespace.Logic;
+
+namespace MyNamespace.Consumer
+{
+    class Program
+    {
+        static void Main()
+        {
+            CustomerService customerService = new CustomerService();
+            Console.WriteLine(customerService.GetCustomerName(123));
+        }
+    }
+}
+```
+
+**Constructor Injection**
+
+```cs
+using MyNamespace.Dependency;
+
+namespace MyNamespace.Logic
+{  
+    // INTERNAL CLIENT
+    internal class CustomerBusinessLogic
+    {
+        ICustomerDataAccess _dataAccess;
+        
+        // dependency is injected into constructor
+        public CustomerBusinessLogic(ICustomerDataAccess custDataAccess)
+        {
+            _dataAccess = custDataAccess;
+        }
+
+        public CustomerBusinessLogic()
+        {
+            _dataAccess = new CustomerDataAccess();
+        }
+
+        public string ProcessCustomerData(int id)
+        {
+            return _dataAccess.GetCustomerName(id);
+        }
+    }
+
+    // PUBLIC INJECTOR
+    public class CustomerService
+    {
+        CustomerBusinessLogic _customerBL;
+
+        public CustomerService()
+        {
+            // inject dependency via constructor
+            _customerBL = new CustomerBusinessLogic(new CustomerDataAccess());
+        }
+
+        public string GetCustomerName(int id)
+        {
+            return _customerBL.ProcessCustomerData(id);
+        }
+    }
+}
+```
+
+**Property Injection**
+
+```cs
+using MyNamespace.Dependency;
+
+namespace MyNamespace.Logic
+{
+    // INTERNAL CLIENT
+    internal class CustomerBusinessLogic
+    {
+        public CustomerBusinessLogic()
+        {
+        }
+
+        public string GetCustomerName(int id)
+        {
+            return DataAccess.GetCustomerName(id);
+        }
+
+        // dependency is injected into property
+        public ICustomerDataAccess DataAccess { get; set; }
+    }
+
+    // PUBLIC INJECTOR
+    public class CustomerService
+    {
+        CustomerBusinessLogic _customerBL;
+
+        public CustomerService()
+        {
+            _customerBL = new CustomerBusinessLogic();
+            
+            // inject dependency via property
+            _customerBL.DataAccess = new CustomerDataAccess();
+        }
+
+        public string GetCustomerName(int id)
+        {
+            return _customerBL.GetCustomerName(id);
+        }
+    }
+}
+```
+
+**Method Injection**
+
+```cs
+using MyNamespace.Dependency;
+
+namespace MyNamespace.Logic
+{
+    // INTERNAL CLIENT
+    internal class CustomerBusinessLogic
+    {
+        ICustomerDataAccess _dataAccess;
+
+        public CustomerBusinessLogic()
+        {
+        }
+
+        public string GetCustomerName(int id)
+        {
+            return _dataAccess.GetCustomerName(id);
+        }
+
+        // dependency is injected into method
+        public void SetDependency(ICustomerDataAccess customerDataAccess)
+        {
+            _dataAccess = customerDataAccess;
+        }
+    }
+
+    // PUBLIC INJECTOR
+    public class CustomerService
+    {
+        CustomerBusinessLogic _customerBL;
+
+        public CustomerService()
+        {
+            _customerBL = new CustomerBusinessLogic();
+
+            // inject dependency via method
+            _customerBL.SetDependency(new CustomerDataAccess());
+        }
+
+        public string GetCustomerName(int id)
+        {
+            return _customerBL.GetCustomerName(id);
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="strategy">    
+<button type="button" class="collapsible">+ What is the Strategy Pattern?   
+    <code class="ex">
+Allows algorithms to be selected at runtime.
+The strategy pattern is intended to provide a means to define a family of algorithms, encapsulate each one as an object, and make them interchangeable. 
+The strategy pattern lets the algorithms vary independently from clients that use them.
+    </code>
+</button>    
+<div class="content" style="display: none;" markdown="1">
+    
+Building on the Dependency Injection example discussed above, an example of applying the Strategy pattern to this is the following:
+
+```cs
+using System;
+using MyNamespace.Dependency;
+using MyNamespace.Logic;
+
+namespace MyNamespace.Dependency
+{
+    // public interface defines dependency
+    public interface ICustomerDataAccess
+    {
+        string GetCustomerName(int id);
+    }
+
+    // identifies different algorithm types
+    public enum DbAccessType
+    {
+        SQL,
+        REST
+    }
+
+    // instantiates the requested algorithm type 
+    public class DataAccessFactory
+    {
+        public static ICustomerDataAccess GetCustomerDataAccessObj(DbAccessType dbAccessType)
+        {
+            ICustomerDataAccess customerDataAccess = null;
+
+            switch (dbAccessType)
+            {
+                case DbAccessType.SQL:
+                    customerDataAccess = new CustomerDataAccessSQL();
+                    break;
+                case DbAccessType.REST:
+                    customerDataAccess = new CustomerDataAccessREST();
+                    break;
+                default:
+                    throw new Exception("unrecognized DB access type");
+            }
+
+            return customerDataAccess;
+        }
+    }
+
+    // algorithm 1
+    internal class CustomerDataAccessSQL : ICustomerDataAccess
+    {
+        public CustomerDataAccessSQL()
+        {
+        }
+
+        public string GetCustomerName(int id)
+        {
+            //get the customer name from the db in real application        
+            return "Dummy Customer Name using SQL";
+        }
+    }
+
+    // algorithm 2
+    internal class CustomerDataAccessREST : ICustomerDataAccess
+    {
+        public CustomerDataAccessREST()
+        {
+        }
+
+        public string GetCustomerName(int id)
+        {
+            //get the customer name from the db in real application        
+            return "Dummy Customer Name using REST";
+        }
+    }
+}
+
+namespace MyNamespace.Logic
+{
+    // receives and processing results of database query
+    internal class CustomerBusinessLogic
+    {
+        ICustomerDataAccess _dataAccess;
+
+        public CustomerBusinessLogic()
+        {
+        }
+
+        public string GetCustomerName(int id)
+        {
+            return _dataAccess.GetCustomerName(id);
+        }
+
+        // dependency is injected into method
+        public void SetDependency(ICustomerDataAccess customerDataAccess)
+        {
+            _dataAccess = customerDataAccess;
+        }
+    }
+
+    // used by consumer to access the database using a particular type of algorithm
+    public class CustomerService
+    {
+        CustomerBusinessLogic _customerBL;
+
+        public CustomerService(DbAccessType dbAccessType)
+        {
+            _customerBL = new CustomerBusinessLogic();
+
+            // inject dependency via method
+            _customerBL.SetDependency(DataAccessFactory.GetCustomerDataAccessObj(dbAccessType));
+        }
+
+        public string GetCustomerName(int id)
+        {
+            return _customerBL.GetCustomerName(id);
+        }
+    }
+}
+
+namespace MyNamespace.Consumer
+{
+    class Program
+    {
+        static void Main()
+        {
+            CustomerService customerServiceREST = new CustomerService(DbAccessType.REST);
+            Console.WriteLine(customerServiceREST.GetCustomerName(123));
+            
+            CustomerService customerServiceSQL = new CustomerService(DbAccessType.SQL);
+            Console.WriteLine(customerServiceSQL.GetCustomerName(123));
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="interview-ocp"> 
+  <button type="button" class="collapsible">+ What is the OCP SOLID Principle?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-lsp"> 
+  <button type="button" class="collapsible">+ What is the LSP SOLID Principle?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-isp"> 
+  <button type="button" class="collapsible">+ What is the ISP SOLID Principle?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-builder"> 
+  <button type="button" class="collapsible">+ What is the Builder Pattern?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+ 
+<div id="interview-builder"> 
+  <button type="button" class="collapsible">+ What is the Factory Pattern?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+(see page 160)
+
+</div>
+</div>
+  
+<div id="interview-decorator"> 
+  <button type="button" class="collapsible">+ What is the Decorator Pattern?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-chainofreponse"> 
+  <button type="button" class="collapsible">+ What is the Chain of Responsibility Pattern?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+(see page 158)
+
+</div>
+</div>
+
+<div id="interview-adapter"> 
+  <button type="button" class="collapsible">+ What is the Adapter Pattern?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+ 
+<div id="interview-iterator"> 
+  <button type="button" class="collapsible">+ What is the Iterator Pattern?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+ 
+<div id="interview-nullobject"> 
+  <button type="button" class="collapsible">+ What is the NullObject Pattern?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+ 
+<div id="interview-visitor"> 
+  <button type="button" class="collapsible">+ What is the Visitor Pattern?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+</div>
+</div>
+
+<div id="basics">
+<button type="button" class="collapsible">+ Basics</button>
+<div class="content" style="display: none;" markdown="1">
+    
 <div id="structs">  
 <button type="button" class="collapsible">+ Structs vs Classes
     <code class="ex">
@@ -959,173 +1762,7 @@ See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-tr
 <button type="button" class="collapsible">+ C# Interview Questions</button>   
 <div class="content" style="display: none;" markdown="1">
 
-<div id="interview-encapsulation"> 
-  <button type="button" class="collapsible">+ What is Encapsulation?<br/>
-    <code class="ex">data + behaviour = class</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
 
-As the name suggestions, Encapsulation is the combination of an objects data and behaviours in a single unit, e.g. a Class.
-
-The benefits of encapsulation are:
-1. protection of data
-1. control of accessibility
-1. reduction of complexity (allows extensibility)
-1. improved maintainability (reduces coupling between objects)
-
-</div>
-</div>
-
-<div id="interview-inheritance"> 
-  <button type="button" class="collapsible">+ What is Inheritance?<br/>
-    <code class="ex">
-Inheritance is the ability for multiple derived classes with similar features to be treated as objects of a common base class (or interface). 
-To prevent inheritance of a class, use 'sealed class'.
-To stop inheritance of a virtual or abstract member, use 'sealed override myMember'.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-```cs
-using System;
-
-namespace Sandbox
-{
-    public class Car
-    {
-        public int Wheels { get { return 4; } }
-    }
-
-    public class Audi : Car { }
-    public class BMW : Car { }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Car myAudi = new Audi();
-            Car myBmw = new BMW();
-
-            Console.WriteLine(myAudi.Wheels); // 4
-            Console.WriteLine(myBmw.Wheels); // 4
-        }
-    }
-}
-```
-  
-</div>
-</div>
-
-<div id="interview-polymorphism"> 
-  <button type="button" class="collapsible">+ What is Polymorphism?<br/>
-    <code class="ex">
-Polymorphism is the ability for derived classes to override properties of a common base class.
-Static = Overloading
-Dynamic = Interfaces, Abstract Classes, Virtual Members
-   </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-```cs
-using System;
-
-namespace Sandbox
-{
-    public interface IVehicle
-    {
-        int Wheels { get; }
-    }
-
-    public class Car : IVehicle
-    {
-        public int Wheels { get { return 4; } }
-    }
-
-    public class Bike : IVehicle
-    {
-        public int Wheels { get { return 2; } }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            IVehicle myCar = new Car();
-            IVehicle myBike = new Bike();
-
-            Console.WriteLine(myCar.Wheels); // 4
-            Console.WriteLine(myBike.Wheels); // 2
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-<div id="interview-abstraction"> 
-  <button type="button" class="collapsible">+ What is Abstraction?<br/>
-    <code class="ex">
-Abstraction hiding internal implementation details by making a class/interface as 'abstract' as possible.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-```cs
-using System;
-
-namespace Sandbox
-{
-    public interface IVehicle
-    {
-        void Start();
-    }
-
-    public class Car : IVehicle
-    {
-        public void Start() { startEngine(); }
-        private void startEngine()
-        {
-            Console.WriteLine("Brrm brrm");
-        }
-    }
-
-    public class Bike : IVehicle
-    {
-        public void Start() { startPeddling(); }
-        private void startPeddling()
-        {
-            Console.WriteLine("Puff puff");
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            IVehicle myCar = new Car();
-            IVehicle myBike = new Bike();
-
-            myCar.Start(); // Brrm Brrm
-            myBike.Start(); // Puff puff
-        }
-    }
-}
-```
-</div>
-</div>
-
-<div id="interview-classvsobj"> 
-  <button type="button" class="collapsible">+ What is the difference between a Class and an Object?<br/>
-    <code class="ex">
-Class = Definition of an object.
-Object = Instantiation of an class.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
 
 <div id="interview-accessmodifiers"> 
   <button type="button" class="collapsible">+ What are access modifiers?<br/>
@@ -2096,538 +2733,6 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-solid"> 
-  <button type="button" class="collapsible">+ What are the SOLID Principles?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="srp">    
-<button type="button" class="collapsible">+ What is the Single Responsibility Principle (SRP)?
-    <code class="ex">
-Responsibility = "a reason to change"
-Single Responsibility Principle = "A class should have only one reason to change"
-A class should have one responsibility, which should be entirely encapsulated by the class.
-    </code>
-</button>    
-<div class="content" style="display: none;" markdown="1">
-
-As an example, consider a module that compiles and prints a report. Imagine such a module can be changed for two reasons:
-1. The content of the report could change.
-1. The format of the report could change. 
-
-These two things change for very different causes; one substantive, and one cosmetic. 
-
-The Single Responsibility Principle says that these two aspects of the problem are really two separate responsibilities, and should, therefore, be in separate classes or modules. 
-
-It would be a bad design to couple two things that change for different reasons at different times.
-
-The reason it is important to keep a class focused on a single concern is that it makes the class more robust. Continuing with the foregoing example, if there is a change to the report compilation process (i.e. the content), there is a greater danger that the printing (i.e. formatting) code will break if it is part of the same class.
-
-</div>
-</div>
-
-<div id="ioc">    
-<button type="button" class="collapsible">+ What is the Inversion Of Control (IoC) Principle?
-    <code class="ex">
-Any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
-Achieved using Dependency Inversion Principle (DIP), and the Dependency Injection (DI) and Strategy patterns.
-    </code>
-</button>    
-<div class="content" style="display: none;" markdown="1">
-
-IoC is a design principle which recommends the inversion of different kinds of controls in object-oriented design to achieve loose coupling between application classes.  It is closely related to the Single Responsibility Principle (SRP).
-
-In this case, control refers to any additional responsibilities a class has, other than its main responsibility, such as control over the flow of an application, or control over the dependent object creation and binding.
-
-The goal is that any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
-
-This is achieved using the Dependency Injection (DI) and Strategy patterns.
-
-Adopting IoC is a prerequisite of TDD.
-    
-</div>
-</div>
-
-<div id="ioc">    
-<button type="button" class="collapsible">+ What is the Dependency Inversion Principle (DIP)? 
-    <code class="ex">
-DIP suggests that high-level modules should not depend on low level modules. Both should depend on abstraction.
-Extending this principle leading the the Dependency Injection (DI) pattern.
-    </code>
-</button>    
-<div class="content" style="display: none;" markdown="1">
-
-DIP is demonstrated in the following example:
-
-First, the responsibility we want to abstract out is defined and made public.
-The concrete implementation(s) of this responsibility can then be instantiated using a public factory class.
-
-```cs
-namespace MyNamespace.Dependency
-{
-    public interface ICustomerDataAccess
-    {
-        string GetCustomerName(int id);
-    }
-    
-    internal class CustomerDataAccess: ICustomerDataAccess
-    {
-        public CustomerDataAccess()
-        {
-        }
-
-        public string GetCustomerName(int id) {
-            return "Dummy Customer Name";        
-        }
-    }
-    
-    public class DataAccessFactory
-    {
-        public static ICustomerDataAccess GetCustomerDataAccessObj() 
-        {
-            return new CustomerDataAccess();
-        }
-    }
-}
-```
-
-The abstracted responsibility can then be referenced by a consumer without the consumer needing to be aware of the details:
-
-```cs
-using System;
-using MyNamespace.Dependency;
-
-namespace MyNamespace.Consumer
-{
-    public class CustomerBusinessLogic
-    {
-        ICustomerDataAccess _custDataAccess;
-
-        public CustomerBusinessLogic()
-        {
-            _custDataAccess = DataAccessFactory.GetCustomerDataAccessObj();
-        }
-
-        public string GetCustomerName(int id)
-        {
-            return _custDataAccess.GetCustomerName(id);
-        }
-    }
-    
-    class Program
-    {
-        static void Main()
-        {
-            CustomerBusinessLogic customerBL = new CustomerBusinessLogic();
-            Console.WriteLine(customerBL.GetCustomerName(123));
-        }
-    }
-}
-```
-   
-</div>
-</div>
-
-<div id="dependency">    
-<button type="button" class="collapsible">+ What is the Dependency Injection (DI) pattern?
-    <code class="ex">
-Secondary responsibilities are injected into a class, to avoid direct dependencies or unnecessary encapsulation.
-Constructor Injection, Property Injection & Method Injection.
-A refinement of DI is the Strategy pattern.
-    </code>
-</button>   
-<div class="content" style="display: none;" markdown="1">
-
-The Dependency Injection is a pattern used to implement IoC (Inversion of Control), which allows for loosely coupled classes.
-
-The pattern involves 3 types of classes:
-
-  * Client Class: The client class (dependent class) is a class which depends on the service class
-  * Service Class: The service class (dependency) is a class that provides service to the client class.
-  * Injector Class: The injector class injects the service class object into the client class.
-
-There are three types of Dependency Injection:
-
-  * Constructor Injection
-  * Property Injection
-  * Method Injection
-
-Each is described below.  
-
-In each of the examples, the dependency (a.k.a. Service Class) to be injected is the following:
-
-```cs
-namespace MyNamespace.Dependency
-{
-    // public interface defines dependency
-    public interface ICustomerDataAccess
-    {
-        string GetCustomerName(int id);
-    }
-
-    // INTERNAL SERVICE: concrete implementation of dependency
-    internal class CustomerDataAccess : ICustomerDataAccess
-    {
-        public CustomerDataAccess()
-        {
-        }
-
-        public string GetCustomerName(int id)
-        {
-            //get the customer name from the db in real application        
-            return "Dummy Customer Name";
-        }
-    }
-}
-```
-
-And the logic (a.k.a. Client Class) is consumed by the following:
-```cs
-using System;
-using MyNamespace.Logic;
-
-namespace MyNamespace.Consumer
-{
-    class Program
-    {
-        static void Main()
-        {
-            CustomerService customerService = new CustomerService();
-            Console.WriteLine(customerService.GetCustomerName(123));
-        }
-    }
-}
-```
-
-**Constructor Injection**
-
-```cs
-using MyNamespace.Dependency;
-
-namespace MyNamespace.Logic
-{  
-    // INTERNAL CLIENT
-    internal class CustomerBusinessLogic
-    {
-        ICustomerDataAccess _dataAccess;
-        
-        // dependency is injected into constructor
-        public CustomerBusinessLogic(ICustomerDataAccess custDataAccess)
-        {
-            _dataAccess = custDataAccess;
-        }
-
-        public CustomerBusinessLogic()
-        {
-            _dataAccess = new CustomerDataAccess();
-        }
-
-        public string ProcessCustomerData(int id)
-        {
-            return _dataAccess.GetCustomerName(id);
-        }
-    }
-
-    // PUBLIC INJECTOR
-    public class CustomerService
-    {
-        CustomerBusinessLogic _customerBL;
-
-        public CustomerService()
-        {
-            // inject dependency via constructor
-            _customerBL = new CustomerBusinessLogic(new CustomerDataAccess());
-        }
-
-        public string GetCustomerName(int id)
-        {
-            return _customerBL.ProcessCustomerData(id);
-        }
-    }
-}
-```
-
-**Property Injection**
-
-```cs
-using MyNamespace.Dependency;
-
-namespace MyNamespace.Logic
-{
-    // INTERNAL CLIENT
-    internal class CustomerBusinessLogic
-    {
-        public CustomerBusinessLogic()
-        {
-        }
-
-        public string GetCustomerName(int id)
-        {
-            return DataAccess.GetCustomerName(id);
-        }
-
-        // dependency is injected into property
-        public ICustomerDataAccess DataAccess { get; set; }
-    }
-
-    // PUBLIC INJECTOR
-    public class CustomerService
-    {
-        CustomerBusinessLogic _customerBL;
-
-        public CustomerService()
-        {
-            _customerBL = new CustomerBusinessLogic();
-            
-            // inject dependency via property
-            _customerBL.DataAccess = new CustomerDataAccess();
-        }
-
-        public string GetCustomerName(int id)
-        {
-            return _customerBL.GetCustomerName(id);
-        }
-    }
-}
-```
-
-**Method Injection**
-
-```cs
-using MyNamespace.Dependency;
-
-namespace MyNamespace.Logic
-{
-    // INTERNAL CLIENT
-    internal class CustomerBusinessLogic
-    {
-        ICustomerDataAccess _dataAccess;
-
-        public CustomerBusinessLogic()
-        {
-        }
-
-        public string GetCustomerName(int id)
-        {
-            return _dataAccess.GetCustomerName(id);
-        }
-
-        // dependency is injected into method
-        public void SetDependency(ICustomerDataAccess customerDataAccess)
-        {
-            _dataAccess = customerDataAccess;
-        }
-    }
-
-    // PUBLIC INJECTOR
-    public class CustomerService
-    {
-        CustomerBusinessLogic _customerBL;
-
-        public CustomerService()
-        {
-            _customerBL = new CustomerBusinessLogic();
-
-            // inject dependency via method
-            _customerBL.SetDependency(new CustomerDataAccess());
-        }
-
-        public string GetCustomerName(int id)
-        {
-            return _customerBL.GetCustomerName(id);
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-<div id="strategy">    
-<button type="button" class="collapsible">+ What is the Strategy Pattern?   
-    <code class="ex">
-Allows algorithms to be selected at runtime.
-The strategy pattern is intended to provide a means to define a family of algorithms, encapsulate each one as an object, and make them interchangeable. 
-The strategy pattern lets the algorithms vary independently from clients that use them.
-    </code>
-</button>    
-<div class="content" style="display: none;" markdown="1">
-    
-Building on the Dependency Injection example discussed above, an example of applying the Strategy pattern to this is the following:
-
-```cs
-using System;
-using MyNamespace.Dependency;
-using MyNamespace.Logic;
-
-namespace MyNamespace.Dependency
-{
-    // public interface defines dependency
-    public interface ICustomerDataAccess
-    {
-        string GetCustomerName(int id);
-    }
-
-    // identifies different algorithm types
-    public enum DbAccessType
-    {
-        SQL,
-        REST
-    }
-
-    // instantiates the requested algorithm type 
-    public class DataAccessFactory
-    {
-        public static ICustomerDataAccess GetCustomerDataAccessObj(DbAccessType dbAccessType)
-        {
-            ICustomerDataAccess customerDataAccess = null;
-
-            switch (dbAccessType)
-            {
-                case DbAccessType.SQL:
-                    customerDataAccess = new CustomerDataAccessSQL();
-                    break;
-                case DbAccessType.REST:
-                    customerDataAccess = new CustomerDataAccessREST();
-                    break;
-                default:
-                    throw new Exception("unrecognized DB access type");
-            }
-
-            return customerDataAccess;
-        }
-    }
-
-    // algorithm 1
-    internal class CustomerDataAccessSQL : ICustomerDataAccess
-    {
-        public CustomerDataAccessSQL()
-        {
-        }
-
-        public string GetCustomerName(int id)
-        {
-            //get the customer name from the db in real application        
-            return "Dummy Customer Name using SQL";
-        }
-    }
-
-    // algorithm 2
-    internal class CustomerDataAccessREST : ICustomerDataAccess
-    {
-        public CustomerDataAccessREST()
-        {
-        }
-
-        public string GetCustomerName(int id)
-        {
-            //get the customer name from the db in real application        
-            return "Dummy Customer Name using REST";
-        }
-    }
-}
-
-namespace MyNamespace.Logic
-{
-    // receives and processing results of database query
-    internal class CustomerBusinessLogic
-    {
-        ICustomerDataAccess _dataAccess;
-
-        public CustomerBusinessLogic()
-        {
-        }
-
-        public string GetCustomerName(int id)
-        {
-            return _dataAccess.GetCustomerName(id);
-        }
-
-        // dependency is injected into method
-        public void SetDependency(ICustomerDataAccess customerDataAccess)
-        {
-            _dataAccess = customerDataAccess;
-        }
-    }
-
-    // used by consumer to access the database using a particular type of algorithm
-    public class CustomerService
-    {
-        CustomerBusinessLogic _customerBL;
-
-        public CustomerService(DbAccessType dbAccessType)
-        {
-            _customerBL = new CustomerBusinessLogic();
-
-            // inject dependency via method
-            _customerBL.SetDependency(DataAccessFactory.GetCustomerDataAccessObj(dbAccessType));
-        }
-
-        public string GetCustomerName(int id)
-        {
-            return _customerBL.GetCustomerName(id);
-        }
-    }
-}
-
-namespace MyNamespace.Consumer
-{
-    class Program
-    {
-        static void Main()
-        {
-            CustomerService customerServiceREST = new CustomerService(DbAccessType.REST);
-            Console.WriteLine(customerServiceREST.GetCustomerName(123));
-            
-            CustomerService customerServiceSQL = new CustomerService(DbAccessType.SQL);
-            Console.WriteLine(customerServiceSQL.GetCustomerName(123));
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-<div id="interview-ocp"> 
-  <button type="button" class="collapsible">+ What is the OCP SOLID Principle?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-lsp"> 
-  <button type="button" class="collapsible">+ What is the LSP SOLID Principle?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-isp"> 
-  <button type="button" class="collapsible">+ What is the ISP SOLID Principle?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 <div id="interview-dispose"> 
   <button type="button" class="collapsible">+ What is the difference between Dispose and Finalize?<br/>
      <code class="ex">
@@ -3082,97 +3187,7 @@ class Program
 <button type="button" class="collapsible">+ Patterns Interview Questions</button>   
 <div class="content" style="display: none;" markdown="1">
  
-<div id="interview-builder"> 
-  <button type="button" class="collapsible">+ What is the Builder Pattern?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
 
-</div>
-</div>
- 
-<div id="interview-builder"> 
-  <button type="button" class="collapsible">+ What is the Factory Pattern?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-(see page 160)
-
-</div>
-</div>
-  
-<div id="interview-decorator"> 
-  <button type="button" class="collapsible">+ What is the Decorator Pattern?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-chainofreponse"> 
-  <button type="button" class="collapsible">+ What is the Chain of Responsibility Pattern?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-(see page 158)
-
-</div>
-</div>
-
-<div id="interview-adapter"> 
-  <button type="button" class="collapsible">+ What is the Adapter Pattern?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
- 
-<div id="interview-iterator"> 
-  <button type="button" class="collapsible">+ What is the Iterator Pattern?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
- 
-<div id="interview-nullobject"> 
-  <button type="button" class="collapsible">+ What is the NullObject Pattern?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
- 
-<div id="interview-visitor"> 
-  <button type="button" class="collapsible">+ What is the Visitor Pattern?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
 
 
 </div>
