@@ -1763,12 +1763,6 @@ See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-tr
 </div>
 </div>
 
-<div id="interview-csharp"> 
-<button type="button" class="collapsible">+ C# Interview Questions</button>   
-<div class="content" style="display: none;" markdown="1">
-
-
-
 <div id="interview-accessmodifiers"> 
   <button type="button" class="collapsible">+ What are access modifiers?<br/>
     <code class="ex">
@@ -3188,8 +3182,7 @@ class Program
 </div>
 </div>
 
-</div>
-</div>
+-------------------------------------------------------------------------------------------------------
 
 <div id="interview-mvc"> 
 <button type="button" class="collapsible">+ MVC Interview Questions</button>   
