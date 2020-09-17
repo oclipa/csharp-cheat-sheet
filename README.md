@@ -12,6 +12,7 @@
 &nbsp;
 
 -------------------------------------------------------------------------------------------------------
+
 <div id="stupid">
 <button type="button" class="collapsible">+ Stupid Simple Stuff That I Keep Forgetting</button>
 <div class="content" style="display: none;" markdown="1">
@@ -256,6 +257,8 @@ Console.WriteLine($"{var1} & {var2}");
 
 </div>
 </div>
+
+-------------------------------------------------------------------------------------------------------
 
 <div id="theory">
 <button type="button" class="collapsible">+ Theory</button>
@@ -1092,6 +1095,8 @@ xxxxxxxx
 
 </div>
 </div>
+
+-------------------------------------------------------------------------------------------------------
 
 <div id="basics">
 <button type="button" class="collapsible">+ Basics</button>
@@ -3182,13 +3187,6 @@ class Program
 
 </div>
 </div>
-
-<div id="interview-patterns"> 
-<button type="button" class="collapsible">+ Patterns Interview Questions</button>   
-<div class="content" style="display: none;" markdown="1">
- 
-
-
 
 </div>
 </div>
