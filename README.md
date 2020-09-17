@@ -3094,7 +3094,7 @@ class Program
 <div id="interview-overloadgeneric"> 
   <button type="button" class="collapsible">+ Can you overload a Generic Method?<br/>
     <code class="ex">
-Yes - Method(), Method<T>(T t), Method<T>(T t, int i), Method<T1, T2>(T1 t1, T2 t2), etc.
+Yes - Method(), Method&ltT&gt;(T t), Methodd&ltT&gt;(T t, int i), Methodd&ltT1, T2&gt;(T1 t1, T2 t2), etc.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3154,7 +3154,7 @@ fido.Bury<Cow,Cat>(new Cow("Bessie"), new Cat("Puffy"));
   <button type="button" class="collapsible">+ How can you stop a thread?<br/>
     <code class="ex">
 Create global variable for thread to check
-     </code>
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
