@@ -1145,7 +1145,7 @@ For a code example, consider the case of a bank with the following types of cust
   
 The developer of a system defines the following interface for a customer:
 
-<img src="assets/images/isp_violating_interface.png" />
+<img src="assets/images/isp_violating_interface.jpg" />
 
 Note that this interface forces the client class to implement methods that are not required, which violates ISP:
   * A potential customer, who does not yet hold any product, is forced to implement a CustomerProducts property.
@@ -1155,7 +1155,7 @@ Note that this interface forces the client class to implement methods that are n
 
 In a case such as this, the solution is to split the interface into smaller, more targeted parts, such as in the following example:
 
-<img src="assets/images/isp_satisfying_interfaces.png" />
+<img src="assets/images/isp_satisfying_interfaces.jpg" />
 
 </div>
 </div>
