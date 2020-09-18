@@ -507,7 +507,7 @@ Entities must depend on abstractions not on concretions (a high level module sho
 </div>
 
 <div id="srp">    
-<button type="button" class="collapsible">+ Single Responsibility Principle (SRP)?
+<button type="button" class="collapsible">+ SRP: Single Responsibility Principle?
     <code class="ex">
 A class or function should have only one reason to change.
 One responsibility per class/function, where "responsibility" means "a reason to change".
