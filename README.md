@@ -1762,23 +1762,73 @@ xxxxxxxx
 </div>
 
 <div id="interview-managed"> 
-  <button type="button" class="collapsible">+ What is the difference between Managed and Unmanaged Code?<br/>
+  <button type="button" class="collapsible">+ Managed vs Unmanaged Code<br/>
      <code class="ex">
-xxxxxxxx
+Managed code is interpreted and runs in a secure, managed framework.
+Unmanaged code is compiled to machine code and runs "as-is", with no management.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+**Managed code** is not compiled to machine code.
+It is complied to an intermediate language which is interpreted and executed by some service on a machine.
+This means it operates within a secure framework which handles dangerous things like memory and threads for you. 
+In .NET, this is taken care by CLR, which transforms the code into IL. 
+
+The CLR handles the following:
+  * Managing memory for the objects
+  * Performing type verification
+  * Doing garbage collection
+
+Unmanaged code is compiled to machine code.
+The compiled code is executed by the OS directly. 
+It therefore can do damaging/powerful things that Managed code can not. 
+
+In unmanaged code a programmer is responsible for:
+  * Calling the memory allocation function
+  * Making sure that the casting is done right
+  * Making sure that the memory is released when the work is done
+
+**Using unsafe code in C#**
+
+It is possible to use unmanaged code in C#, but this requies great care.  To do this, the block of code needs to be declared with the `unsafe` keyword:
+
+```cs
+static unsafe void Main(string[] args)
+{ 
+    int nr = 20; 
+    int* pointerNr = &nr; 
+}
+```
+
+Reasons for using unsafe code in C#:
+  * It increase the performance of the Program.
+  * We use fixed buffers inside an unsafe context. With a fixed buffer, you can write and read raw memory without any of the managed overhead.
+  * It provides a way to interface with memory.
+
+Reasons to avoid unsafe code in C#:
+  * It increase the responsibility of the programmer to check for security issues and extra developer care is paramount to averting potential errors or security risks.
+  * It bypasses security. Because the CLR maintains type safety and security, C# does not support pointer arithmetic in managed code, unlike C/C++. The unsafe keyword allows pointer usage in unmanaged code. However, safety is not guaranteed because strict object access rules are not followed.
+  * It also avoids type checking, that can generate errors sometimes.
 
 </div>
 </div>
 
 <div id="interview-strongvsweak"> 
-  <button type="button" class="collapsible">+ What is the difference between Strong and Weak Typing?<br/>
+  <button type="button" class="collapsible">+ Strong vs Weak Typing?<br/>
      <code class="ex">
-xxxxxxxx
+Weak typing means delaying the check of variable’s type usually until run-time. 
+Strong typing means checking type as soon as possible, usually at compile time.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Most scripting languages are weakly typed (such as JavaScript)
+
+C# is strongly typed because:  
+  * All types are known at compile time. Don’t be confused by `dynamic` here, this is still a type (just a special one).
+  * An `int` cannot be used instead of a `string`, where a `string` is needed
+  * You receive a compile time error if the right type is not used.
 
 </div>
 </div>
