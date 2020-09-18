@@ -472,20 +472,46 @@ Object = Instantiation of an class.
 <div id="interview-solid"> 
   <button type="button" class="collapsible">+ What are the SOLID Principles?<br/>
      <code class="ex">
-xxxxxxxx
+SRP: Single Responsibility Principle
+OCP: Open-Close Principle
+LSP: Liskov Substitution Principle
+ISP: Interface Segregation Principle
+DIP: Dependency Inversion Principle
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+These are described in greater detail further down, however in summary:
+
+**SRP: Single Responsibility Principle**
+
+A class should have only one reason to change (one responsibility per class).
+
+**OCP: Open-Close Principle**
+
+Objects should be open for extension, but closed for modification (easy to extend implementation, but cannot be change base implementation).
+
+**LSP: Liskov Substitution Principle**
+
+Every sub-class should be substitutable for its super-class (a client should not need to know whether it is dealing with a sub-class or a super-class).
+
+**ISP: Interface Segregation Principle**
+
+A client should not be forced to depend on methods it does not use (a sub-class should not be forced to implement methods it does not use).
+
+**DIP: Dependency Inversion Principle**
+
+Entities must depend on abstractions not on concretions (a high level module should not depend on a low level module; they should both depend on abstractions).
 
 </div>
 </div>
 
 <div id="srp">    
-<button type="button" class="collapsible">+ What is the Single Responsibility Principle (SRP)?
+<button type="button" class="collapsible">+ Single Responsibility Principle (SRP)?
     <code class="ex">
-Responsibility = "a reason to change"
-Single Responsibility Principle = "A class should have only one reason to change"
-A class should have one responsibility, which should be entirely encapsulated by the class.
+A class or function should have only one reason to change.
+One responsibility per class/function, where "responsibility" means "a reason to change".
+The responsibility should be entirely encapsulated by the class/function.
     </code>
 </button>    
 <div class="content" style="display: none;" markdown="1">
@@ -502,35 +528,643 @@ It would be a bad design to couple two things that change for different reasons 
 
 The reason it is important to keep a class focused on a single concern is that it makes the class more robust. Continuing with the foregoing example, if there is a change to the report compilation process (i.e. the content), there is a greater danger that the printing (i.e. formatting) code will break if it is part of the same class.
 
+An example of code that violates SRP is the following:
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public struct ValidatedOrder
+{
+    public ValidatedOrder(int customerId, int orderId, List<string> items, float price)
+    {
+        this.CustomerId = customerId;
+        this.Id = orderId;
+        this.Items = items;
+        this.Price = price;
+    }
+
+    public int CustomerId;
+    public int Id;
+    public List<string> Items;
+    public float Price;
+}
+
+public class OrderManager
+{
+    private List<ValidatedOrder> orderCollection = new List<ValidatedOrder>();
+
+    public ValidatedOrder ValidateOrder(int customerId, int id)
+    {
+        //Code for validation 
+        float price = 23.76f;        
+        return new ValidatedOrder(customerId, id, new List<string>(), price);
+    }
+
+    public bool SaveOrder(ValidatedOrder order)
+    {
+        //Code for saving order 
+        orderCollection.Add(order);
+        return true;
+    }
+
+    public void NotifyCustomer(int customerId)
+    {
+        //Code for notification     
+    }
+
+    public float SumOfAllCustomerOrders(int customerId)
+    {
+        //query orders    
+        var orders = this.orderCollection.Where(c => c.CustomerId == customerId);
+        
+        // sum orders
+        float sum = 0;
+        foreach (ValidatedOrder order in orders)
+        {
+            sum += order.Price;
+        }
+        return sum;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        int customerId = 2675376;
+        int orderId = 157;
+
+        OrderManager orderManager = new OrderManager();
+
+        ValidatedOrder orderInfo = orderManager.ValidateOrder(customerId, orderId);
+
+        orderManager.SaveOrder(orderInfo);
+
+        orderManager.NotifyCustomer(customerId);
+
+        float price = orderManager.SumOfAllCustomerOrders(customerId);
+
+        Console.WriteLine($"Spent today: {price}");
+    }
+}
+```
+
+Note `OrderManager` does all of the following:
+  1. `ValidateOrder`: Validating an order placed by customer and returns the final order
+  1. `SaveOrder`: Saving an order placed by the customer and returns true/false
+  1. `NotifyCustomer`: Notifies the customer order is placed
+
+In addition, the `SumOfAllCustomerOrders()` method both queries the orders and processes the results.
+
+To rectify this, the following changes might be made:
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public struct ValidatedOrder
+{
+    public ValidatedOrder(int customerId, int orderId, List<string> items, float price)
+    {
+        this.CustomerId = customerId;
+        this.Id = orderId;
+        this.Items = items;
+        this.Price = price;
+    }
+
+    public int CustomerId;
+    public int Id;
+    public List<string> Items;
+    public float Price;
+}
+
+public class OrderValidator
+{
+    public ValidatedOrder ValidateOrder(int customerId, int id)
+    {
+        //Code for validation 
+        float price = 23.76f;
+
+        return new ValidatedOrder(customerId, id, new List<string>(), price);
+    }
+}
+
+public class OrderDatabase
+{
+    private List<ValidatedOrder> orderCollection = new List<ValidatedOrder>();
+
+    public bool SaveOrder(ValidatedOrder order)
+    {
+        //Code for saving order 
+        orderCollection.Add(order);
+        return true;
+    }
+
+    public IEnumerable<ValidatedOrder> GetOrders(int customerId)
+    {
+        return this.orderCollection.Where(c => c.CustomerId == customerId); ;
+    }
+}
+
+public class CustomerNotifier
+{
+    public void NotifyCustomer(ValidatedOrder order)
+    {
+        //Code for notification     
+    }
+}
+
+public class OrderManager
+{
+    private readonly OrderValidator orderValidator;
+    private readonly CustomerNotifier notifier;
+    private readonly OrderDatabase database;
+
+    public OrderManager(OrderValidator validator, CustomerNotifier notifier, OrderDatabase database)
+    {
+        this.orderValidator = validator;
+        this.notifier = notifier;
+        this.database = database;
+    }
+
+    public bool ProcessOrder(int customerId, int orderId)
+    {
+        ValidatedOrder orderInfo = orderValidator.ValidateOrder(customerId, orderId);
+        database.SaveOrder(orderInfo);
+        notifier.NotifyCustomer(orderInfo);
+
+        return true;
+    }
+
+    public float SumOfAllCustomerOrders(int customerId)
+    {
+        var orders = database.GetOrders(customerId);
+
+        float sum = 0;
+        foreach (ValidatedOrder order in orders)
+        {
+            sum += order.Price;
+        }
+        return sum;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        OrderValidator orderValidator = new OrderValidator();
+        CustomerNotifier notifier = new CustomerNotifier();
+        OrderDatabase database = new OrderDatabase();
+
+        OrderManager orderManager = new OrderManager(orderValidator, notifier, database);
+
+        int customerId = 2675376;
+        int orderId = 157;
+
+        if (orderManager.ProcessOrder(customerId, orderId))
+        {
+            float price = orderManager.SumOfAllCustomerOrders(customerId);
+
+            Console.WriteLine($"Spent today: {price}");
+        }
+    }
+}
+```
+
+As can be seen, each class and each method now has a single responsibility, which satisfies the Single Responsibility Principle.
+
+**Rules of Thumb**
+
+To determine if SRP is being violated, try the following:
+
+  1. Try to write a one line description of the class or method, if the description contains words like "And, Or, But or If" then that is a problem.
+    * For the violating example above: "An OrderManager class that validates orders, saves orders and notifies the customer"
+  1. Does the class constructor or method take more than three arguments/parameters?
+  1. Does the class or method implementation seem too long? ("too long" can be hard to pin down)
+  1. Does the class have low cohesion? ("cohension" = the degree to which the elements inside a module belong together)
+
 </div>
 </div>
 
-<div id="ioc">    
-<button type="button" class="collapsible">+ What is the Inversion Of Control (IoC) Principle?
-    <code class="ex">
-Any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
-Achieved using Dependency Inversion Principle (DIP), and the Dependency Injection (DI) and Strategy patterns.
+<div id="interview-ocp"> 
+  <button type="button" class="collapsible">+ OCP: Open-Close Principle<br/>
+     <code class="ex">
+Objects should be open for extension, but closed for modification
+It should be easy to extend an implementation, but it should not be possible to change the base implementation.
     </code>
-</button>    
+  </button>   
 <div class="content" style="display: none;" markdown="1">
 
-IoC is a design principle which recommends the inversion of different kinds of controls in object-oriented design to achieve loose coupling between application classes.  It is closely related to the Single Responsibility Principle (SRP).
+An wall electrical socket is a good, real-world example of this principle.
+  * Electrical devices are not attached directly to the mains, they are plugged into a standard wall socket.
+  * The wall socket is always closed for modification (it cannot be changed once fitted).
+  * The wall socket can be extended however, by either plugging in an extension board or by fitting an adaptor (e.g. USB adaptor).
 
-In this case, control refers to any additional responsibilities a class has, other than its main responsibility, such as control over the flow of an application, or control over the dependent object creation and binding.
+For a code example, consider the following:
 
-The goal is that any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
+```cs
+using System;
 
-This is achieved using the Dependency Injection (DI) and Strategy patterns.
+public enum AccountType
+{
+    Regular,
+    Salary
+}
 
-Adopting IoC is a prerequisite of TDD.
-    
+public class SavingAccount
+{
+    private float balance;
+
+    public SavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+
+    public float CalculateInterest(AccountType accountType)
+    {
+        float interest = 0;
+
+        switch (accountType)
+        {
+            case AccountType.Regular:
+                interest = balance * 0.04f;
+                if (balance < 1000) interest -= balance * 0.02f;
+                if (balance < 50000) interest += balance * 0.04f;
+                break;
+            case AccountType.Salary:
+                interest = balance * 0.05f;
+                break;
+            default:
+                throw new Exception("Unknown account type");
+        }
+
+        return interest;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        float initialBalance = 10000f;
+
+        SavingAccount acc = new SavingAccount(initialBalance);
+
+        Console.WriteLine(acc.CalculateInterest(AccountType.Regular));
+    }
+}
+```
+
+In this example, the implementation is not following the Open-Closed Principle because, if tomorrow the bank introduces a new `AccountType`, the `CalculateInterest()` method is always at risk of modification.
+
+As a side note, this method is also not following the Single Responsibility Principle since the `CalculateInterest()` method is doing more than one thing (it is calculating interest for more than one account type).
+
+To avoid this, OCP can be applied to produce the following alternative:
+
+```cs
+using System;
+
+public interface ISavingAccount
+{
+    float CalculateInterest();
+}
+
+public class RegularSavingAccount : ISavingAccount
+{
+    private float balance;
+
+    public RegularSavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+
+    public float CalculateInterest()
+    {
+        float interest = balance * 0.04f;
+        if (balance < 1000) interest -= balance * 0.02f;
+        if (balance < 50000) interest += balance * 0.04f;
+
+        return interest;
+    }
+}
+
+public class SalarySavingAccount : ISavingAccount
+{
+    private float balance;
+
+    public SalarySavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+
+    public float CalculateInterest()
+    {
+        return balance * 0.05f;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        float initialBalance = 10000f;
+
+        ISavingAccount acc = new RegularSavingAccount(initialBalance);
+
+        Console.WriteLine(acc.CalculateInterest());
+    }
+}
+```
+
+In this case, there is no longer any need to modify the existing classes if a new account type is added; the new logic for the new account can be added by simply extending the functionality inherited from an interface.  This now satisfies the Open-Close Principle.
+
+In addition, the Single Responsibility Principle is also satisfied since each class or function is only doing one task.
+
+Note: An interface is created here just as an example. There could be an abstract class of SavingAccount that is implemented by a new savings account type.
+
+</div>
+</div>
+
+<div id="interview-lsp"> 
+  <button type="button" class="collapsible">+ LSP: Liskov Substitution Principle<br/>
+     <code class="ex">
+Every sub-class should be substitutable for its super-class.
+A client should not need to know whether it is dealing with a sub-class or a super-class.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+A real-world example of this principle - and its violation - is the act of replacing a light bulb.
+  * A standard exists for light bulb socket types.
+  * Assuming a new bulb meets the standard and provides the same illumination, the end user is not aware of whether the bulb is incandescent, flourescent or LED. This satisfies LSP.
+  * If the illumination provided by the new bulb no longer meets the end user's expectations, this violates LSP.
+
+A code example is the following:
+
+```cs
+using System;
+
+public interface ISavingAccount
+{
+    bool CanWithdraw(float amount);
+}
+
+public class RegularSavingAccount : ISavingAccount
+{
+    private float balance;
+
+    public RegularSavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+
+    public bool CanWithdraw(float amount)
+    {
+        float moneyAfterWithdrawal = balance - amount;
+        if (moneyAfterWithdrawal >= 1000)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+}
+
+public class SalarySavingAccount : ISavingAccount
+{
+    private float balance;
+
+    public SalarySavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+
+    public bool CanWithdraw(float amount)
+    {
+        float moneyAfterWithdrawal = balance - amount;
+        if (moneyAfterWithdrawal >= 0)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+}
+
+public class FixDepositSavingAccount : ISavingAccount
+{
+    private float balance;
+
+    public FixDepositSavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+
+    public bool CanWithdraw(float amount)
+    {
+        throw new Exception("Not supported by this account type");
+    }
+}
+
+public class AccountManager
+{
+    public static void WithdrawFromAccount(ISavingAccount account, float amount)
+    {
+        try
+        {
+            if (account.CanWithdraw(amount))
+                Console.WriteLine("Can withdraw");
+            else
+                Console.WriteLine("Cannot withdraw");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        float initialBalance = 10000f;
+        float withdrawalAmount = 5000f;
+
+        //works ok  
+        AccountManager.WithdrawFromAccount(new RegularSavingAccount(initialBalance), withdrawalAmount);
+        //works ok  
+        AccountManager.WithdrawFromAccount(new SalarySavingAccount(initialBalance), withdrawalAmount);
+        //throws exception as withdrawal is not supported  
+        AccountManager.WithdrawFromAccount(new FixDepositSavingAccount(initialBalance), withdrawalAmount);
+    }
+}
+```
+
+In this example, the implementation is not following the Liskov Substitution Principle because `FixDepositSavingAccount` is modifying the functionality of the `CanWithdraw()` method
+
+To avoid this, LSP can be applied to produce the following alternative:
+
+```cs
+using System;
+
+public interface ISavingAccount
+{
+}
+
+public abstract class SavingAccountWithWithdrawal : ISavingAccount
+{
+    public abstract bool CanWithdraw(float amount);
+}
+
+public abstract class SavingAccountWithoutWithdrawal : ISavingAccount
+{
+}
+
+public class RegularSavingAccount : SavingAccountWithWithdrawal
+{
+    private float balance;
+
+    public RegularSavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+
+    public override bool CanWithdraw(float amount)
+    {
+        float moneyAfterWithdrawal = balance - amount;
+        if (moneyAfterWithdrawal >= 1000)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+}
+
+public class SalarySavingAccount : SavingAccountWithWithdrawal
+{
+    private float balance;
+
+    public SalarySavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+
+    public override bool CanWithdraw(float amount)
+    {
+        float moneyAfterWithdrawal = balance - amount;
+        if (moneyAfterWithdrawal >= 0)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+}
+
+public class FixDepositSavingAccount : SavingAccountWithoutWithdrawal
+{
+    private float balance;
+
+    public FixDepositSavingAccount(float initialBalance)
+    {
+        this.balance = initialBalance;
+    }
+}
+
+public class AccountManager
+{
+    public static void WithdrawFromAccount(SavingAccountWithWithdrawal account, float amount)
+    {
+        try
+        {
+            if (account.CanWithdraw(amount))
+                Console.WriteLine("Can withdraw");
+            else
+                Console.WriteLine("Cannot withdraw");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        float initialBalance = 10000f;
+        float withdrawalAmount = 5000f;
+
+        //works ok  
+        AccountManager.WithdrawFromAccount(new RegularSavingAccount(initialBalance), withdrawalAmount);
+        //works ok  
+        AccountManager.WithdrawFromAccount(new SalarySavingAccount(initialBalance), withdrawalAmount);
+        //compiler gives error  
+        AccountManager.WithdrawFromAccount(new FixDepositSavingAccount(initialBalance), withdrawalAmount);
+    }
+}
+```
+
+After these changes, `FixDepositSavingAccount` is no longer able to produce unexpected behaviour, since it is constrained at compile time.  This now satifies LSP.
+
+</div>
+</div>
+
+<div id="interview-isp"> 
+  <button type="button" class="collapsible">+ ISP: Interface Segregation Principle<br/>
+     <code class="ex">
+A client should not be forced to depend on methods it does not use.
+A sub-class should not be forced to implement methods it does not use.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+The Interface Segregation Principle approaches a similar problem to that tackled by LSP, in that it is aimed at preventing code behaving in an unexpected manner.
+
+In the case of LSP, the principle states that sub-classes should behave as expected based on their super-class.
+
+In the case of ISP, the principle states that sub-classes should not be forced to implement methods that they do not use (which could again result in unexpected behaviour).
+
+To satisfy ISP, it is better to implement many small interfaces rather than a one big interface.
+
+A real-world example for ISP would be a dustbin:
+   * A single general dustbin will end up with a mixture of different garbage types, which will make it hard to recycle.
+   * Using several type-specific dustbins (e.g. paper, glass, metal) will make it much easier to recycle.
+
+For a code example, consider the case of a bank with the following types of customers:
+  * Corporate customer: For corporate people.
+  * Retail customer: For individual, daily banking.
+  * Potential customer: They are just a bank customer that does not yet hold a product of the bank and it is just a record that is different from corporate and retail.
+  
+The developer of a system defines the following interface for a customer:
+
+<img src="assets/images/isp_violating_interface.png" />
+
+Note that this interface forces the client class to implement methods that are not required, which violates ISP:
+  * A potential customer, who does not yet hold any product, is forced to implement a CustomerProducts property.
+  * A potential customer and a retail customer are both forced to have a CustomerStructure property, which only applies to a corporate customer.
+  * A potential customer and a retail customer are both forced to implement a BusinessType, which only applies to a corporate customer.
+  * A corporate customer and a potential customer are both forced to implement an Occupation property, which only applies to a retail customer.
+
+In a case such as this, the solution is to split the interface into smaller, more targeted parts, such as in the following example:
+
+<img src="assets/images/isp_satisfying_interfaces.png" />
+
 </div>
 </div>
 
 <div id="ioc">    
-<button type="button" class="collapsible">+ What is the Dependency Inversion Principle (DIP)? 
+<button type="button" class="collapsible">+ DIP: Dependency Inversion Principle? 
     <code class="ex">
-DIP suggests that high-level modules should not depend on low level modules. Both should depend on abstraction.
+Entities must depend on abstractions not on concretions.
+A high level module should not depend on a low level module; they should both depend on abstractions.
 Extending this principle leading the the Dependency Injection (DI) pattern.
     </code>
 </button>    
@@ -607,12 +1241,34 @@ namespace MyNamespace.Consumer
 </div>
 </div>
 
+<div id="ioc">    
+<button type="button" class="collapsible">+ What is the Inversion Of Control (IoC) Principle?
+    <code class="ex">
+Any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
+Achieved using Dependency Inversion Principle (DIP), and the Dependency Injection (DI) and Strategy patterns.
+    </code>
+</button>    
+<div class="content" style="display: none;" markdown="1">
+
+IoC is a design principle which recommends the inversion of different kinds of controls in object-oriented design to achieve loose coupling between application classes.  It is closely related to the Single Responsibility Principle (SRP).
+
+In this case, control refers to any additional responsibilities a class has, other than its main responsibility, such as control over the flow of an application, or control over the dependent object creation and binding.
+
+The goal is that any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
+
+This is achieved using the Dependency Injection (DI) and Strategy patterns.
+
+Adopting IoC is a prerequisite of TDD.
+    
+</div>
+</div>
+
 <div id="dependency">    
 <button type="button" class="collapsible">+ What is the Dependency Injection (DI) pattern?
     <code class="ex">
 Secondary responsibilities are injected into a class, to avoid direct dependencies or unnecessary encapsulation.
 Constructor Injection, Property Injection & Method Injection.
-A refinement of DI is the Strategy pattern.
+A refinement of DI is the Strategy pattern (ability to select algorithm at runtime)
     </code>
 </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -822,6 +1478,52 @@ namespace MyNamespace.Logic
 </div>
 </div>
 
+
+<div id="interview-kiss"> 
+  <button type="button" class="collapsible">+ What does KISS mean in OOP?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-dry"> 
+  <button type="button" class="collapsible">+ What does DRY mean in OOP?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-yagni"> 
+  <button type="button" class="collapsible">+ What does YAGNI mean in OOP?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-tda"> 
+  <button type="button" class="collapsible">+ What does TDA mean in OOP?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+
 <div id="strategy">    
 <button type="button" class="collapsible">+ What is the Strategy Pattern?   
     <code class="ex">
@@ -968,86 +1670,8 @@ namespace MyNamespace.Consumer
 </div>
 </div>
 
-<div id="interview-ocp"> 
-  <button type="button" class="collapsible">+ What is the OCP SOLID Principle?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-lsp"> 
-  <button type="button" class="collapsible">+ What is the LSP SOLID Principle?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-isp"> 
-  <button type="button" class="collapsible">+ What is the ISP SOLID Principle?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-
-<div id="interview-kiss"> 
-  <button type="button" class="collapsible">+ What does KISS mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-dry"> 
-  <button type="button" class="collapsible">+ What does DRY mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-yagni"> 
-  <button type="button" class="collapsible">+ What does YAGNI mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-tda"> 
-  <button type="button" class="collapsible">+ What does TDA mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 <div id="interview-builder"> 
-  <button type="button" class="collapsible">+ What is the Builder Pattern?<br/>
+  <button type="button" class="collapsible">+ Builder Pattern?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1058,7 +1682,7 @@ xxxxxxxx
 </div>
  
 <div id="interview-builder"> 
-  <button type="button" class="collapsible">+ What is the Factory Pattern?<br/>
+  <button type="button" class="collapsible">+ Factory Pattern?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1071,7 +1695,7 @@ xxxxxxxx
 </div>
   
 <div id="interview-decorator"> 
-  <button type="button" class="collapsible">+ What is the Decorator Pattern?<br/>
+  <button type="button" class="collapsible">+ Decorator Pattern?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1082,7 +1706,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-chainofreponse"> 
-  <button type="button" class="collapsible">+ What is the Chain of Responsibility Pattern?<br/>
+  <button type="button" class="collapsible">+ Chain of Responsibility Pattern?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1095,7 +1719,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-adapter"> 
-  <button type="button" class="collapsible">+ What is the Adapter Pattern?<br/>
+  <button type="button" class="collapsible">+ Adapter Pattern?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1106,7 +1730,7 @@ xxxxxxxx
 </div>
  
 <div id="interview-iterator"> 
-  <button type="button" class="collapsible">+ What is the Iterator Pattern?<br/>
+  <button type="button" class="collapsible">+ Iterator Pattern?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1117,7 +1741,7 @@ xxxxxxxx
 </div>
  
 <div id="interview-nullobject"> 
-  <button type="button" class="collapsible">+ What is the NullObject Pattern?<br/>
+  <button type="button" class="collapsible">+ NullObject Pattern?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1128,7 +1752,7 @@ xxxxxxxx
 </div>
  
 <div id="interview-visitor"> 
-  <button type="button" class="collapsible">+ What is the Visitor Pattern?<br/>
+  <button type="button" class="collapsible">+ Visitor Pattern?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
