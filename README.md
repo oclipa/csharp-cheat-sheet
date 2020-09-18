@@ -302,7 +302,7 @@ Heap: dynamic memory; objects are garbage collected on occasion.
 </div>
 
 <div id="interview-encapsulation"> 
-  <button type="button" class="collapsible">+ What is Encapsulation?<br/>
+  <button type="button" class="collapsible">+ Encapsulation<br/>
     <code class="ex">data + behaviour = class</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -319,7 +319,7 @@ The benefits of encapsulation are:
 </div>
 
 <div id="interview-inheritance"> 
-  <button type="button" class="collapsible">+ What is Inheritance?<br/>
+  <button type="button" class="collapsible">+ Inheritance<br/>
     <code class="ex">
 Inheritance is the ability for multiple derived classes with similar features to be treated as objects of a common base class (or interface). 
 To prevent inheritance of a class, use 'sealed class'.
@@ -359,7 +359,7 @@ namespace Sandbox
 </div>
 
 <div id="interview-polymorphism"> 
-  <button type="button" class="collapsible">+ What is Polymorphism?<br/>
+  <button type="button" class="collapsible">+ Polymorphism<br/>
     <code class="ex">
 Polymorphism is the ability for derived classes to override properties of a common base class.
 Static = Overloading
@@ -406,7 +406,7 @@ namespace Sandbox
 </div>
 
 <div id="interview-abstraction"> 
-  <button type="button" class="collapsible">+ What is Abstraction?<br/>
+  <button type="button" class="collapsible">+ Abstraction<br/>
     <code class="ex">
 Abstraction hiding internal implementation details by making a class/interface as 'abstract' as possible.
     </code>
@@ -458,10 +458,55 @@ namespace Sandbox
 </div>
 
 <div id="interview-classvsobj"> 
-  <button type="button" class="collapsible">+ What is the difference between a Class and an Object?<br/>
+  <button type="button" class="collapsible">+ Class vs Object?<br/>
     <code class="ex">
 Class = Definition of an object.
 Object = Instantiation of an class.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-kiss"> 
+  <button type="button" class="collapsible">+ KISS: Keep It Simple Stupid<br/>
+    <code class="ex">
+Simple names and simple implementations are better than complex or obscure ones.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-dry"> 
+  <button type="button" class="collapsible">+ DRY: Don't Repeat Yourself<br/>
+    <code class="ex">
+Code in small pieces and reuse the pieces.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-yagni"> 
+  <button type="button" class="collapsible">+ YAGNI: You Ain't Gonna Need It<br/>
+    <code class="ex">
+Don't include features "just in case".
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-tda"> 
+  <button type="button" class="collapsible">+ TDA: Tell Don't Ask<br/>
+    <code class="ex">
+Don't test an object's state and then make decisions about the methods to call.  
+Tell the object what you want to do and assume that it knows enough about its internal state to make the right decision.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1477,52 +1522,6 @@ namespace MyNamespace.Logic
 
 </div>
 </div>
-
-
-<div id="interview-kiss"> 
-  <button type="button" class="collapsible">+ What does KISS mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-dry"> 
-  <button type="button" class="collapsible">+ What does DRY mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-yagni"> 
-  <button type="button" class="collapsible">+ What does YAGNI mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-tda"> 
-  <button type="button" class="collapsible">+ What does TDA mean in OOP?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 
 <div id="strategy">    
 <button type="button" class="collapsible">+ What is the Strategy Pattern?   
