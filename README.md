@@ -1388,6 +1388,7 @@ Adopting IoC is a prerequisite of TDD.
     <code class="ex">
 Secondary responsibilities are injected into a class, to avoid direct dependencies or unnecessary encapsulation.
 Constructor Injection, Property Injection & Method Injection.
+
 A refinement of DI is the Strategy pattern (ability to select algorithm at runtime)
     </code>
 </button>   
@@ -1604,6 +1605,8 @@ namespace MyNamespace.Logic
 Allows algorithms to be selected at runtime.
 The strategy pattern is intended to provide a means to define a family of algorithms, encapsulate each one as an object, and make them interchangeable. 
 The strategy pattern lets the algorithms vary independently from clients that use them.
+
+This is of particular relevance for the Dependency Injection pattern.
     </code>
 </button>    
 <div class="content" style="display: none;" markdown="1">
@@ -1772,7 +1775,7 @@ namespace MyNamespace.Consumer
 Separate the construction of a complex object from its representation so that the same construction process can create different representations.
 Construct a complex object step by step and the final step returns the object. 
 Also, the process of constructing an object should be generic so that it can be used to create different representations of the same object.
-         
+
 Similar to Factory pattern, but more related to enabling clients to create different representations of the same object.
     </code>
   </button>   
@@ -1951,7 +1954,7 @@ class Program
   <button type="button" class="collapsible">+ Factory Pattern<br/>
     <code class="ex">
 Allows classes to be created without client needing to know how to do it.
-        
+
 Similar to Builder pattern, but more related to enabling clients to create multiple different, but related, objects.
     </code>
   </button>   
