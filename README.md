@@ -1772,6 +1772,7 @@ namespace MyNamespace.Consumer
 Separate the construction of a complex object from its representation so that the same construction process can create different representations.
 Construct a complex object step by step and the final step returns the object. 
 Also, the process of constructing an object should be generic so that it can be used to create different representations of the same object.
+Similar to Factory pattern, but more related to presenting a simplifed way for clients to create different representations of the same object.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1947,32 +1948,159 @@ class Program
  
 <div id="interview-builder"> 
   <button type="button" class="collapsible">+ Factory Pattern<br/>
-     <code class="ex">
-xxxxxxxx
+    <code class="ex">
+Allows classes to be created without client needing to know how to do it.
+Similar to Builder pattern, but more related to presenting a simplifed way for clients to create multiple different, but related, objects.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-(see page 160)
+There are four main components to the Factory Pattern:
 
-Blah de blah
+1. IProduct: the interface that defines the the objects that factory method creates.
+1. ConcreteProduct: the class that implements IProduct.
+1. AbstractCreator: the abstract class that declares the factory method (may also declare a default implementation).
+1. ConcreteCreator: the class that implements AbstractCreator and overrides the factory method to returns instances of ConcreteProduct.
 
 **Advantages**
 
-* More maintainable and readable
-* Less prone to errors as we have a method which returns the finally constructed object.
+* Enables loose coupling between components.
+* Easily extendable.
 
 **Disadvantages**
 
-* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+* Clients must know of the existence of different factories and must understand how the factories differ.
+* It increases the number of objects in the application. 
 
 **Applicable When...*
 
-This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+This pattern can be used whenever a client needs to create more than a single object.
 
 **Example**
 
 ```cs
+using System;
+using System.Collections.Generic;
+
+// Defines the product
+abstract class Vehicle
+{
+    public abstract string Marque { get; }
+    public abstract string Model { get; }
+}
+
+// Defines a specific type of product
+class Car : Vehicle
+{
+    private string _marque;
+    private string _model;
+
+    public Car(string marque, string model)
+    {
+        _marque = marque;
+        _model = model;
+    }
+
+    public override string Marque
+    {
+        get { return _marque; }
+    }
+
+    public override string Model
+    {
+        get { return _model; }
+    }
+}
+
+// Defines a specific type of product
+class MotorCycle : Vehicle
+{
+    private string _marque;
+    private string _model;
+
+    public MotorCycle(string marque, string model)
+    {
+        _marque = marque;
+        _model = model;
+    }
+
+    public override string Marque
+    {
+        get { return _marque; }
+    }
+
+    public override string Model
+    {
+        get { return _model; }
+    }
+}
+
+// Defines the factory method
+abstract class VehicleFactory
+{
+    public abstract Vehicle GetVehicle();
+}
+
+// Defines the factory for a specific product type
+class CarFactory : VehicleFactory
+{
+    private string _marque;
+    private string _model;
+
+    public CarFactory(string marque, string model)
+    {
+        _marque = marque;
+        _model = model;
+    }
+
+    public override Vehicle GetVehicle()
+    {
+        return new Car(_marque, _model);
+    }
+}
+
+// Defines the factory for a specific product type
+class MotorCycleFactory : VehicleFactory
+{
+    private string _marque;
+    private string _model;
+
+    public MotorCycleFactory(string marque, string model)
+    {
+        _marque = marque;
+        _model = model;
+    }
+
+    public override Vehicle GetVehicle()
+    {
+        return new MotorCycle(_marque, _model);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        VehicleFactory factory = null;
+        string vehicleType = "car";
+
+        switch (vehicleType.ToLower())
+        {
+            case "car":
+                factory = new CarFactory("Honda", "Civic");
+                break;
+            case "motorcycle":
+                factory = new MotorCycleFactory("Honda", "VFR800F");
+                break;
+            default:
+                break;
+        }
+
+        Vehicle vehicle = factory.GetVehicle();
+        Console.WriteLine("\nYour vehicle details are below : \n");
+        Console.WriteLine($"Marque: {vehicle.Marque}\nModel: {vehicle.Model}");
+    }
+}
 ```
 </div>
 </div>
