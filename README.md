@@ -238,6 +238,81 @@ namespace MyNamespace
 </div>
 
 <div id="stupid-strings">
+<button type="button" class="collapsible">+ Serialize to JSON</button>
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+using System;
+using System.Text.Json;
+
+public class Car
+{
+    public string Model
+    {
+        get { return "Volkswagon"; }
+    }
+
+    public string Make
+    {
+        get { return "Golf"; }
+    }
+
+    public CarDetails Details
+    {
+        get { return new CarDetails(); }
+    }
+}
+
+public class CarDetails
+{
+    public int Year
+    {
+        get { return 2017; }
+    }
+
+    public float Price
+    {
+        get { return 20000f; }
+    }
+
+    public Condition Condition
+    {
+        get { return Condition.EXCELLENT; }
+    }
+}
+
+public enum Condition
+{
+    EXCELLENT,
+    GOOD,
+    POOR
+}
+
+class Program
+{
+    static void Main()
+    {
+        Car car = new Car();
+        var options = new JsonSerializerOptions { WriteIndented = true };
+        Console.WriteLine(JsonSerializer.Serialize(car, typeof(Car), options));
+        
+        // Output:
+        // {
+        //     "Model": "Volkswagon",
+        //     "Make": "Golf",
+        //     "Details": {
+        //         "Year": 2017,
+        //         "Price": 20000,
+        //         "Condition": 0
+        //      }
+        // }
+    }
+}
+```
+</div>
+</div>
+
+<div id="stupid-strings">
 <button type="button" class="collapsible">+ Displaying Strings</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -1524,7 +1599,7 @@ namespace MyNamespace.Logic
 </div>
 
 <div id="strategy">    
-<button type="button" class="collapsible">+ What is the Strategy Pattern?   
+<button type="button" class="collapsible">+ Strategy Pattern   
     <code class="ex">
 Allows algorithms to be selected at runtime.
 The strategy pattern is intended to provide a means to define a family of algorithms, encapsulate each one as an object, and make them interchangeable. 
@@ -1532,8 +1607,27 @@ The strategy pattern lets the algorithms vary independently from clients that us
     </code>
 </button>    
 <div class="content" style="display: none;" markdown="1">
-    
-Building on the Dependency Injection example discussed above, an example of applying the Strategy pattern to this is the following:
+
+This pattern allows algorithms to be selected a runtime, so that algorithms can vary indepentently from the clients that use them.
+
+The Strategy pattern is of particular use when combined with the Dependency Injection pattern.
+
+**Advantages**
+
+* More maintainable and readable (avoids switch, if, else...).
+* Enables loose coupling between components.
+* Easily extendable.
+
+**Disadvantages**
+
+* Clients must know of the existence of different strategies and must understand how the strategies differ.
+* It increases the number of objects in the application. 
+
+**Applicable When...*
+
+This pattern is used when there are multiple similar classes that only differ in terms of how they execute the behavior.  As mentioned, this is of particular relevance when combined with the Dependency Injection pattern (where algorithms are "injected" into a client).
+
+**Example**
 
 ```cs
 using System;
@@ -1656,6 +1750,9 @@ namespace MyNamespace.Consumer
     {
         static void Main()
         {
+            // NOTE: clients must be aware of the existance of the different DbAccessTypes,
+            // which is a downside of the strategy pattern
+            
             CustomerService customerServiceREST = new CustomerService(DbAccessType.REST);
             Console.WriteLine(customerServiceREST.GetCustomerName(123));
             
@@ -1670,18 +1767,186 @@ namespace MyNamespace.Consumer
 </div>
 
 <div id="interview-builder"> 
-  <button type="button" class="collapsible">+ Builder Pattern?<br/>
+  <button type="button" class="collapsible">+ Builder Pattern<br/>
      <code class="ex">
-xxxxxxxx
+Separate the construction of a complex object from its representation so that the same construction process can create different representations.
+Construct a complex object step by step and the final step returns the object. 
+Also, the process of constructing an object should be generic so that it can be used to create different representations of the same object.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+There are four main components to the Builder Pattern:
+
+1. IBuilder: the interface which defines all the steps required to create a product.
+1. ConcreteBuilder: the class that implements IBuilder.
+1. Product: the class that defines the object to be created.
+1. Director: the class used to construct an object using the IBuilder interface.
+
+**Advantages**
+
+* More maintainable and readable
+* Less prone to errors as we have a method which returns the finally constructed object.
+
+**Disadvantages**
+
+* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+
+**Applicable When...*
+
+This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+
+**Example**
+
+```cs
+using System;
+using System.Text.Json;
+
+// Defines the steps required to create a Toy
+public interface IToyBuilder
+{
+    void SetModel();
+    void SetHead();
+    void SetLimbs();
+    void SetBody();
+    void SetLegs();
+    Toy GetToy();
+}
+
+// Defines the object to be created
+public class Toy
+{
+    public string Model
+    {
+        get;
+        set;
+    }
+    public string Head
+    {
+        get;
+        set;
+    }
+    public string Limbs
+    {
+        get;
+        set;
+    }
+    public string Body
+    {
+        get;
+        set;
+    }
+    public string Legs
+    {
+        get;
+        set;
+    }
+}
+
+// Builds Toy Model A
+public class ToyABuilder : IToyBuilder
+{
+    Toy toy = new Toy();
+    public void SetModel()
+    {
+        toy.Model = "TOY A";
+    }
+    public void SetHead()
+    {
+        toy.Head = "1";
+    }
+    public void SetLimbs()
+    {
+        toy.Limbs = "4";
+    }
+    public void SetBody()
+    {
+        toy.Body = "Plastic";
+    }
+    public void SetLegs()
+    {
+        toy.Legs = "2";
+    }
+    public Toy GetToy()
+    {
+        return toy;
+    }
+}
+
+// Builds Toy Model B
+public class ToyBBuilder : IToyBuilder
+{
+    Toy toy = new Toy();
+    public void SetModel()
+    {
+        toy.Model = "TOY B";
+    }
+    public void SetHead()
+    {
+        toy.Head = "1";
+    }
+    public void SetLimbs()
+    {
+        toy.Limbs = "4";
+    }
+    public void SetBody()
+    {
+        toy.Body = "Steel";
+    }
+    public void SetLegs()
+    {
+        toy.Legs = "4";
+    }
+    public Toy GetToy()
+    {
+        return toy;
+    }
+}
+
+// Manages the constructor of a Toy
+public class ToyCreator
+{
+    private IToyBuilder _toyBuilder;
+    public ToyCreator(IToyBuilder toyBuilder)
+    {
+        _toyBuilder = toyBuilder;
+    }
+    public void CreateToy()
+    {
+        _toyBuilder.SetModel();
+        _toyBuilder.SetHead();
+        _toyBuilder.SetLimbs();
+        _toyBuilder.SetBody();
+        _toyBuilder.SetLegs();
+    }
+    public Toy GetToy()
+    {
+        return _toyBuilder.GetToy();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("-------------------------------List Of Toys--------------------------------------------");
+        var toyACreator = new ToyCreator(new ToyABuilder());
+        toyACreator.CreateToy();
+        Toy toyA = toyACreator.GetToy();
+        Console.WriteLine(JsonSerializer.Serialize(toyA));
+
+        var toyBCreator = new ToyCreator(new ToyBBuilder());
+        toyBCreator.CreateToy();
+        Toy toyB = toyBCreator.GetToy();
+        Console.WriteLine(JsonSerializer.Serialize(toyB));
+    }
+}
+```
 </div>
 </div>
  
 <div id="interview-builder"> 
-  <button type="button" class="collapsible">+ Factory Pattern?<br/>
+  <button type="button" class="collapsible">+ Factory Pattern<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1690,22 +1955,60 @@ xxxxxxxx
 
 (see page 160)
 
+Blah de blah
+
+**Advantages**
+
+* More maintainable and readable
+* Less prone to errors as we have a method which returns the finally constructed object.
+
+**Disadvantages**
+
+* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+
+**Applicable When...*
+
+This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+
+**Example**
+
+```cs
+```
 </div>
 </div>
   
 <div id="interview-decorator"> 
-  <button type="button" class="collapsible">+ Decorator Pattern?<br/>
+  <button type="button" class="collapsible">+ Decorator Pattern<br/>
      <code class="ex">
 xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+Blah de blah
+
+**Advantages**
+
+* More maintainable and readable
+* Less prone to errors as we have a method which returns the finally constructed object.
+
+**Disadvantages**
+
+* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+
+**Applicable When...*
+
+This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+
+**Example**
+
+```cs
+```
 </div>
 </div>
 
 <div id="interview-chainofreponse"> 
-  <button type="button" class="collapsible">+ Chain of Responsibility Pattern?<br/>
+  <button type="button" class="collapsible">+ Chain of Responsibility Pattern<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1714,33 +2017,156 @@ xxxxxxxx
 
 (see page 158)
 
+Blah de blah
+
+**Advantages**
+
+* More maintainable and readable
+* Less prone to errors as we have a method which returns the finally constructed object.
+
+**Disadvantages**
+
+* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+
+**Applicable When...*
+
+This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+
+**Example**
+
+```cs
+```
 </div>
 </div>
 
 <div id="interview-adapter"> 
-  <button type="button" class="collapsible">+ Adapter Pattern?<br/>
+  <button type="button" class="collapsible">+ Adapter Pattern<br/>
      <code class="ex">
-xxxxxxxx
+Allows communication between two incompatible interfaces by acting as a bridge.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+This pattern involves a single class called adapter which is responsible for communication between two independent or incompatible interfaces.
+
+There are four main components to the Adapter Pattern:
+
+1. ITarget: the interface which defines the request the client wants to make.
+1. Adapter: the class that implements ITarget and inherits the Adaptee class, and translates the request for the incompatible code.
+1. Adaptee: the class contains the incompatible code.
+1. Client: the class which wants to access the incompatible code.
+
+**Advantages**
+
+* More maintainable and readable
+* Supports the Open-Closed Principle (can add new adapters without disturbing existing client logic)
+* Less prone to errors as we have a method which returns the finally constructed object.
+
+**Disadvantages**
+
+* Number of lines of code increases in the Adapter pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+
+**Applicable When...*
+
+This is typically used when a new system needs to communicate with an existing, independent system.
+
+**Example**
+
+```cs
+using System;
+using System.Collections.Generic;
+
+// Define the request that the Client wishes to make 
+public interface ITarget
+{
+    List<string> GetResponses();
+}
+
+// Translate the client's request to a form the adaptee understands
+public class Adapter : ITarget
+{
+    public List<string> GetResponses()
+    {
+        return new ResponsesStore().GetResponsesRecieved();
+    }
+}
+
+// The adaptee
+public class ResponsesStore
+{
+    public List<string> GetResponsesRecieved()
+    {
+        var responses = new List<string>() {
+            "This is a test response by user 1",
+            "This is a test response by user 2",
+            "This is a test response by user 3",
+            "This is a test response by user 4"
+        };
+        return responses;
+    }
+}
+
+// The client
+public class Client
+{
+    private ITarget _target;
+
+    public Client(ITarget target)
+    {
+        _target = target;
+    }
+
+    public List<string> GetResponsesRecieved()
+    {
+        return _target.GetResponses();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        var client = new Client(new Adapter());
+        var userResponses = client.GetResponsesRecieved();
+        userResponses.ForEach(p => Console.WriteLine(p));
+    }
+}
+```
 </div>
 </div>
  
 <div id="interview-iterator"> 
-  <button type="button" class="collapsible">+ Iterator Pattern?<br/>
+  <button type="button" class="collapsible">+ Iterator Pattern<br/>
      <code class="ex">
 xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+Blah de blah
+
+**Advantages**
+
+* More maintainable and readable
+* Less prone to errors as we have a method which returns the finally constructed object.
+
+**Disadvantages**
+
+* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+
+**Applicable When...*
+
+This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+
+**Example**
+
+```cs
+```
 </div>
 </div>
  
 <div id="interview-nullobject"> 
-  <button type="button" class="collapsible">+ NullObject Pattern?<br/>
+  <button type="button" class="collapsible">+ NullObject Pattern<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -1751,13 +2177,32 @@ xxxxxxxx
 </div>
  
 <div id="interview-visitor"> 
-  <button type="button" class="collapsible">+ Visitor Pattern?<br/>
+  <button type="button" class="collapsible">+ Visitor Pattern<br/>
      <code class="ex">
 xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+Blah de blah
+
+**Advantages**
+
+* More maintainable and readable
+* Less prone to errors as we have a method which returns the finally constructed object.
+
+**Disadvantages**
+
+* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+
+**Applicable When...*
+
+This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+
+**Example**
+
+```cs
+```
 </div>
 </div>
 
