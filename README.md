@@ -1625,7 +1625,7 @@ The Strategy pattern is of particular use when combined with the Dependency Inje
 * Clients must know of the existence of different strategies and must understand how the strategies differ.
 * It increases the number of objects in the application. 
 
-**Applicable When...*
+**Applicable When...***
 
 This pattern is used when there are multiple similar classes that only differ in terms of how they execute the behavior.  As mentioned, this is of particular relevance when combined with the Dependency Injection pattern (where algorithms are "injected" into a client).
 
@@ -1796,7 +1796,7 @@ There are four main components to the Builder Pattern:
 
 * Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
 
-**Applicable When...*
+**Applicable When...**
 
 This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
 
@@ -1976,7 +1976,7 @@ There are four main components to the Factory Pattern:
 * Clients must know of the existence of different factories and must understand how the factories differ.
 * It increases the number of objects in the application. 
 
-**Applicable When...*
+**Applicable When...**
 
 This pattern can be used whenever a client needs to create more than a single object.
 
@@ -2140,7 +2140,7 @@ There are four components to the Decorator Pattern:
 
 * Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
 
-**Applicable When...*
+**Applicable When...**
 
 This pattern is particularly of use in the following situations:
 
@@ -2464,7 +2464,7 @@ There are four components to the Chain of Responsibility Pattern:
 
 * ?
 
-**Applicable When...*
+**Applicable When...**
 
 Some cases when this pattern is useful:
 
@@ -2606,7 +2606,7 @@ There are four main components to the Adapter Pattern:
 
 * Number of lines of code increases in the Adapter pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
 
-**Applicable When...*
+**Applicable When...**
 
 This is typically used when a new system needs to communicate with an existing, independent system.
 
@@ -2694,7 +2694,7 @@ Blah de blah
 
 * Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
 
-**Applicable When...*
+**Applicable When...**
 
 This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
 
@@ -2735,7 +2735,7 @@ Blah de blah
 
 * Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
 
-**Applicable When...*
+**Applicable When...**
 
 This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
 
