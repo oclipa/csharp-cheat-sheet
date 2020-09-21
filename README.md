@@ -10,7 +10,6 @@
 <button type="button" id="toggle-all" value="none">Expand All Sections</button>
 
 &nbsp;
-
 -------------------------------------------------------------------------------------------------------
 
 <div id="stupid">
@@ -1783,10 +1782,10 @@ Similar to Factory pattern, but more related to enabling clients to create diffe
 
 There are four main components to the Builder Pattern:
 
-1. IBuilder: the interface which defines all the steps required to create a product.
-1. ConcreteBuilder: the class that implements IBuilder.
-1. Product: the class that defines the object to be created.
-1. Director: the class used to construct an object using the IBuilder interface.
+1. Builder: defines all the steps required to create a product.
+1. ConcreteBuilder: implements or extends Builder.
+1. Product: defines the object to be created.
+1. Director: constructs an object using the Builder implementation.
 
 **Advantages**
 
@@ -1962,10 +1961,10 @@ Similar to Builder pattern, but more related to enabling clients to create multi
 
 There are four main components to the Factory Pattern:
 
-1. IProduct: the interface that defines the the objects that factory method creates.
-1. ConcreteProduct: the class that implements IProduct.
-1. AbstractCreator: the abstract class that declares the factory method (may also declare a default implementation).
-1. ConcreteCreator: the class that implements AbstractCreator and overrides the factory method to returns instances of ConcreteProduct.
+1. Product: defines the the objects that factory method creates.
+1. ConcreteProduct: implements Product.
+1. Creator: declares the factory method (may also declare a default implementation).
+1. ConcreteCreator: implements or extends Creator and overrides the factory method to returns instances of ConcreteProduct.
 
 **Advantages**
 
@@ -2113,17 +2112,28 @@ class Program
 <div id="interview-decorator"> 
   <button type="button" class="collapsible">+ Decorator Pattern<br/>
      <code class="ex">
-xxxxxxxx
+An alternative to sub-classing for extending functionality dynamically.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-Blah de blah
+The idea of the Decorator Pattern is to wrap an existing class, add other functionality to it, then expose the same interface to the outside world. Because of this our decorator exactly looks like the original class to the people who are using it.
+
+It is used to extend or alter the functionality at runtime. It does this by wrapping them in an object of the decorator class without modifying the original object. So it can be called a wrapper pattern.
+
+There are four main components to the Decorator Pattern:
+
+1. Component: defines the existing API for the object that needs to be extended.
+1. ConcreteComponent: implements or extends Component and defines the object to be extended.
+1. Decorator: defines all of the functionalities that can be added to ConcreteComponent.
+1. ConcreteDecorator: implements ONE of the functionaties that need to be added to ConcreteComponent.
 
 **Advantages**
 
-* More maintainable and readable
-* Less prone to errors as we have a method which returns the finally constructed object.
+* Adds functionality to existing objects dynamically
+* Alternative to sub-classing
+* Flexible design
+* Supports Open-Closed Principle
 
 **Disadvantages**
 
@@ -2131,11 +2141,301 @@ Blah de blah
 
 **Applicable When...*
 
-This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+This pattern is particularly of use in the following situations:
 
-**Example**
+* Adding functionality to a legacy system.
+* Adding functionality to a control.
+* Adding functionality to sealed classes.
+
+**Example 1: Aggregating Features &amp; Cost**
 
 ```cs
+using System;
+
+// Component: defines the functionality  
+public interface ICar
+{
+    string GetDescription();
+    double GetCost();
+}
+
+// ConcreteComponent: defines an object that implements Component
+public class EconomyCar : ICar
+{
+    public string GetDescription()
+    {
+        return "Economy Car";
+    }
+
+    public double GetCost()
+    {
+        return 450000.0;
+    }
+}
+
+// ConcreteComponent: defines another object that implements Component
+public class DeluxeCar : ICar
+{
+    public string GetDescription()
+    {
+        return "Deluxe Car";
+    }
+
+    public double GetCost()
+    {
+        return 750000.0;
+    }
+}
+
+// ConcreteComponent: defines another object that implements Component
+public class LuxuryCar : ICar
+{
+    public string GetDescription()
+    {
+        return "Luxury Car";
+    }
+
+    public double GetCost()
+    {
+        return 1000000.0;
+    }
+}
+
+// Decorator: Defines the decorator wrapper than overrides or extends the Component functionality. 
+public abstract class CarAccessoriesDecorator : ICar
+{
+    private ICar _car;
+
+    public CarAccessoriesDecorator(ICar aCar)
+    {
+        this._car = aCar;
+    }
+
+    public virtual string GetDescription()
+    {
+        return this._car.GetDescription();
+    }
+
+    public virtual double GetCost()
+    {
+        return this._car.GetCost();
+    }
+}
+
+// ConcreteDecorator: Overrides the Component functionality. 
+public class BasicAccessories : CarAccessoriesDecorator
+{
+    public BasicAccessories(ICar aCar)
+        : base(aCar)
+    {
+    }
+
+    public override string GetDescription()
+    {
+        return base.GetDescription() + ", Basic Accessories Package";
+
+    }
+
+    public override double GetCost()
+    {
+        return base.GetCost() + 2000.0;
+    }
+}
+
+// ConcreteDecorator: Overrides the Component functionality.   
+public class AdvancedAccessories : CarAccessoriesDecorator
+{
+    public AdvancedAccessories(ICar aCar)
+        : base(aCar)
+    {
+    }
+
+    public override string GetDescription()
+    {
+        return base.GetDescription() + ", Advanced Accessories Package";
+    }
+
+    public override double GetCost()
+    {
+        return base.GetCost() + 10000.0;
+    }
+}
+
+// ConcreteDecorator: Overrides or extends the Component functionality.     
+public class SportsAccessories : CarAccessoriesDecorator
+{
+    public SportsAccessories(ICar aCar)
+        : base(aCar)
+    {
+    }
+
+    public override string GetDescription()
+    {
+        return base.GetDescription() + ", Sports Accessories Package";
+    }
+
+    public override double GetCost()
+    {
+        return base.GetCost() + 15000.0;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Create EcomomyCar instance.   
+        ICar objCar = new EconomyCar();
+
+        // Wrap EconomyCar instance with BasicAccessories.   
+        CarAccessoriesDecorator objAccessoriesDecorator = new BasicAccessories(objCar);
+
+        // Wrap EconomyCar instance with AdvancedAccessories instance.   
+        objAccessoriesDecorator = new AdvancedAccessories(objAccessoriesDecorator);
+
+        Console.WriteLine("Car Details: " + objAccessoriesDecorator.GetDescription());
+        Console.WriteLine("Total Price: " + objAccessoriesDecorator.GetCost());
+    }
+}
+```
+
+**Example 2: Maintaining an Audit Trail**
+
+```cs
+using System;
+using System.Collections.Generic;
+
+// Component: defines the base functionality  
+abstract class RestaurantDish
+{
+    public abstract void Display();
+}
+
+// ConcreteComponent: defines an object that implements Component
+class FreshSalad : RestaurantDish
+{
+    private string _greens;
+    private string _cheese; //I am going to use this pun everywhere I can
+    private string _dressing;
+
+    public FreshSalad(string greens, string cheese, string dressing)
+    {
+        _greens = greens;
+        _cheese = cheese;
+        _dressing = dressing;
+    }
+
+    public override void Display()
+    {
+        Console.WriteLine("\nFresh Salad:");
+        Console.WriteLine(" Greens: {0}", _greens);
+        Console.WriteLine(" Cheese: {0}", _cheese);
+        Console.WriteLine(" Dressing: {0}", _dressing);
+    }
+}
+
+// ConcreteComponent: defines another object that implements Component
+class Pasta : RestaurantDish
+{
+    private string _pastaType;
+    private string _sauce;
+
+    public Pasta(string pastaType, string sauce)
+    {
+        _pastaType = pastaType;
+        _sauce = sauce;
+    }
+
+    public override void Display()
+    {
+        Console.WriteLine("\nClassic Pasta:");
+        Console.WriteLine(" Pasta: {0}", _pastaType);
+        Console.WriteLine(" Sauce: {0}", _sauce);
+    }
+}
+
+// Decorator: Defines the decorator wrapper than overrides or extends the Component functionality. 
+abstract class Decorator : RestaurantDish
+{
+    protected RestaurantDish _dish;
+
+    public Decorator(RestaurantDish dish)
+    {
+        _dish = dish;
+    }
+
+    public override void Display()
+    {
+        _dish.Display();
+    }
+}
+
+// ConcreteDecorator: Extends the Component functionality.   
+class Available : Decorator
+{
+    public int NumAvailable { get; set; } //How many can we make?
+    protected List<string> customers = new List<string>();
+    public Available(RestaurantDish dish, int numAvailable) : base(dish)
+    {
+        NumAvailable = numAvailable;
+    }
+
+    public void OrderItem(string name)
+    {
+        if (NumAvailable > 0)
+        {
+            customers.Add(name);
+            NumAvailable--;
+        }
+        else
+        {
+            Console.WriteLine("\nNot enough ingredients for " + name + "'s order!");
+        }
+    }
+
+    public override void Display()
+    {
+        base.Display();
+
+        foreach (var customer in customers)
+        {
+            Console.WriteLine("Ordered by " + customer);
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        //Step 1: Define some dishes, and how many of each we can make
+        FreshSalad caesarSalad = new FreshSalad("Crisp romaine lettuce", "Freshly-grated Parmesan cheese", "House-made Caesar dressing");
+        caesarSalad.Display();
+
+        Pasta fettuccineAlfredo = new Pasta("Fresh-made daily pasta", "Creamly garlic alfredo sauce");
+        fettuccineAlfredo.Display();
+
+        Console.WriteLine("\nMaking these dishes available.");
+
+        //Step 2: Decorate the dishes; now if we attempt to order them once we're out of ingredients, we can notify the customer
+        Available caesarAvailable = new Available(caesarSalad, 3);
+        Available alfredoAvailable = new Available(fettuccineAlfredo, 4);
+
+        //Step 3: Order a bunch of dishes
+        caesarAvailable.OrderItem("John");
+        caesarAvailable.OrderItem("Sally");
+        caesarAvailable.OrderItem("Manush");
+
+        alfredoAvailable.OrderItem("Sally");
+        alfredoAvailable.OrderItem("Francis");
+        alfredoAvailable.OrderItem("Venkat");
+        alfredoAvailable.OrderItem("Diana");
+        alfredoAvailable.OrderItem("Dennis"); //There won't be enough for this order.
+
+        caesarAvailable.Display();
+        alfredoAvailable.Display();
+    }
+}
 ```
 </div>
 </div>
@@ -2184,10 +2484,10 @@ This pattern involves a single class called adapter which is responsible for com
 
 There are four main components to the Adapter Pattern:
 
-1. ITarget: the interface which defines the request the client wants to make.
-1. Adapter: the class that implements ITarget and inherits the Adaptee class, and translates the request for the incompatible code.
-1. Adaptee: the class contains the incompatible code.
-1. Client: the class which wants to access the incompatible code.
+1. ITarget: defines the request the client wants to make.
+1. Adapter: implements ITarget and inherits the Adaptee class, and translates the request for the incompatible code.
+1. Adaptee: contains the incompatible code.
+1. Client: wants to access the incompatible code.
 
 **Advantages**
 
