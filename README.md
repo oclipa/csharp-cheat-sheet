@@ -1629,7 +1629,7 @@ The Strategy pattern is of particular use when combined with the Dependency Inje
 
 This pattern is used when there are multiple similar classes that only differ in terms of how they execute the behavior.  As mentioned, this is of particular relevance when combined with the Dependency Injection pattern (where algorithms are "injected" into a client).
 
-**Example**
+**Example: Accessing a Database**
 
 ```cs
 using System;
@@ -1800,7 +1800,7 @@ There are four main components to the Builder Pattern:
 
 This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
 
-**Example**
+**Example: Creating Toys**
 
 ```cs
 using System;
@@ -1980,7 +1980,7 @@ There are four main components to the Factory Pattern:
 
 This pattern can be used whenever a client needs to create more than a single object.
 
-**Example**
+**Example: Creating Vehicles**
 
 ```cs
 using System;
@@ -2113,6 +2113,7 @@ class Program
   <button type="button" class="collapsible">+ Decorator Pattern<br/>
      <code class="ex">
 An alternative to sub-classing for extending functionality dynamically.
+Wrap components to override or extend functionality.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2121,7 +2122,7 @@ The idea of the Decorator Pattern is to wrap an existing class, add other functi
 
 It is used to extend or alter the functionality at runtime. It does this by wrapping them in an object of the decorator class without modifying the original object. So it can be called a wrapper pattern.
 
-There are four main components to the Decorator Pattern:
+There are four components to the Decorator Pattern:
 
 1. Component: defines the existing API for the object that needs to be extended.
 1. ConcreteComponent: implements or extends Component and defines the object to be extended.
@@ -2443,31 +2444,137 @@ class Program
 <div id="interview-chainofreponse"> 
   <button type="button" class="collapsible">+ Chain of Responsibility Pattern<br/>
      <code class="ex">
-xxxxxxxx
+Used when one of many callers might take action on an object (e.g. a chain of approvals).
+Each actor is represented by a handler, for which there is a successor.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-(see page 158)
+There are four components to the Chain of Responsibility Pattern:
 
-Blah de blah
+1. Client: generates the request and passes it to the first Handler.
+1. Handler: Defines the actor and includes a member that holds the next Handler. 
+1. ConcreteHandlerA/ConcreteHandlerB: each Handler implementation contains functionality to handle some request and then pass responsibility to the next in the chain.
 
 **Advantages**
 
-* More maintainable and readable
-* Less prone to errors as we have a method which returns the finally constructed object.
+* Avoids coupling the sender to the receiver.
 
 **Disadvantages**
 
-* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+* ?
 
 **Applicable When...*
 
-This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+Some cases when this pattern is useful:
 
-**Example**
+1. Seeking approvals (Team Lead &gt; Project Lead &gt; Delivery Manager &gt; Director)
+1. Triaging issues (Level &gt; Level 1 &gt; Level 2 &gt; Level 3)
+
+Try/catch statements are also an example of this.
+
+**Example: ATM Machine**
 
 ```cs
+using System;
+
+public abstract class Handler
+{
+    public Handler nextHandler;
+
+    public void NextHandler(Handler moneyHandler)
+    {
+        this.nextHandler = moneyHandler;
+    }
+
+    public abstract void DispatchMoney(long requestedAmount);
+
+    protected void outputMoney(long requestedAmount, long divisor, string handlerName)
+    {
+        long numberofNotesToBeDispatched = requestedAmount / divisor;
+
+        if (numberofNotesToBeDispatched > 0)
+        {
+            string notes = numberofNotesToBeDispatched > 1 ? "notes are" : "note is";
+            Console.WriteLine($"{numberofNotesToBeDispatched} x {divisor} {notes} dispatched by {handlerName}");
+        }
+
+        long pendingAmountToBeProcessed = requestedAmount % divisor;
+
+        if (pendingAmountToBeProcessed > 0)
+            nextHandler.DispatchMoney(pendingAmountToBeProcessed);
+    }
+}
+
+public class TwoThousandHandler : Handler
+{
+    public override void DispatchMoney(long requestedAmount)
+    {
+        outputMoney(requestedAmount, 2000, "TwoThousandHandler");
+    }
+}
+
+public class FiveHundredHandler : Handler
+{
+    public override void DispatchMoney(long requestedAmount)
+    {
+        outputMoney(requestedAmount, 500, "FiveHundredHandler");
+    }
+}
+
+public class TwoHundredHandler : Handler
+{
+    public override void DispatchMoney(long requestedAmount)
+    {
+        outputMoney(requestedAmount, 200, "TwoHundredHandler");
+    }
+}
+
+public class HundredHandler : Handler
+{
+    public override void DispatchMoney(long requestedAmount)
+    {
+        outputMoney(requestedAmount, 100, "HundredHandler");
+    }
+}
+
+public class ATM
+{
+    private TwoThousandHandler twoThousandHandler = new TwoThousandHandler();
+    private FiveHundredHandler fiveHundredHandler = new FiveHundredHandler();
+    private TwoHundredHandler twoHundredHandler = new TwoHundredHandler();
+    private HundredHandler hundredHandler = new HundredHandler();
+
+    public ATM()
+    {
+        // Prepare the chain of Handlers
+        twoThousandHandler.NextHandler(fiveHundredHandler);
+        fiveHundredHandler.NextHandler(twoHundredHandler);
+        twoHundredHandler.NextHandler(hundredHandler);
+    }
+
+    public void Withdraw(long requestedAmount)
+    {
+        twoThousandHandler.DispatchMoney(requestedAmount);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        ATM atm = new ATM();
+
+        Console.WriteLine("\n Requested Amount 4600");
+        atm.Withdraw(4600);
+
+        Console.WriteLine("\n Requested Amount 1900");
+        atm.Withdraw(1900);
+
+        Console.WriteLine("\n Requested Amount 600");
+        atm.Withdraw(600);
+    }
+}
 ```
 </div>
 </div>
