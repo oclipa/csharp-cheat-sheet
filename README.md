@@ -377,7 +377,9 @@ Heap: dynamic memory; objects are garbage collected on occasion.
 
 <div id="interview-encapsulation"> 
   <button type="button" class="collapsible">+ Encapsulation<br/>
-    <code class="ex">data + behaviour = class</code>
+    <code class="ex">
+data + behaviour = class
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
