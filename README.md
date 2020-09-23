@@ -13,7 +13,7 @@
 -------------------------------------------------------------------------------------------------------
 
 <div id="stupid">
-<button type="button" class="collapsible">+ Stupid Simple Stuff That I Keep Forgetting</button>
+<button type="button" class="collapsible">+ Stupid, Simple Stuff I Keep Forgetting</button>
 <div class="content" style="display: none;" markdown="1">
 
 <div id="stupid-class">
@@ -237,6 +237,24 @@ namespace MyNamespace
 </div>
 
 <div id="stupid-strings">
+<button type="button" class="collapsible">+ Displaying Strings</button>
+<div class="content" style="display: none;" markdown="1">
+
+String Formatter:
+
+```cs
+Console.WriteLine(string.Format("{0} & {1}", var1, var2));
+```
+
+String Interpolation:
+
+```cs
+Console.WriteLine($"{var1} & {var2}");
+```
+</div>
+</div>
+
+<div id="stupid-strings">
 <button type="button" class="collapsible">+ Serialize to JSON</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -307,24 +325,6 @@ class Program
         // }
     }
 }
-```
-</div>
-</div>
-
-<div id="stupid-strings">
-<button type="button" class="collapsible">+ Displaying Strings</button>
-<div class="content" style="display: none;" markdown="1">
-
-String Formatter:
-
-```cs
-Console.WriteLine(string.Format("{0} & {1}", var1, var2));
-```
-
-String Interpolation:
-
-```cs
-Console.WriteLine($"{var1} & {var2}");
 ```
 </div>
 </div>
@@ -2678,71 +2678,653 @@ class Program
 <div id="interview-iterator"> 
   <button type="button" class="collapsible">+ Iterator Pattern<br/>
      <code class="ex">
-xxxxxxxx
+Iterator Design Pattern provides a way to access the elements of a collection object in a sequential manner without knowing its underlying structure.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-Blah de blah
+The basic Iterator API allows a client to try to get the next object in a collection.
+
+There are five components to this pattern:
+
+1. Client: the class that contains a collection of objects, each of which can be retrieved using a Next operation.
+1. Iterator: defines operators for accessing the collection elements in sequence.
+1. ConcreteIterator: implements or extends Iterator.
+1. Aggregate: defines an operation to create an Iterator.
+1. ConcreteAggregate: implements of extends Aggregate.
+
+IEnumerable implementations are an example of this.
 
 **Advantages**
 
-* More maintainable and readable
-* Less prone to errors as we have a method which returns the finally constructed object.
+* Client doesn't need to worry about implementation details of accessing a collection.
 
 **Disadvantages**
 
-* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+* ????
 
 **Applicable When...**
 
-This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+1. Allows accessing the elements of a collection object in a sequential manner without knowing its underlying structure.
+1. Multiple or concurrent iterations are required over collections elements.
+1. Provides a uniform interface for accessing the collection elements.
 
 **Example**
 
 ```cs
+using System;
+using System.Collections;
+
+// the client wishes to access a collection of objects
+public class CollectionProcessor
+{
+    private IterableCollection collection;
+
+    public CollectionProcessor()
+    {
+        // client has access to a collection
+        this.collection = new IterableCollection();
+        this.collection.Add("One");
+        this.collection.Add("Two");
+        this.collection.Add("Three");
+        this.collection.Add("Four");
+        this.collection.Add("Five");
+    }
+
+    // client iterates over contents of collection
+    public void ProcessCollection()
+    {
+        Iterator iterator = collection.CreateIterator();
+        while (iterator.Next())
+        {
+            string item = (string)iterator.Current;
+            Console.WriteLine(item);
+        }
+    }
+}
+
+// defines a collection that provides an Iterator to itself
+public interface IIterableCollection
+{
+    Iterator CreateIterator();
+}
+
+// a collection that provides an Iterator to itself
+public class IterableCollection : IIterableCollection
+{
+    private ArrayList items = new ArrayList();
+
+    public Iterator CreateIterator()
+    {
+        return new ConcreteIterator(this);
+    }
+
+    public object this[int index]
+    {
+        get { return items[index]; }
+    }
+
+    public int Count
+    {
+        get { return items.Count; }
+    }
+
+    public void Add(object o)
+    {
+        items.Add(o);
+    }
+}
+
+// defines operators for accessing elements of a collection
+public interface Iterator
+{
+    object Current { get; }
+    bool Next();
+}
+
+// provides operators for accessing elements of a collection
+public class ConcreteIterator : Iterator
+{
+    private IterableCollection collection;
+    int index;
+
+    public ConcreteIterator(IterableCollection collection)
+    {
+        this.collection = collection;
+        index = -1;
+    }
+
+    public bool Next()
+    {
+        index++;
+        return index < collection.Count;
+    }
+
+    public object Current
+    {
+        get
+        {
+            if (index < collection.Count)
+                return collection[index];
+            else
+                throw new InvalidOperationException();
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        CollectionProcessor client = new CollectionProcessor();
+        client.ProcessCollection();
+    }
+}
 ```
 </div>
 </div>
  
 <div id="interview-nullobject"> 
-  <button type="button" class="collapsible">+ NullObject Pattern<br/>
+  <button type="button" class="collapsible">+ Null Object Pattern<br/>
      <code class="ex">
-xxxxxxxx
+Provides a non-functional object in place of a null reference and therefore allows methods to be called on it.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+**Advantages**
+
+* Helps avoids null checks, which leads to cleaner code.
+
+**Disadvantages**
+
+* Developers can be unaware the pattern is being used, which can lead to unnecesary null checks.
+
+**Applicable When...**
+
+The Null Pattern is helpful in situations where we want to return an object of the expected type, yet do nothing.
+
+**Example**
+
+```cs
+using System;
+
+public interface IMobile
+{
+    void TurnOn();
+    void TurnOff();
+}
+
+public abstract class AbstractPhone : IMobile
+{
+    protected string phoneType;
+
+    public void TurnOff()
+    {
+        Console.WriteLine($"{phoneType} Turned OFF!");
+    }
+
+    public void TurnOn()
+    {
+        Console.WriteLine($"{phoneType} Turned ON!");
+    }
+}
+
+public class SamsungGalaxy : AbstractPhone
+{
+    public SamsungGalaxy() { this.phoneType = "Samsung Galaxy"; }
+}
+
+public class SonyXperia : AbstractPhone
+{
+    public SonyXperia() { this.phoneType = "Sony Xperia"; }
+}
+
+public class AppleIPhone : AbstractPhone
+{
+    public AppleIPhone() { this.phoneType = "Apple iPhone"; }
+}
+
+//our null object class implementing IMobile interface as a singleton  
+public class NullMobile : IMobile
+{
+    private static NullMobile _instance;
+    private NullMobile()
+    { }
+
+    public static NullMobile Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new NullMobile();
+            return _instance;
+        }
+    }
+
+    //do nothing methods  
+    public void TurnOff()
+    { }
+
+    public void TurnOn()
+    { }
+}
+
+public class MobileRepository
+{
+    public IMobile GetMobileByName(string mobileName)
+    {
+        IMobile mobile = NullMobile.Instance;
+        switch (mobileName)
+        {
+            case "sony":
+                mobile = new SonyXperia();
+                break;
+
+            case "apple":
+                mobile = new AppleIPhone();
+                break;
+
+            case "samsung":
+                mobile = new SamsungGalaxy();
+                break;
+        }
+        return mobile;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        MobileRepository repo = new MobileRepository();
+
+        repo.GetMobileByName("sony").TurnOn();
+        repo.GetMobileByName("sony").TurnOff();
+
+        repo.GetMobileByName("windows").TurnOn();
+        repo.GetMobileByName("windows").TurnOff();
+    }
+}
+```
 </div>
 </div>
  
 <div id="interview-visitor"> 
   <button type="button" class="collapsible">+ Visitor Pattern<br/>
      <code class="ex">
-xxxxxxxx
+Create and perform new operations on a set of objects without changing the object structure or classes.
+Used to separate business logic and algorithms from an object's data structure.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-Blah de blah
+The Visitor Pattern is used to separate business logic and algorithms from an object's data structure.  This separation means that new logic can be added without changing the data structure, and vice versa.
+
+The pattern has several components:
+
+1. Client: has access to the ObjectStructure objects and can instruct them to accept a Visitor to perform the appropriate operations.
+1. ObjectStructure: holds all of the Elements that can be used by visitors. 
+1. Element: defines a method that can accept a Visitor.
+1. ConcreteElement: the object that accepts visits by a Visitor.
+1. Visitor: defines a method that can visit (perform an action) on an Element.
+1. ConcreteVisitor: the object that contains the logic for the action to be performed on an Element.
+
+
+At first glance the pattern can appear complex, however at its core it enables the following:
+
+1. A visitor object contains logic to be applied to ("visited upon") some data.
+1. A data object indicates that it can accept a visit from a visitor object.
+1. The visitor visits the data objects that can accept it and applies the logic to the data objects.
 
 **Advantages**
 
-* More maintainable and readable
-* Less prone to errors as we have a method which returns the finally constructed object.
+* Loose coupling and the addition of new operations without changing the existing structure.
 
 **Disadvantages**
 
-* Number of lines of code increases in builder pattern, but it makes sense as the effort pays off in terms of maintainability and readability.
+* Can be complex and can have narrow applicability.
 
 **Applicable When...**
 
-This pattern is chiefly of use when a constructor would otherwise have many arguments (particularly if some are optional).
+This pattern is of particularly use in the following scenarios:
+1. There are many unrelated operations that could be performed on an object.
+1. New operations need to be performed on an object without changing it.
+1. Operations need to be performed on the concrete class rather than on its abstraction.
 
 **Example**
 
 ```cs
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        // initialize a list of employees (elements)
+        Employees e = new Employees();
+        e.Attach(new Clerk());
+        e.Attach(new Director());
+        e.Attach(new President());
+
+        // apply logic (visitors) to employees
+        e.Accept(new IncomeVisitor());
+        e.Accept(new VacationVisitor());
+    }
+}
+
+#region Visitor Implementation
+
+// defines a method that can visit (perform an action) on an element. 
+interface IVisitor
+{
+    void Visit(Element element);
+}
+
+// a concrete visitor that can raise an employee's income
+class IncomeVisitor : IVisitor
+{
+    public void Visit(Element element)
+    {
+        Employee employee = element as Employee;
+
+        // Provide 10% pay raise
+        employee.Income *= 1.10;
+        Console.WriteLine("{0} {1}'s new income: {2:C}",
+          employee.GetType().Name, employee.Name,
+          employee.Income);
+    }
+}
+
+// a concrete visitor that can raise an employee's vacation allowance
+class VacationVisitor : IVisitor
+{
+    public void Visit(Element element)
+    {
+        Employee employee = element as Employee;
+
+        // Provide 3 extra vacation days
+        employee.VacationDays += 3;
+        Console.WriteLine("{0} {1}'s new vacation days: {2}",
+          employee.GetType().Name, employee.Name,
+          employee.VacationDays);
+    }
+}
+
+#endregion
+
+#region Element Implementation
+
+// defines a method that accepts logic to be visited upon on an element. 
+abstract class Element
+{
+    public abstract void Accept(IVisitor visitor);
+}
+
+// a concrete element that contains details about an employee
+// and can be acted upon by a visitor
+class Employee : Element
+{
+    private string _name;
+    private double _income;
+    private int _vacationDays;
+
+    // Constructor
+    public Employee(string name, double income,
+      int vacationDays)
+    {
+        this._name = name;
+        this._income = income;
+        this._vacationDays = vacationDays;
+    }
+
+    // Gets or sets the name
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; }
+    }
+
+    // Gets or sets income
+    public double Income
+    {
+        get { return _income; }
+        set { _income = value; }
+    }
+
+    // Gets or sets number of vacation days
+    public int VacationDays
+    {
+        get { return _vacationDays; }
+        set { _vacationDays = value; }
+    }
+
+    public override void Accept(IVisitor visitor)
+    {
+        visitor.Visit(this);
+    }
+}
+
+// Three employee types
+class Clerk : Employee
+{
+    public Clerk()
+      : base("Hank", 25000.0, 14)
+    {
+    }
+}
+
+class Director : Employee
+{
+    public Director()
+      : base("Elly", 35000.0, 16)
+    {
+    }
+}
+
+class President : Employee
+{
+    public President()
+      : base("Dick", 45000.0, 21)
+    {
+    }
+}
+
+#endregion
+
+// the object that maintains data about employees (elements)
+class Employees
+{
+    private List<Employee> _employees = new List<Employee>();
+
+    public void Attach(Employee employee)
+    {
+        _employees.Add(employee);
+    }
+
+    public void Detach(Employee employee)
+    {
+        _employees.Remove(employee);
+    }
+
+    public void Accept(IVisitor visitor)
+    {
+        foreach (Employee e in _employees)
+        {
+            e.Accept(visitor);
+        }
+        Console.WriteLine();
+    }
+}
 ```
+</div>
+</div>
+
+<div id="interview-visitor"> 
+  <button type="button" class="collapsible">+ Strategy vs Visitor Pattern<br/>
+     <code class="ex">
+Strategy: one algorithm per logic object; select which logic object at runtime.
+Visitor: multiple algorithms encapsulated in a single logic object; API is set at compile time (?).
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+The following is based on the following discussions:
+  * [http://leedrickdotnet.blogspot.com/2007/01/strategy-pattern-vs-visitor-pattern.html](http://leedrickdotnet.blogspot.com/2007/01/strategy-pattern-vs-visitor-pattern.html)
+  * [https://stackoverflow.com/questions/8665295/what-is-the-difference-between-strategy-pattern-and-visitor-pattern](https://stackoverflow.com/questions/8665295/what-is-the-difference-between-strategy-pattern-and-visitor-pattern)
+
+At first glance, there is a lot of similarity between the Strategy Pattern and the Visitor Pattern.  In both cases, logic to act on a data structure is injected into the data structure, so there is a clean separation between logic and data.  However, a significant difference exists:
+
+* A Visitor implementation needs to be aware of the different types of elements it might encounter in a data structure.  Adding functionality to a Visitor implementation normally means an API change, which means this cannot be changed after compile-time.
+* A Strategy implementation need only be aware of a specific element type within the data structure.  Adding functionality to a Strategy implementation does not normally require an API change, which means this can be done at runtime (which is the exact point of the Strategy Pattern).
+
+By way of example, see the following:
+
+```cs
+using System;
+
+// for the sake of demonstration, ICar can accept
+// either an IRepairStrategy or an IRepairVisitor
+public interface ICar
+{
+    String getName();
+    
+    void repair(IRepairStrategy repairStrategy);
+    
+    // This is the Visitor Pattern Accept method
+    void repair(IRepairVisitor repairVisitor);
+}
+
+// specific implementation of ICar
+public class Porsche : ICar
+{
+    public String getName()
+    {
+        return "Porsche";
+    }
+
+    public void repair(IRepairStrategy repairStrategy)
+    {
+        repairStrategy.repair(this);
+    }
+
+    // This is the Visitor Pattern Accept method
+    public void repair(IRepairVisitor repairVisitor)
+    {
+        repairVisitor.repair(this);
+    }
+}
+
+// specific implementation of ICar
+public class Ferrari : ICar
+{
+    public String getName()
+    {
+        return "Ferrari";
+    }
+
+    public void repair(IRepairStrategy repairStrategy)
+    {
+        repairStrategy.repair(this);
+    }
+
+    // This is the Visitor Pattern Accept method
+    public void repair(IRepairVisitor repairVisitor)
+    {
+        repairVisitor.repair(this);
+    }
+}
+
+// IRepairStrategy provides a single, generic method 
+public interface IRepairStrategy
+{
+    // This method is a Strategy Pattern Compose method
+    void repair(ICar car);
+}
+
+// IRepairStrategy provides overloads, one for each possible implementation of ICar 
+public interface IRepairVisitor
+{
+    // Each of these methods is a Visitor Pattern Visit method
+    void repair(ICar car);
+    void repair(Porsche car);
+    void repair(Ferrari car);
+}
+
+// An IRepairStrategy specifically for a Porsche
+public class PorscheRepairStrategy : IRepairStrategy
+{
+    // This method is the Strategy Pattern Compose method
+    public void repair(ICar car)
+    {
+        Console.WriteLine("Repairing " + car.getName() + " with the Porsche repair strategy");
+    }
+}
+
+// An IRepairStrategy specifically for a Ferrari
+public class FerrariRepairStrategy : IRepairStrategy
+{
+    // This method is the Strategy Pattern Compose method
+    public void repair(ICar car)
+    {
+        Console.WriteLine("Repairing " + car.getName() + " with the Ferrari repair strategy");
+    }
+}
+
+// A single, generic RepairVisitor that can be applied to every (known) implementation of ICar
+public class RepairVisitor : IRepairVisitor
+{
+    // Each of these methods is a Visitor Pattern Visit method
+
+    public void repair(ICar car)
+    {
+        Console.WriteLine("Applying a very generic and abstract repair");
+    }
+
+    public void repair(Porsche car)
+    {
+        Console.WriteLine("Applying a very specific Porsche repair");
+    }
+
+    public void repair(Ferrari car)
+    {
+        Console.WriteLine("Applying a very specific Ferrari repair");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        ICar porsche = new Porsche();
+        porsche.repair(new PorscheRepairStrategy()); //Repairing Porsche with the porsche repair strategy
+        porsche.repair(new RepairVisitor()); //Applying a very specific Porsche repair
+    }
+}
+```
+
+As can be seen, there is a choice: do we implement a single `RepairVisitor`, which must be handle all of the instances of `ICar`, or do we implement multiple instances of `IRepairStrategy`, one for each instance of `ICar`?
+
+**Use the Visitor Pattern When:**
+  * An object structure will not change often, but operations across them will.
+  * You have specific, related functionality for each concrete class, and wish to encapsulate it.
+  * An operation requires data that the object shouldn't know about.
+  * You wish to maintain state within operations across multiple objects.
+  
+Example:
+  * An application may change its "Skin" which will alter the way controls are drawn. The code for deciding how controls are drawn could be encapsulated in Visitor implementations. Each control will require a separate operation.
+
+**Use the Strategy Pattern When:**
+  * A few algorithms will be used by many different classes.
+  * Different algorithms may be used by a class at different times.
+  * An operation requires data that the object shouldn't know about.
+  * Classes are using multiple conditional statements. These can be moved to an implementation of the Strategy class.
+  * An object structure is likely to change often.
+  
+Example:
+  * Different methods of calculating interest and fees will be used by clients of a bank. These algorithms can be encapsulated in Strategy implementations and associated with individual clients at runtime.
+
 </div>
 </div>
 
