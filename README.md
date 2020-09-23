@@ -1616,6 +1616,8 @@ This pattern allows algorithms to be selected a runtime, so that algorithms can 
 
 The Strategy pattern is of particular use when combined with the Dependency Injection pattern.
 
+<img src="assets/images/strategy-design-pattern.png" />
+
 **Advantages**
 
 * More maintainable and readable (avoids switch, if, else...).
@@ -1789,6 +1791,8 @@ There are four main components to the Builder Pattern:
 1. Product: defines the object to be created.
 1. Director: constructs an object using the Builder implementation.
 
+<img src="assets/images/builder.png" />
+
 **Advantages**
 
 * More maintainable and readable
@@ -1952,7 +1956,7 @@ class Program
 </div>
  
 <div id="interview-builder"> 
-  <button type="button" class="collapsible">+ Factory Pattern<br/>
+  <button type="button" class="collapsible">+ Factory Method Pattern<br/>
     <code class="ex">
 Allows classes to be created without client needing to know how to do it.
 
@@ -1961,12 +1965,14 @@ Similar to Builder pattern, but more related to enabling clients to create multi
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-There are four main components to the Factory Pattern:
+There are four main components to the Factory Method Pattern:
 
 1. Product: defines the the objects that factory method creates.
 1. ConcreteProduct: implements Product.
 1. Creator: declares the factory method (may also declare a default implementation).
 1. ConcreteCreator: implements or extends Creator and overrides the factory method to returns instances of ConcreteProduct.
+
+<img src="assets/images/factory.png" />
 
 **Advantages**
 
@@ -2130,6 +2136,8 @@ There are four components to the Decorator Pattern:
 1. ConcreteComponent: implements or extends Component and defines the object to be extended.
 1. Decorator: defines all of the functionalities that can be added to ConcreteComponent.
 1. ConcreteDecorator: implements ONE of the functionaties that need to be added to ConcreteComponent.
+
+<img src="assets/images/decorator.png" />
 
 **Advantages**
 
@@ -2458,6 +2466,8 @@ There are four components to the Chain of Responsibility Pattern:
 1. Handler: Defines the actor and includes a member that holds the next Handler. 
 1. ConcreteHandlerA/ConcreteHandlerB: each Handler implementation contains functionality to handle some request and then pass responsibility to the next in the chain.
 
+<img src="assets/images/chainofresponsibility.png" />
+
 **Advantages**
 
 * Avoids coupling the sender to the receiver.
@@ -2598,6 +2608,8 @@ There are four main components to the Adapter Pattern:
 1. Adaptee: contains the incompatible code.
 1. Client: wants to access the incompatible code.
 
+<img src="assets/images/adapter.png" />
+
 **Advantages**
 
 * More maintainable and readable
@@ -2694,6 +2706,8 @@ There are five components to this pattern:
 1. ConcreteIterator: implements or extends Iterator.
 1. Aggregate: defines an operation to create an Iterator.
 1. ConcreteAggregate: implements of extends Aggregate.
+
+<img src="assets/images/iterator-design-pattern.png" />
 
 IEnumerable implementations are an example of this.
 
@@ -2972,6 +2986,7 @@ The pattern has several components:
 1. Visitor: defines a method that can visit (perform an action) on an Element.
 1. ConcreteVisitor: the object that contains the logic for the action to be performed on an Element.
 
+<img src="assets/images/visitor-design-pattern.png" />
 
 At first glance the pattern can appear complex, however at its core it enables the following:
 
