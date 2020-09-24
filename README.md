@@ -3948,92 +3948,189 @@ class PrinterClosure
     <code class="ex">
 LINQ (Language Integrated Query) is uniform query syntax to retrieve data from different sources and formats.
 Like SQL for .NET data sources.
+Two flavours: Lambda Expressions and Query Comprehension Syntax
     </code>
 </button>
 <div class="content" style="display: none;" markdown="1">
-      
-Further info: [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable)
+
+LINQ comes in two flavours:
+  1. Lambda Expressions
+  1. Query Comprehension Syntax
+
+Both yield the same result because query expressions are translated into their lambda expressions before they’re compiled. So performance-wise, there’s no difference whatsoever between the two.
+
+Which one you should use is mostly personal preference; many people prefer lambda expressions because they’re shorter and more concise, but some people prefer the query syntax having worked extensively with SQL. 
+
+THe following example shows the same query written using the two different syntaxes:
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        Person[] people1 = { tom, dick, harry, mary, jay };
+        Person[] people2 = { fred, barney, wilma, betty, tom2 };
+
+        lambdaExpression(people1, people2);
+
+        Console.WriteLine();
+
+        queryComprehensionSyntax(people1, people2);
+    }
+
+    private static void lambdaExpression(Person[] people1, Person[] people2)
+    {
+        IEnumerable<string> query = people1
+          .Where(p => p.Name.Contains("a"))    // Filter elements
+          .OrderBy(p => p.Name.Length)         // Sort elements
+          .Select(p => p.Name.ToUpper());      // Project each element
+
+        foreach (string name in query)
+            Console.Write(name + "|");
+
+        // RESULT: JAY|MARY|HARRY|
+    }
+
+    private static void queryComprehensionSyntax(Person[] people1, Person[] names2)
+    {
+        IEnumerable<string> query =
+          from p in people1
+          where p.Name.Contains("a")    // Filter elements
+          orderby p.Name.Length         // Sort elements
+          select p.Name.ToUpper();      // Project each element
+
+        foreach (string name in query)
+            Console.Write(name + "/");
+
+        // RESULT: JAY/MARY/HARRY/
+    }
+
+    #region data source 
+    
+    public struct Person
+    {
+        public Person(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
+        public string Name;
+        public int Age;
+    }
+
+    static Person tom = new Person("Tom", 30);
+    static Person dick = new Person("Dick", 23);
+    static Person harry = new Person("Harry", 38);
+    static Person mary = new Person("Mary", 16);
+    static Person jay = new Person("Jay", 23);
+
+    static Person fred = new Person("Fred", 39);
+    static Person barney = new Person("Barney", 35);
+    static Person wilma = new Person("Wilma", 36);
+    static Person betty = new Person("Betty", 35);
+    static Person tom2 = new Person("Tom", 55);
+    
+    #endregion
+}
+```
+
+**Lambda Expressions**
+
+The following are just some of the most common lambda expressions
+For further info see: 
+  * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](System.Linq.Enumerable API Documentation)
+  * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.queryable](System.Linq.Queryable API Documentation)
 
 ### Where
 
-```csharp
-IEnumerable<TSource> result = 
-    Where<TSource>(
-        IEnumerable<TSource>, Func<TSource,Boolean>
-    );
+```cs
+var query = people1.Where(p => p == "Tom");
+```
 
-var result = source.Where(o => o.Prop == x);
+```cs
+var query = from p in people1
+            where p.Equals("Tom")
+            select p;
 ```
 
 ### Select
 
-```csharp
-IEnumerable<TSource> result = 
-    Select<TSource,TResult>(
-        IEnumerable<TSource>, Func<TSource,TResult>
-    );
+```cs
+var query = people1.Select(p => new
+{
+    Name = p
+});
+```
 
-var result = source.Select(o => new { 
-                     Prop1 = o.Prop1; 
-                     Prop2 = o.Prop2 
-             });
+```cs
+var query = from p in people1
+            select new
+            {
+                Name = p
+            };
 ```
 
 ### OrderBy
 
-```csharp
-IEnumerable<TSource> result = 
-    OrderBy<TSource,TKey>(
-        IEnumerable<TSource>, Func<TSource,TKey>
-    );
+```cs
+var query = people1.OrderBy(p => p);
+```
 
-var result = source.OrderBy(o => o.Prop);
+```cs
+var query = from p in people1
+            orderby p
+            select p;
 ```
 
 ### OrderByDescending
 
-```csharp
-IEnumerable<TSource> result = 
-    OrderByDescending<TSource,TKey>(
-        IEnumerable<TSource>, Func<TSource,TKey>
-    )
+```cs
+var query = people1.OrderByDescending(p => p);
+```
 
-var result = source.OrderByDescending(o => o.Prop);
+```cs
+var query = from p in people1
+            orderby p descending
+            select p;
 ```
 
 ### ThenByDescending
 
-```csharp
-IEnumerable<TSource> result = 
-    OrderBy[...].
-    ThenByDescending(
-        IEnumerable<TSource>, Func<TSource,TKey>
-    );
+```cs
+var query = people1.OrderBy(p => p.Prop1).
+               ThenByDescending(p => p.Prop2);
+```
 
-var result = source.OrderBy(o => o.Prop1).
-               ThenByDescending(o => o.Prop2);
+```cs
+var query = from p in people1
+            orderby p.Prop1 descending
+            orderby p.Prop1 ascending
+            select p;
 ```
 
 ### Join
 
-```csharp
-var result = source1.Join(source2, 
-                     o1 => o1.Prop1, 
-                     o2 => o2.Prop1, 
-                     (o1, o2) => new 
-                         {
-                             o1.Prop1,
-                             o1.Prop2,
-                             o2.Prop3,
-                             o2.Prop4
-                         }
+```cs
+var query = people1.Join(people2,
+                     p1 => p1.Name,
+                     p2 => p2.Name,
+                     (p1, p2) => new
+                     {
+                         p1.Name,
+                         Age1 = p1.Age,
+                         Age2 = p2.Age
+                     }
                      );
 ```
 
 ### GroupBy
 
-```csharp
-var result = source1.GroupBy(o => o.Prop).
+```cs
+var query = people1.GroupBy(p => p.Prop).
                  Select(grp => new {
                      PropId = grp.Key,
                      PropCount = grp.Count()
@@ -4043,124 +4140,123 @@ var result = source1.GroupBy(o => o.Prop).
 
 ### Take
 
-```csharp
+```cs
 // select top 3
-
-var result = source.Where(
-                     o => o.Prop == x).
+var query = people1.Where(
+                     p => p.Prop == x).
                      Take(3);
 ```
 
 ### Skip
 
-```csharp
+```cs
 // uses a mixture of query syntax and lambda syntax
 
-var result = (from o in source
-                where o.Prop1 == x
-                orderby o.Prop2
-                select o).Skip(2).Take(3);
+var query = (from p in people1
+                where p.Prop1 == x
+                orderby p.Prop2
+                select p).Skip(2).Take(3);
 ```
 
 ### Single
 
-```csharp
+```cs
 // throws an exception if no elements
 
-var result = source.Single(
-                 o => o.Prop == x
+var query = people1.Single(
+                 p => p.Prop == x
              );
 ```
 
 ### SingleOrDefault
 
-```csharp
+```cs
 // returns null if no elements
 
-var result = source.SingleOrDefault(
-                 o => o.Prop == x
+var query = people1.SingleOrDefault(
+                 p => p.Prop == x
              );
 ```
 
 ### DefaultIfEmpty
 
-```csharp
+```cs
 // returns a new OClass instance if no elements
 
-var result = source.Where(o => o.Prop == x).
+var query = people1.Where(p => p.Prop == x).
                  DefaultIfEmpty(new OClass()).
                  Single();
 ```
 
 ### Last
 
-```csharp
+```cs
 // First, Last and ElementAt used in same way
 
-var result = source.Where(o => o.Prop == x).
-                 OrderBy(o => o.Prop).
+var query = people1.Where(p => p.Prop == x).
+                 OrderBy(p => p.Prop).
                  Last();
 ```
 
 ### SingleOrDefault
 
-```csharp
+```cs
 // returns 0 if no elements
 
-var result = source.Where(o => o.Prop == x).
-                 Select(o => o.Prop).
+var query = people1.Where(p => p.Prop == x).
+                 Select(p => p.Prop).
                  SingleOrDefault();
 ```
 
 ### ToArray
 
-```csharp
+```cs
 // uses query syntax
 
-string[] result = (from o in source
-                select o.Prop).ToArray();
+string[] query = (from p in people1
+                select p.Prop).ToArray();
 ```
 
 ### ToDictionary
 
-```csharp
+```cs
 // uses lambda syntax
 
-Dictionary<int, OClass> result = 
-        source.ToDictionary(o => o.IntProp);
+Dictionary<int, Person> query = 
+        people1.ToDictionary(p => p.Age);
 
 // uses a mixture of query syntax and 
 // lambda syntax
 
-Dictionary<string, double> result = 
+Dictionary<string, double> query2 = 
   (from og in
-    (from o1 in source1
-     join o2 in source2 on o1.Prop equals o2.Prop
-     select new { o2.StrProp, o1.DblProp})
-      group og by og.StrProp into g
+    (from p1 in people1
+     join p2 in people2 on p1.Prop p2.Prop
+     select new { p2.StrProp, p1.DblProp})
+      group pg by pg.StrProp into g
       select g).
         ToDictionary(g => g.Key, 
-                     g => g.Max(og => og.DblProp)
+                     g => g.Max(pg => pg.DblProp)
         );
 ```
 
 ### ToList
 
-```csharp
+```cs
 // uses query syntax
 
-List<OClass> res = (from o in source
-                    where o.Prop > x
-                    orderby o.Prop
+List<Person> query = (from p in people1
+                    where p.Prop > x
+                    orderby p.Prop
                    ).ToList();
 ```
 
 ### ToLookup
 
-```sharp
-ILookup<int, string> result = 
-    source.toLookup(o => 
-                    o.IntProp, o.StrProp
+```cs
+ILookup<int, string> query = 
+    people1.toLookup(p => 
+                    p.IntProp, o.StrProp
     );
 ```
 </div>
@@ -4169,10 +4265,19 @@ ILookup<int, string> result =
 <div id="interview-linq"> 
   <button type="button" class="collapsible">+ LINQ vs Stored Procedures
      <code class="ex">
-xxxxxxxx
+LINQ: A common query syntax to query various data sources, such as SQL Server, Oracle, XML, Collections, etc. It has full type checking at compile-time and IntelliSense support in Visual Studio.
+Stored Procedures: Pre-compiled SQL statements that are stored on a remote database. Since they are executed on the server side, they can be executed with minimum time and also reduce the network traffic.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+    
+1. Unless caching is correctly enabled for LINQ, stored procedures are faster to execute and can take the full advantage of SQL features.  If LINQ caching is enabled, the performance difference is not significant.
+1. Generally speaking, stored procedures are better for complex queries.
+1. Stored procedures are more efficient for bulk insert and update operations.
+1. LINQ supports type safety, debugging and Intellisense, which makes development and testing easier.
+1. LINQ supports .NET features such as multithreading, which stored procedures do not.
+1. LINQ provides a common query syntax that is independent of the backend, unlike stored procedures which need to be re-written for different databases.
+1. Deploying a LINQ-based application is simpler since it generally just involves deploying DLLs, unlike stored procedures that also require scripts to update the database.
 
 </div>
 </div>
@@ -4263,17 +4368,6 @@ Console.WriteLine("Parameters in Expression Tree: {0}", expressionTree.Parameter
 ```
 
 Note: the goal is not to generate a result but to generate an expression.
-
-</div>
-</div>
-
-<div id="interview-querycomp"> 
-  <button type="button" class="collapsible">+ Query Comprehension Syntax
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
 
 </div>
 </div>
