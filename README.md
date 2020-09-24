@@ -3576,7 +3576,7 @@ class Program
 -------------------------------------------------------------------------------------------------------
 
 <div id="basics">
-<button type="button" class="collapsible">+ Languages Features</button>
+<button type="button" class="collapsible">+ Language Features</button>
 <div class="content" style="display: none;" markdown="1">
     
 <div id="structs">  
@@ -3810,7 +3810,7 @@ namespace MyNamespace
 </div>
 
 <div id="closures">  
-<button type="button" class="collapsible">+ Closures<br/>
+<button type="button" class="collapsible">+ Closures
     <code class="ex">
 Closures are used to encapsulate variables within the methods that require them.
     </code>
@@ -3944,7 +3944,7 @@ class PrinterClosure
 </div>
 
 <div id="linq">  
-<button type="button" class="collapsible">+ LINQ<br/>
+<button type="button" class="collapsible">+ LINQ
     <code class="ex">
 LINQ (Language Integrated Query) is uniform query syntax to retrieve data from different sources and formats.
 Like SQL for .NET data sources.
@@ -4167,7 +4167,7 @@ ILookup<int, string> result =
 </div>
 
 <div id="interview-linq"> 
-  <button type="button" class="collapsible">+ LINQ vs Stored Procedures<br/>
+  <button type="button" class="collapsible">+ LINQ vs Stored Procedures
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4178,7 +4178,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-expressiontrees"> 
-  <button type="button" class="collapsible">+ Expression Trees?<br/>
+  <button type="button" class="collapsible">+ Expression Trees
     <code class="ex">
 A way of breaking down functions into a tree like structure.
 Expression trees were created for the task of converting code such as a query expression into a string that can be passed to some other process and executed there.
@@ -4268,7 +4268,7 @@ Note: the goal is not to generate a result but to generate an expression.
 </div>
 
 <div id="interview-querycomp"> 
-  <button type="button" class="collapsible">+ Query Comprehension Syntax?<br/>
+  <button type="button" class="collapsible">+ Query Comprehension Syntax
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4279,7 +4279,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-defvsimed"> 
-  <button type="button" class="collapsible">+ Deferred Execution vs Immediate Execution<br/>
+  <button type="button" class="collapsible">+ Deferred Execution vs Immediate Execution
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4290,7 +4290,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-privateconstruct"> 
-  <button type="button" class="collapsible">+ Private Constructors<br/>
+  <button type="button" class="collapsible">+ Private Constructors
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4301,7 +4301,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-privateconstruct"> 
-  <button type="button" class="collapsible">+ Static Constructors<br/>
+  <button type="button" class="collapsible">+ Static Constructors
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4312,7 +4312,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-overload"> 
-  <button type="button" class="collapsible">+ Overriding vs Overloading<br/>
+  <button type="button" class="collapsible">+ Overriding vs Overloading
      <code class="ex">
 overriding (a.k.a late binding): replace method in super-class with one in sub-class, with same signature.
 overloading: provide a new method, constructor or operator body with the same name but a different signature.
@@ -4487,19 +4487,8 @@ public static MyObj operator+ (MyObj b, MyObj c)
 </div>
 </div>
 
-<div id="interview-string"> 
-  <button type="button" class="collapsible">+ `String` vs `StringBuilder`?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 <div id="interview-passbyvalue"> 
-  <button type="button" class="collapsible">+ Pass By Value<br/>
+  <button type="button" class="collapsible">+ Pass By Value
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4510,7 +4499,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-passbyrefeence"> 
-  <button type="button" class="collapsible">+ Pass By Reference<br/>
+  <button type="button" class="collapsible">+ Pass By Reference
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4521,7 +4510,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-attribute"> 
-  <button type="button" class="collapsible">+ Attributes<br/>
+  <button type="button" class="collapsible">+ Attributes
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4532,7 +4521,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-extensions"> 
-  <button type="button" class="collapsible">+ Extension Methods<br/>
+  <button type="button" class="collapsible">+ Extension Methods
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4543,7 +4532,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-anontype"> 
-  <button type="button" class="collapsible">+ Anonymous Types<br/>
+  <button type="button" class="collapsible">+ Anonymous Types
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4555,7 +4544,7 @@ xxxxxxxx
 
 
 <div id="interview-stream"> 
-  <button type="button" class="collapsible">+ Streams<br/>
+  <button type="button" class="collapsible">+ Streams
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4566,7 +4555,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-binding"> 
-  <button type="button" class="collapsible">+ Early-Binding and Late-Binding<br/>
+  <button type="button" class="collapsible">+ Early-Binding and Late-Binding
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4577,7 +4566,18 @@ xxxxxxxx
 </div>
 
 <div id="interview-reflection"> 
-  <button type="button" class="collapsible">+ Reflection<br/>
+  <button type="button" class="collapsible">+ Reflection
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-string"> 
+  <button type="button" class="collapsible">+ `String` vs `StringBuilder`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4588,7 +4588,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-dispose"> 
-  <button type="button" class="collapsible">+ `Dispose` vs `Finalize`<br/>
+  <button type="button" class="collapsible">+ `Dispose` vs `Finalize`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4599,7 +4599,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-equals"> 
-  <button type="button" class="collapsible">+ `Equals()` vs `==`?<br/>
+  <button type="button" class="collapsible">+ `Equals()` vs `==`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4610,7 +4610,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-type"> 
-  <button type="button" class="collapsible">+ `typeof` vs `GetType()`<br/>
+  <button type="button" class="collapsible">+ `typeof` vs `GetType()`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4663,7 +4663,7 @@ See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-tr
 </div>
 
 <div id="interview-list"> 
-  <button type="button" class="collapsible">+ What are some common List Interfaces?<br/>
+  <button type="button" class="collapsible">+ Common List Interfaces
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4674,7 +4674,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-enumerable"> 
-  <button type="button" class="collapsible">+ IEnumerable vs IQueryable<br/>
+  <button type="button" class="collapsible">+ IEnumerable vs IQueryable
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4692,7 +4692,7 @@ xxxxxxxx
 <div class="content" style="display: none;" markdown="1">
     
 <div id="interview-accessmodifiers"> 
-  <button type="button" class="collapsible">+ Access Modifiers<br/>
+  <button type="button" class="collapsible">+ Access Modifiers
     <code class="ex">
 public, internal protected, private, protected internal, private protected
 
@@ -4788,7 +4788,7 @@ class Program
 </div>
 
 <div id="interview-abstractvsvirtual"> 
-  <button type="button" class="collapsible">+ `abstract` vs `virtual`<br/>
+  <button type="button" class="collapsible">+ `abstract` vs `virtual`
      <code class="ex">
 Abstract methods cannot have functionality.
 Virtual methods provide a default implementation.
@@ -4834,7 +4834,7 @@ class Program
 </div>
 
 <div id="interview-hiding"> 
-  <button type="button" class="collapsible">+ `new`<br/>
+  <button type="button" class="collapsible">+ `new`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4845,7 +4845,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-partial"> 
-  <button type="button" class="collapsible">+ `partial`<br/>
+  <button type="button" class="collapsible">+ `partial`
      <code class="ex">
 A class that is constructed from functionality defined in multiple files.
     </code>
@@ -4897,7 +4897,7 @@ public class MyPartialClass
 </div>
 
 <div id="interview-sealed"> 
-  <button type="button" class="collapsible">+ `sealed`<br/>
+  <button type="button" class="collapsible">+ `sealed`
      <code class="ex">
 Sealed classes cannot be inherited.
 Sealed methods cannot be overrriden.
@@ -4929,7 +4929,7 @@ Reasons for using a sealed class:
 </div>
 
 <div id="interview-interfacevsabstract"> 
-  <button type="button" class="collapsible">+ `interface` vs `abstract class`?<br/>
+  <button type="button" class="collapsible">+ `interface` vs `abstract class`
      <code class="ex">
 Interfaces allow multiple inheritance (composition - "has a"); abstract classes do not (inheritance - "is a").
 Abstract classes have a constructor, interfaces cannot.
@@ -4944,9 +4944,9 @@ Abstract classes can provide implementation, interfaces cannot.
 </div>
 
 <div id="interview-multipleinterfaces"> 
-  <button type="button" class="collapsible">+ Implementing multiple interfaces with the same method<br/>
+  <button type="button" class="collapsible">+ Implementing multiple interfaces with the same method
      <code class="ex">
-Yes, but they need to be accessed explicitly.
+Each method implementation needs to be accessed explicitly.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -5014,7 +5014,7 @@ This will work, however it is ambiguous to which interface the implementation re
 </div>
 
 <div id="interview-static"> 
-  <button type="button" class="collapsible">+ `static`<br/>
+  <button type="button" class="collapsible">+ `static`
      <code class="ex">
 Static classes cannot be instantiated.
 Non-static classes must be instantiated.
@@ -5082,7 +5082,7 @@ class Program
 </div>
 
 <div id="interview-staticthis"> 
-  <button type="button" class="collapsible">+ Can you use `this` inside a static method in C#?<br/>
+  <button type="button" class="collapsible">+ Can you use `this` inside a static method in C#?
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5093,7 +5093,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-const"> 
-  <button type="button" class="collapsible">+ `const` vs `read-only`<br/>
+  <button type="button" class="collapsible">+ `const` vs `read-only`
      <code class="ex">
 const: cannot be changed after compile time; only applies to primitive types (it is implicitly static).  
        Should only be used if value will never, ever change.
@@ -5189,7 +5189,7 @@ While is used if a test should be evaluated before the loop runs.
 </div>
 
 <div id="interview-continuevsbreak"> 
-  <button type="button" class="collapsible">+ `continue` vs `break`<br/>
+  <button type="button" class="collapsible">+ `continue` vs `break`
      <code class="ex">
 Break exists a loop.
 Continue skips to the next iteration of a loop.
@@ -5201,7 +5201,7 @@ Continue skips to the next iteration of a loop.
 </div>
 
 <div> 
-<button type="button" class="collapsible">+ `async` &amp; `await`<br/>
+<button type="button" class="collapsible">+ `async` &amp; `await`
     <code class="ex">
 async: indicates that a method performs asynchronous actions.
 await: indicates that the calling method should return immediately; 
@@ -5237,7 +5237,7 @@ An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Del
 </div>
 
 <div id="interview-refvsout"> 
-  <button type="button" class="collapsible">+ `ref` vs `out`?<br/>
+  <button type="button" class="collapsible">+ `ref` vs `out`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5248,7 +5248,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-asvsis"> 
-  <button type="button" class="collapsible">+ `as` vs `is`?<br/>
+  <button type="button" class="collapsible">+ `as` vs `is`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5259,7 +5259,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-exceptions"> 
-  <button type="button" class="collapsible">+ `throw`<br/>
+  <button type="button" class="collapsible">+ `throw`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5272,7 +5272,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-tryblock"> 
-  <button type="button" class="collapsible">+ `try`, `catch` &amp; `finally`<br/>
+  <button type="button" class="collapsible">+ `try`, `catch` &amp; `finally`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5283,7 +5283,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-getset"> 
-  <button type="button" class="collapsible">+ `get` &amp; `set`<br/>
+  <button type="button" class="collapsible">+ `get` &amp; `set`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5294,7 +5294,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-yield"> 
-  <button type="button" class="collapsible">+ `yield return`<br/>
+  <button type="button" class="collapsible">+ `yield return`
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5312,7 +5312,7 @@ xxxxxxxx
 <div class="content" style="display: none;" markdown="1">
     
 <div id="interview-caching"> 
-  <button type="button" class="collapsible">+ Performance: Caching<br/>
+  <button type="button" class="collapsible">+ Caching
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5323,7 +5323,18 @@ xxxxxxxx
 </div>
 
 <div id="interview-objpool"> 
-  <button type="button" class="collapsible">+ Performance: Object Pools<br/>
+  <button type="button" class="collapsible">+ Object Pools
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-genericperf"> 
+  <button type="button" class="collapsible">+ Generics<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5341,18 +5352,7 @@ xxxxxxxx
 <div class="content" style="display: none;" markdown="1">
     
 <div id="interview-genericconstraints"> 
-  <button type="button" class="collapsible">+ Generics: Can you set Constraints on Generic Classes?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-genericperf"> 
-  <button type="button" class="collapsible">+ Generics: Performance<br/>
+  <button type="button" class="collapsible">+ Can you set Constraints on Generic Classes?
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5363,7 +5363,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-covar"> 
-  <button type="button" class="collapsible">+ Generics: Covariance vs Contravariance?<br/>
+  <button type="button" class="collapsible">+ Covariance vs Contravariance
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5374,7 +5374,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-overloadgeneric"> 
-  <button type="button" class="collapsible">+ Generics: Overloading a Generic Method<br/>
+  <button type="button" class="collapsible">+ Overloading a Generic Method
     <code class="ex">
 Yes - Method(), Method&lt;T&gt;(T t), Methodd&lt;T&gt;(T t, int i), Methodd&lt;T1, T2&gt;(T1 t1, T2 t2), etc.
     </code>
@@ -5440,7 +5440,7 @@ fido.Bury<Cow,Cat>(new Cow("Bessie"), new Cat("Puffy"));
 <div class="content" style="display: none;" markdown="1">
     
 <div id="interview-threadvsprocess"> 
-  <button type="button" class="collapsible">+ Thread vs Process?<br/>
+  <button type="button" class="collapsible">+ Thread vs Process
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5451,7 +5451,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-deadlocks"> 
-  <button type="button" class="collapsible">+ Locks, Semaphores &amp; Mutexes<br/>
+  <button type="button" class="collapsible">+ Locks, Semaphores &amp; Mutexes
      <code class="ex">
 lock, semaphores, mutex
     </code>
@@ -5462,7 +5462,7 @@ lock, semaphores, mutex
 </div>
 
 <div id="interview-threads"> 
-  <button type="button" class="collapsible">+ Thread Management<br/>
+  <button type="button" class="collapsible">+ Thread Management
      <code class="ex">
 SystemThread, ThreadPool, Delegate.BeginInvoke
     </code>
@@ -5473,7 +5473,7 @@ SystemThread, ThreadPool, Delegate.BeginInvoke
 </div>
 
 <div id="interview-interprocess"> 
-  <button type="button" class="collapsible">+ Interprocess Communication<br/>
+  <button type="button" class="collapsible">+ Interprocess Communication
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5484,7 +5484,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-threadstates"> 
-  <button type="button" class="collapsible">+ Thread States<br/>
+  <button type="button" class="collapsible">+ Thread States
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5495,7 +5495,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-threadparams"> 
-  <button type="button" class="collapsible">+ Thread Parameters<br/>
+  <button type="button" class="collapsible">+ Thread Parameters
     <code class="ex">
 Yes if thread delegate has a single object parameter.
 Compiler automatically creates a ParameterizedThreadStarter.
@@ -5583,7 +5583,7 @@ class Program
 </div>
 
 <div id="interview-stopthread"> 
-  <button type="button" class="collapsible">+ Stopping a Thread<br/>
+  <button type="button" class="collapsible">+ Stopping a Thread
     <code class="ex">
 Create global variable for thread to check
     </code>
