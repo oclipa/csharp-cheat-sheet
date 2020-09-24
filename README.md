@@ -4732,10 +4732,157 @@ For this reason, it is recommended that `const` only be used if you know that th
 <div id="interview-overload"> 
   <button type="button" class="collapsible">+ What is the difference between overriding and overloading?<br/>
      <code class="ex">
-xxxxxxxx
+overriding (a.k.a late binding): replace functionality in super-class method with one in sub-class, with same signature (i.e. parameters)
+overloading: provide a new method, constructor or operator body with the same name but a different signature (in either the super-class or a sub-class).
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+**Override**
+
+Only methods can be overridden.
+
+To override a method in a super-class it must be declared as `abstract` or `virtual`, and it cannot be `private`.
+
+Overriding is also known as late binding, or run-time or dynamic polymorphism.
+
+The following is a simple example of overriding:
+
+```cs
+using System;
+
+public abstract class MySuperClass
+{
+    public virtual void MyVirtualMethod()
+    {
+        Console.WriteLine(" + MySuperClass.MyVirtualMethod");
+    }
+
+    public abstract void MyAbstractMethod();
+}
+
+public class MySubClass : MySuperClass
+{
+    public override void MyVirtualMethod()
+    {
+        Console.Write("MySubClass.MyVirtualMethod");
+        base.MyVirtualMethod();
+    }
+
+    public override void MyAbstractMethod()
+    {
+        Console.WriteLine("MySubClass.MyAbstractMethod");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        MySuperClass superClass = new MySubClass();
+        MySubClass subClass = new MySubClass();
+
+        superClass.MyVirtualMethod(); // MySubClass.MyVirtualMethod + MySuperClass.MyVirtualMethod
+        superClass.MyAbstractMethod(); // MySubClass.MyAbstractMethod
+
+        subClass.MyVirtualMethod(); // MySubClass.MyVirtualMethod + MySuperClass.MyVirtualMethod
+        subClass.MyAbstractMethod(); // MySubClass.MyAbstractMethod
+    }
+}
+```
+
+**Overload: Methods &amp; Constructors**
+
+Both methods and constructors can be overloaded.  The overloading can happen in either the super-class or a sub-class.
+
+The following gives some examples of method and constructor overloading:
+
+```cs
+using System;
+
+public class Super
+{
+    public Super()
+    {
+        Console.Write("Super()");
+    }
+
+    public Super(int param1)
+    {
+        Console.Write("Super(int param1)");
+    }
+
+    public void Method()
+    {
+        Console.Write("Super.Method()");
+    }
+
+    public void Method(int param1)
+    {
+        Console.Write("Super.Method(int param1)");
+    }
+}
+
+public class Sub : Super
+{
+    public Sub() : base()
+    {
+        Console.WriteLine(" + Sub()");
+    }
+
+    public Sub(int param1) : base(param1)
+    {
+        Console.WriteLine(" + Sub(int param1)");
+    }
+
+    public Sub(int param1, int param2) : base(param1)
+    {
+        Console.WriteLine(" + Sub(int param1, int param2)");
+    }
+
+    public void Method(int param1, int param2)
+    {
+        base.Method(param1);
+        Console.WriteLine(" + Sub.Method(int param1, int param2)");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Super superClass1 = new Super(); nl();  // Super()
+        Super superClass2 = new Super(1); nl(); // Super(int param1)
+
+        Sub subClass1 = new Sub(); nl();        // Super() +  Sub()
+        Sub subClass2 = new Sub(1); nl();       // Super(int param1) +  Sub(int param1)
+        Sub subClass3 = new Sub(1, 2); nl();    // Super(int param1) +  Sub(int param1, int param2)
+
+        superClass1.Method(); nl();             // Super.Method()
+        superClass1.Method(1); nl();            // Super.Method(int param1)
+
+        superClass2.Method(); nl();             // Super.Method()
+        superClass2.Method(1); nl();            // Super.Method(int param1)
+
+        subClass1.Method(); nl();               // Super.Method()
+        subClass1.Method(1); nl();              // Super.Method(int param1)
+        subClass1.Method(1, 2); nl();           // Super.Method(int param1) + Sub.Method(int param1, int param2)
+
+        subClass2.Method(); nl();               // Super.Method()
+        subClass2.Method(1); nl();              // Super.Method(int param1)
+        subClass2.Method(1, 2);                 // Super.Method(int param1) + Sub.Method(int param1, int param2)
+    }
+
+    private static void nl()
+    {
+        Console.WriteLine("\n");
+    }
+}
+```
+
+**Overload: Operators**
+
+Operators can also be overloaded, however this is a little more complex.
 
 </div>
 </div>
