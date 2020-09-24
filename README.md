@@ -3576,7 +3576,7 @@ class Program
 -------------------------------------------------------------------------------------------------------
 
 <div id="basics">
-<button type="button" class="collapsible">+ Coding</button>
+<button type="button" class="collapsible">+ Languages Features</button>
 <div class="content" style="display: none;" markdown="1">
     
 <div id="structs">  
@@ -3665,12 +3665,13 @@ e.g. `int x = (int)o;`
 </div>
 
 <div id="delegates">   
-<button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate
+<button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate vs Events
     <code class="ex">
 Delegate: older, generic form of Action, Func and Predicate.
 Action: Accept arguments; does not return.
 Func: Accept arguments; returns a value.
 Predicate: Special case of Func that only returns a bool.
+Event: ...?
     </code>
 </button>
 <div class="content" style="display: none;" markdown="1">
@@ -3713,7 +3714,7 @@ namespace MyNamespace
     }
 }
 ```
-      * TODO: A multicast delegate
+      * TODO: A multicast delegate, events
       * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
 
    * ### Action&lt;T&gt;: 
@@ -3809,7 +3810,7 @@ namespace MyNamespace
 </div>
 
 <div id="closures">  
-<button type="button" class="collapsible">+ Closures
+<button type="button" class="collapsible">+ Closures<br/>
     <code class="ex">
 Closures are used to encapsulate variables within the methods that require them.
     </code>
@@ -3943,7 +3944,7 @@ class PrinterClosure
 </div>
 
 <div id="linq">  
-<button type="button" class="collapsible">+ Linq
+<button type="button" class="collapsible">+ LINQ<br/>
     <code class="ex">
 LINQ (Language Integrated Query) is uniform query syntax to retrieve data from different sources and formats.
 Like SQL for .NET data sources.
@@ -4165,355 +4166,111 @@ ILookup<int, string> result =
 </div>
 </div>
 
-<div> 
-<button type="button" class="collapsible">+ Async & Await
+<div id="interview-linq"> 
+  <button type="button" class="collapsible">+ LINQ vs Stored Procedures<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-expressiontrees"> 
+  <button type="button" class="collapsible">+ Expression Trees?<br/>
     <code class="ex">
-Async: indicates that a method performs asynchronous actions.
-Await: indicates that the calling method should return immediately; the rest of the calling method will complete once the awaited method returns.
-    </code>
-</button>
+A way of breaking down functions into a tree like structure.
+Expression trees were created for the task of converting code such as a query expression into a string that can be passed to some other process and executed there.
+Of particular relevance to LINQ.
+   </code>
+  </button>   
 <div class="content" style="display: none;" markdown="1">
 
-If an `async` method calls another method or function using the `await` keyword, the calling method will return instantly at the point `await` is called; any instructions after the `await` will not complete until after the awaited method completes.
+Given the following expression:
 
-In the following example, the output from the program will be null, since `result` will not be initialized until after `Task.Delay(5)` returns, which will not happen until after WriteLine() is called.
+```cs
+Expression<Func<Student, bool>> isTeenagerExpr = s => s.age > 12 && s.age < 20;
+```
 
-```csharp
-class Program {
-  private static string result;
- 
-  static void Main() {
-    SaySomething();
-    Console.WriteLine(result);
-  }
- 
-  static async Task<string> SaySomething() {
-    await Task.Delay(5);
-    result = "Hello world!";
-    return “Something”;
-  }
+The compiler will break this down into:
+
+```cs
+Expression.Lambda<Func<Student, bool>>(
+                Expression.AndAlso(
+                    Expression.GreaterThan(Expression.Property(pe, "Age"), Expression.Constant(12, typeof(int))),
+                    Expression.LessThan(Expression.Property(pe, "Age"), Expression.Constant(20, typeof(int)))),
+                        new[] { pe });
+```
+
+Expressions can also be built manually.  Take the following example:
+
+```cs
+Func<Student, bool> isAdult = s => s.age >= 18;
+```
+
+This is identical to:
+
+```cs
+public bool function(Student s)
+{
+  return s.Age > 18;
 }
 ```
 
-An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Delay(5)`, since this will cause the main thread to block until the `Sleep()` method returns, so that `result` will be initialized before the `SaySomething` method returns.  In this case, the program will return `Hello world!`.
-
-</div>
-</div>
-
-<div id="arrays">   
-<button type="button" class="collapsible">+ Arrays</button>   
-<div class="content" style="display: none;" markdown="1">
-
-See: [Arrays](http://zetcode.com/lang/csharp/arrays/)
-And: [Join](https://www.geeksforgeeks.org/c-sharp-join-method-set-1/)  (and Split)
-
-* Jagged Arrays
-
-</div>
-</div>
-
-<div>  
-<button type="button" class="collapsible">+ Data Structures</button>  
-<div class="content" style="display: none;" markdown="1">
-
-Should create a separate page that goes through these in depth
-
-### Array
-### ArrayList
-### Stack
-### Queue
-### LinkedList<T> (Doubly-Linked List)
-### HashTable
-### Dictionary<TKey, TValue>
-### SortedSet<T> (Red-Black Tree)
-
-See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-trees).
-
-### Singly-Linked List
-### Skip List
-### Binary Search Tree
-### Cartesian Tree
-### B-Tree
-### Splay Tree
-### AVL Tree
-### KD Tree
-
-</div>
-</div>
-
-<div id="interview-accessmodifiers"> 
-  <button type="button" class="collapsible">+ What are access modifiers?<br/>
-    <code class="ex">
-public, internal protected, private, protected internal, private protected
-
-Classes and interfaces can only be public or internal.
-
-The default access for everything in C# is "the most restricted access you could declare for that member".
-(except in a property getter or setter, which inherits from the property)
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-Modifiers are used to provide some control over how the API is used.
-
-* `public` = Accessible anywhere within the project.
-* `internal` = Accessible only within the assembly.
-* `protected` = Accessible only within the current class and its derived classes.
-* `private` = Accessible only within the current class.
-* `protected internal` = Accessible anywhere within the assembly, and within any derived classes within the project.
-* `private protected` = Accessible within any derived classes within the assembly. 
-
-Interfaces members cannot have access modifiers (they are always the same as the interface).
-
-**Inheritance Access Modifiers**
-
-By definition, inheritance means that a sub-class contains all members of its direct super-class (except for constructors and destructors).  This includes all private members: they are inaccessible, but still occupy memory.
-
-In a sub-class, the methods of the super-class can be overridden using either the `new` or `override` keywords.
-  * `new`: in this case, the sub-class version of the method will be called if the super-class has been downcast to the sub-class (otherwise the super-class version will be called).
-  * `override`: in this case, the sub-class version of the method will always be called, even if the sub-class has been upcast to the super-class.
-  
-Using the `base` keyword in a sub-class method will access the super-class version of the methods.
+To construct this as an expression, first the parameters are extracted:
 
 ```cs
-using System;
-
-class BaseClass
-{
-    public virtual void Method1()
-    {
-        Console.WriteLine("Base - Method1");
-    }
-
-    public void Method2()
-    {
-        Console.WriteLine("Base - Method2");
-    }
-
-    public virtual void Method3()
-    {
-        Console.WriteLine("Base - Method3");
-    }
-}
-
-class DerivedClass : BaseClass
-{
-    public override void Method1()
-    {
-        Console.WriteLine("Derived - Method1");
-    }
-
-    public new void Method2()
-    {
-        Console.WriteLine("Derived - Method2");
-    }
-
-    public override void Method3()
-    {
-        base.Method3();
-    }
-}
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        BaseClass bc = new BaseClass();
-        DerivedClass dc = new DerivedClass();
-        BaseClass bcdc = new DerivedClass();
-
-        bc.Method1();   // Base - Method1
-        bc.Method2();   // Base - Method2
-        bc.Method3();   // Base - Method3
-        dc.Method1();   // Derived - Method1
-        dc.Method2();   // Derived - Method2
-        dc.Method3();   // Base - Method3
-        bcdc.Method1(); // Derived - Method1
-        bcdc.Method2(); // Derived - Method1
-        bcdc.Method3(); // Base - Method2
-    }
-}
+ParameterExpression pe = Expression.Parameter(typeof(Student), "s");
 ```
 
-</div>
-</div>
-
-<div id="interview-whilevsfor"> 
-  <button type="button" class="collapsible">+ What is the difference between a while and a for loop?<br/>
-    <code class="ex">
-For is used when number of repeats is known.
-While is used when a sentinel loop is necessary.
-Exactly the same after compilation.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-dowhilevswhile"> 
-  <button type="button" class="collapsible">+ What is the difference between do-while and a while loop?<br/>
-     <code class="ex">
-Do-While is used if the loop should always runs at least once.
-While is used if a test should be evaluated before the loop runs.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-continuevsbreak"> 
-  <button type="button" class="collapsible">+ What is the difference between continue and break?<br/>
-     <code class="ex">
-Break exists a loop.
-Continue skips to the next iteration of a loop.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-abstractvsvirtual"> 
-  <button type="button" class="collapsible">+ What is the difference between abstract and virtual?<br/>
-     <code class="ex">
-Abstract methods cannot have functionality.
-Virtual methods provide a default implementation.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-* Abstract methods can only be declared in abstract classes.
-* Abstract classes cannot be instantiated.
-* An abstract sub-class can inherit from an abstract super-class without providing an implementation.
-
-* In the abstract and virtual cases, use the `override` key word to provide an implementation in a sub-class.
-
+And then the members:
 
 ```cs
-using System;
-
-public abstract class Vehicle
-{
-    public Vehicle() { }
-    public virtual int Wheels { get { return 4; } }
-}
-
-public class Truck : Vehicle
-{
-    private int wheels;
-
-    public Truck(int wheels) : base() { this.wheels = wheels; }
-    public override int Wheels { get { return this.wheels; } }
-}
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        Vehicle truck = new Truck(12);
-
-        Console.WriteLine(truck.Wheels);
-    }
-}
+MemberExpression me = Expression.Property(pe, "Age");
 ```
 
-</div>
-</div>
-
-<div id="interview-partial"> 
-  <button type="button" class="collapsible">+ What is a partial class?<br/>
-     <code class="ex">
-A class that is constructed from functionality defined in multiple files.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-The functionality from multiple partial classes can be combined into a single class at runtime. 
-
-Partial class are declared using the `partial` keyword.
-
-* Every part of the partial class definition should be in the same assembly and namespace, but you can use different source file name.
-* Every part of the partial class definition should have the same accessibility like private, protected, etc.
-* If any part of the partial class is declared as `abstract` or `sealed`, then the whole class is declared of the same type.
-
-Generally only encountered with generated code, where a portion of the code is automatically generated but another portion may be edited by the developer.  Splitting the parts across separate files can make things cleaner.
+And then constants:
 
 ```cs
-public partial class MyPartialClass 
-{ 
-    public void Method1() 
-    { 
-    } 
-}
-
-public partial class MyPartialClass 
-{ 
-    public void Method2() 
-    { 
-    } 
-}
+ConstantExpression constant = Expression.Constant(18, typeof(int));
 ```
 
-After compilation, this becomes:
+And then any binary expressions:
 
 ```cs
-public class MyPartialClass 
-{ 
-    public void Method1() 
-    { 
-    } 
+BinaryExpression body = Expression.GreaterThanOrEqual(me, constant);
+```
+
+Finally, this can all be put together as:
+
+```cs
+// var = Expression<Func <Student, bool>>
+var expressionTree = Expression.Lambda<Func<Student, bool>>(body, new[] { pe });
+```
+
+This can then be accessed in the following manner:
+
+```cs
+Console.WriteLine("Expression Tree: {0}", expressionTree); // Expression Tree: s => (s.Age >= 18)
     
-    public void Method2() 
-    { 
-    } 
-}
+Console.WriteLine("Expression Tree Body: {0}", expressionTree.Body); // Expression Tree Body: (s.Age >= 18)
+    
+Console.WriteLine("Number of Parameters in Expression Tree: {0}", 
+                                expressionTree.Parameters.Count); // Number of Parameters in Expression Tree: 1
+    
+Console.WriteLine("Parameters in Expression Tree: {0}", expressionTree.Parameters[0]); // Parameters in Expression Tree: s
 ```
 
+Note: the goal is not to generate a result but to generate an expression.
+
 </div>
 </div>
 
-<div id="interview-sealed"> 
-  <button type="button" class="collapsible">+ What does the sealed keyword mean?<br/>
+<div id="interview-querycomp"> 
+  <button type="button" class="collapsible">+ Query Comprehension Syntax?<br/>
      <code class="ex">
-Sealed classes cannot be inherited.
-Sealed methods cannot be overrriden.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-The following code will not compile:
-
-```cs
-// Creating a sealed class
-sealed class Test : OptionalBaseClass 
-{ 
-} 
-
-// Inheriting the Sealed Class 
-class Example : Test 
-{ 
-}
-```
-
-Reasons for using a sealed class:
-
-* To prevent tampering of important classes that compromise security or performance.
-* If the class inherits many virtual members, it may be more efficient than sealing each individually.
-* The class is an attribute that requires a very fast runtime look-up (sealed attributes have slightly better performance).
-
-</div>
-</div>
-
-<div id="interview-interfacevsabstract"> 
-  <button type="button" class="collapsible">+ What is the difference between an interface and an abstract class?<br/>
-     <code class="ex">
-Interfaces allow multiple inheritance (composition - "has a"); abstract classes do not (inheritance - "is a").
-Abstract classes have a constructor, interfaces cannot.
-Abstract classes can have static members, interfaces cannot.
-The members of an abstract class can have access modifiers, those in an interface cannot.
-Abstract classes can provide implementation, interfaces cannot.
+xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -4521,219 +4278,44 @@ Abstract classes can provide implementation, interfaces cannot.
 </div>
 </div>
 
-<div id="interview-multipleinterfaces"> 
-  <button type="button" class="collapsible">+ Can you implement multiple interfaces with the same method a single class?<br/>
+<div id="interview-defvsimed"> 
+  <button type="button" class="collapsible">+ Deferred Execution vs Immediate Execution<br/>
      <code class="ex">
-Yes, but they need to be accessed explicitly.
+xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-```cs
-interface T1 
-{ 
-    void Set(); 
-} 
-
-interface T2 
-{ 
-    void Set(); 
-}
-```
-
-```cs
-// implements both interfaces 
-class Example : T1, T2
-{
-    void T1.Set()
-    {
-        Console.WriteLine("T1");
-    }
-    void T2.Set()
-    {
-        Console.WriteLine("T2");
-    }
-}
-```
-
-```cs
-static public void Main () 
-{ 
-    T1 t1 = new Example(); 
-
-    // calling T1 interface method 
-    t1.Set(); 
-
-    // Creating object of Example 
-    // of T2 interface 
-    T2 t2 = new Example(); 
-
-    // calling T2 interface method 
-    t2.Set(); 
-}
-```
-
-**Caveat**
-
-An alternative - but not recommended solution - is to make the shared member public:
-
-```cs
-class Example : T1, T2 
-{ 
-    public void Set() 
-    { 
-    } 
-}
-```
-
-This will work, however it is ambiguous to which interface the implementation refers.
-
 </div>
 </div>
 
-<div id="interview-static"> 
-  <button type="button" class="collapsible">+ What is the difference between static and non-static?<br/>
+<div id="interview-privateconstruct"> 
+  <button type="button" class="collapsible">+ Private Constructors<br/>
      <code class="ex">
-Static classes cannot be instantiated.
-Non-static classes must be instantiated.
-Only static members can be accessed from a static class.
-Non-static classes can have static members but static members cannot access non-static variables.
-A static constructor is called before any other constructor.
+xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-All static objects, whether reference-type or value-type, are maintained on the **heap**, just the same as any other object, however they exist for the life of the app and so are not garbage collected (more specifically, static objects are stored in the **high-frequency heap**, which is a **loader heap**, which is separate to the normal **GC heap**).
-
-<img src="assets/images/dotnet_memory.png" />
-
-**Static Constructors**
-
-Static members and classes are initialized when an app first starts.  This means that static constructors will always be called before non-static ones.
-
-See the following example:
-
-```cs
-using System;
-
-class Program
-{
-    public class TestStatic
-    {
-        public static int TestValue;
-
-        public TestStatic()
-        {
-            if (TestValue == 0)
-            {
-                TestValue = 5;
-            }
-        }
-        
-        static TestStatic()
-        {
-            if (TestValue == 0)
-            {
-                TestValue = 10;
-            }
-        }
-
-        public void Print()
-        {
-            if (TestValue == 5)
-            {
-                TestValue = 6;
-            }
-            Console.WriteLine("TestValue : " + TestValue);
-        }
-    }
-
-    static void Main(string[] args)
-    {
-        TestStatic t = new TestStatic();
-        t.Print(); // output: 10
-    }
-}
-```
-
 </div>
 </div>
 
-<div id="interview-const"> 
-  <button type="button" class="collapsible">+ What is the difference between const and read-Only?<br/>
+<div id="interview-privateconstruct"> 
+  <button type="button" class="collapsible">+ Static Constructors<br/>
      <code class="ex">
-const = cannot be changed after compile time; only applies to primitive types (it is implicitly static).  Should only be used if value will never, ever change.
-read-only = can only be set when a class is instantiated (i.e. in the class declaration or constructor)
-static readonly = effectively the same as const, although there are some significant subtleties (see inside).
+xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
-
-The primary difference between `const` and `static readonly` is illustrated by the following example:
-
-Assembly A:
-
-```cs
-public class MyData
-{
-    public const int CONSTANT_NUMBER = 6;
-    public readonly int READONLY_NUMBER = 12;
-}
-```
-
-Assembly B:
-
-```cs
-public class MyLogic
-{
-    private int myConstantNumber;
-    private int myReadOnlyNumber;
-
-    public MyLogic()
-    {
-        this.myConstantNumber = MyData.CONSTANT_NUMBER;
-
-        MyData myData = new MyData();
-        this.myReadOnlyNumber = myData.READONLY_NUMBER;
-    }
-
-    public void WriteNumbers()
-    {
-        Console.WriteLine(string.Format("{0} & {1}", this.myConstantNumber, this.myReadOnlyNumber));
-    }
-}
-```
-
-Note that Assembly B depends on Assembly A.
-
-When initially run, `WriteNumbers()` will output `6 & 12`.
-
-Subsequently, the value of `CONSTANT_NUMBER` is changed in Assembly A, which is recompiled.  Assembly B, however, is not recompiled.
-
-Assembly A:
-
-```cs
-public class MyData
-{
-    public const int CONSTANT_NUMBER = 20;
-    public readonly int READONLY_NUMBER = 12;
-}
-```
-
-Now, when `WriteNumbers()` is run, **the output will still be `6 & 12`**.
-
-This is because, being a `const`, the value of `CONSTANT_NUMBER` will be "baked" into the IL of Assembly B at compile time, so it will ignore any subsequent changes to this value in Assembly A.
-
-For this reason, it is recommended that `const` only be used if you know that this value will never, ever, *ever* change for any reason.  If you are unsure, use `readonly`. 
 
 </div>
 </div>
 
 <div id="interview-overload"> 
-  <button type="button" class="collapsible">+ What is the difference between overriding and overloading?<br/>
+  <button type="button" class="collapsible">+ Overriding vs Overloading<br/>
      <code class="ex">
-overriding (a.k.a late binding): replace functionality in super-class method with one in sub-class, with same signature (i.e. parameters)
-overloading: provide a new method, constructor or operator body with the same name but a different signature (in either the super-class or a sub-class).
+overriding (a.k.a late binding): replace method in super-class with one in sub-class, with same signature.
+overloading: provide a new method, constructor or operator body with the same name but a different signature.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -4905,41 +4487,8 @@ public static MyObj operator+ (MyObj b, MyObj c)
 </div>
 </div>
 
-<div id="interview-hiding"> 
-  <button type="button" class="collapsible">+ How can a method be hidden?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-privateconstruct"> 
-  <button type="button" class="collapsible">+ Why used a Private Constructor?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-privateconstruct"> 
-  <button type="button" class="collapsible">+ Why use a Static Constructor?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
 <div id="interview-string"> 
-  <button type="button" class="collapsible">+ What is the difference between String and StringBuilder?<br/>
+  <button type="button" class="collapsible">+ `String` vs `StringBuilder`?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4950,7 +4499,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-passbyvalue"> 
-  <button type="button" class="collapsible">+ What is Pass By Value?<br/>
+  <button type="button" class="collapsible">+ Pass By Value<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -4961,62 +4510,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-passbyrefeence"> 
-  <button type="button" class="collapsible">+ What is Pass By Reference?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-refvsout"> 
-  <button type="button" class="collapsible">+ What is difference between Ref and Out?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-asvsis"> 
-  <button type="button" class="collapsible">+ What is the difference between As and Is?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-exceptions"> 
-  <button type="button" class="collapsible">+ What is the difference between Throw Exception and Throw?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-tryblock"> 
-  <button type="button" class="collapsible">+ Can you have a Try Block without a Catch?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-finally"> 
-  <button type="button" class="collapsible">+ Why would you use Finally?<br/>
+  <button type="button" class="collapsible">+ Pass By Reference<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5027,40 +4521,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-attribute"> 
-  <button type="button" class="collapsible">+ What is an Attribute?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-getset"> 
-  <button type="button" class="collapsible">+ What are Get and Set?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-caching"> 
-  <button type="button" class="collapsible">+ What is Caching?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-genericconstraints"> 
-  <button type="button" class="collapsible">+ Can you set Constraints on Generic Classes?<br/>
+  <button type="button" class="collapsible">+ Attributes<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5071,7 +4532,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-extensions"> 
-  <button type="button" class="collapsible">+ What are Extension Methods?<br/>
+  <button type="button" class="collapsible">+ Extension Methods<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5082,7 +4543,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-anontype"> 
-  <button type="button" class="collapsible">+ What is an Anonymous Type?<br/>
+  <button type="button" class="collapsible">+ Anonymous Types<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5092,41 +4553,9 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-objpool"> 
-  <button type="button" class="collapsible">+ What is an Object Pool?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-defvsimed"> 
-  <button type="button" class="collapsible">+ What is Deferred Execution vs Immediate Execution?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
 
 <div id="interview-stream"> 
-  <button type="button" class="collapsible">+ What is a Stream?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-equals"> 
-  <button type="button" class="collapsible">+ What is the difference between `Equals()` and `==`?<br/>
+  <button type="button" class="collapsible">+ Streams<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5137,62 +4566,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-binding"> 
-  <button type="button" class="collapsible">+ What is the difference between Early-Binding and Late-Binding?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-type"> 
-  <button type="button" class="collapsible">+ What is the difference between `typeof` and `GetType()`?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-linq"> 
-  <button type="button" class="collapsible">+ What is the difference between LINQ and Stored Procedures?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-staticthis"> 
-  <button type="button" class="collapsible">+ Can you use `this` inside a static method in C#?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-delegate"> 
-  <button type="button" class="collapsible">+ What are Delegates?<br/>
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-genericperf"> 
-  <button type="button" class="collapsible">+ How can you improve the Performance of Generic Classes?<br/>
+  <button type="button" class="collapsible">+ Early-Binding and Late-Binding<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5203,7 +4577,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-reflection"> 
-  <button type="button" class="collapsible">+ What is Reflection?<br/>
+  <button type="button" class="collapsible">+ Reflection<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5213,13 +4587,77 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-yield"> 
-  <button type="button" class="collapsible">+ What does `yield return` do?<br/>
+<div id="interview-dispose"> 
+  <button type="button" class="collapsible">+ `Dispose` vs `Finalize`<br/>
      <code class="ex">
 xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-equals"> 
+  <button type="button" class="collapsible">+ `Equals()` vs `==`?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-type"> 
+  <button type="button" class="collapsible">+ `typeof` vs `GetType()`<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+</div>
+</div>
+
+<div id="data-structures">
+<button type="button" class="collapsible">+ Data Structures</button>
+<div class="content" style="display: none;" markdown="1">
+    
+<div>  
+<button type="button" class="collapsible">+ Misc</button>  
+<div class="content" style="display: none;" markdown="1">
+
+Should create a separate page that goes through these in depth
+
+### Array
+See: [Arrays](http://zetcode.com/lang/csharp/arrays/)
+And: [Join](https://www.geeksforgeeks.org/c-sharp-join-method-set-1/)  (and Split)
+
+* Jagged Arrays
+
+
+### ArrayList
+### Stack
+### Queue
+### LinkedList<T> (Doubly-Linked List)
+### HashTable
+### Dictionary<TKey, TValue>
+### SortedSet<T> (Red-Black Tree)
+
+See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-trees).
+
+### Singly-Linked List
+### Skip List
+### Binary Search Tree
+### Cartesian Tree
+### B-Tree
+### Splay Tree
+### AVL Tree
+### KD Tree
 
 </div>
 </div>
@@ -5236,7 +4674,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-enumerable"> 
-  <button type="button" class="collapsible">+ What is the difference between IEnumerable and IQueryable?<br/>
+  <button type="button" class="collapsible">+ IEnumerable vs IQueryable<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5246,8 +4684,157 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-threadvsprocess"> 
-  <button type="button" class="collapsible">+ What is the difference between a Thread and a Process?<br/>
+</div>
+</div>
+
+<div id="keywords">
+<button type="button" class="collapsible">+ Keywords</button>
+<div class="content" style="display: none;" markdown="1">
+    
+<div id="interview-accessmodifiers"> 
+  <button type="button" class="collapsible">+ Access Modifiers<br/>
+    <code class="ex">
+public, internal protected, private, protected internal, private protected
+
+Classes and interfaces can only be public or internal.
+
+The default access for everything in C# is "the most restricted access you could declare for that member".
+(except in a property getter or setter, which inherits from the property)
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+Modifiers are used to provide some control over how the API is used.
+
+* `public` = Accessible anywhere within the project.
+* `internal` = Accessible only within the assembly.
+* `protected` = Accessible only within the current class and its derived classes.
+* `private` = Accessible only within the current class.
+* `protected internal` = Accessible anywhere within the assembly, and within any derived classes within the project.
+* `private protected` = Accessible within any derived classes within the assembly. 
+
+Interfaces members cannot have access modifiers (they are always the same as the interface).
+
+**Inheritance Access Modifiers**
+
+By definition, inheritance means that a sub-class contains all members of its direct super-class (except for constructors and destructors).  This includes all private members: they are inaccessible, but still occupy memory.
+
+In a sub-class, the methods of the super-class can be overridden using either the `new` or `override` keywords.
+  * `new`: in this case, the sub-class version of the method will be called if the super-class has been downcast to the sub-class (otherwise the super-class version will be called).
+  * `override`: in this case, the sub-class version of the method will always be called, even if the sub-class has been upcast to the super-class.
+  
+Using the `base` keyword in a sub-class method will access the super-class version of the methods.
+
+```cs
+using System;
+
+class BaseClass
+{
+    public virtual void Method1()
+    {
+        Console.WriteLine("Base - Method1");
+    }
+
+    public void Method2()
+    {
+        Console.WriteLine("Base - Method2");
+    }
+
+    public virtual void Method3()
+    {
+        Console.WriteLine("Base - Method3");
+    }
+}
+
+class DerivedClass : BaseClass
+{
+    public override void Method1()
+    {
+        Console.WriteLine("Derived - Method1");
+    }
+
+    public new void Method2()
+    {
+        Console.WriteLine("Derived - Method2");
+    }
+
+    public override void Method3()
+    {
+        base.Method3();
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        BaseClass bc = new BaseClass();
+        DerivedClass dc = new DerivedClass();
+        BaseClass bcdc = new DerivedClass();
+
+        bc.Method1();   // Base - Method1
+        bc.Method2();   // Base - Method2
+        bc.Method3();   // Base - Method3
+        dc.Method1();   // Derived - Method1
+        dc.Method2();   // Derived - Method2
+        dc.Method3();   // Base - Method3
+        bcdc.Method1(); // Derived - Method1
+        bcdc.Method2(); // Derived - Method1
+        bcdc.Method3(); // Base - Method2
+    }
+}
+```
+</div>
+</div>
+
+<div id="interview-abstractvsvirtual"> 
+  <button type="button" class="collapsible">+ `abstract` vs `virtual`<br/>
+     <code class="ex">
+Abstract methods cannot have functionality.
+Virtual methods provide a default implementation.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+* Abstract methods can only be declared in abstract classes.
+* Abstract classes cannot be instantiated.
+* An abstract sub-class can inherit from an abstract super-class without providing an implementation.
+
+* In the abstract and virtual cases, use the `override` key word to provide an implementation in a sub-class.
+
+```cs
+using System;
+
+public abstract class Vehicle
+{
+    public Vehicle() { }
+    public virtual int Wheels { get { return 4; } }
+}
+
+public class Truck : Vehicle
+{
+    private int wheels;
+
+    public Truck(int wheels) : base() { this.wheels = wheels; }
+    public override int Wheels { get { return this.wheels; } }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Vehicle truck = new Truck(12);
+
+        Console.WriteLine(truck.Wheels);
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="interview-hiding"> 
+  <button type="button" class="collapsible">+ `new`<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5257,10 +4844,98 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-deadlocks"> 
-  <button type="button" class="collapsible">+ How are Deadlocks handled in Multithreaded Processes?<br/>
+<div id="interview-partial"> 
+  <button type="button" class="collapsible">+ `partial`<br/>
      <code class="ex">
-lock, semaphores, mutex
+A class that is constructed from functionality defined in multiple files.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+The functionality from multiple partial classes can be combined into a single class at runtime. 
+
+Partial class are declared using the `partial` keyword.
+
+* Every part of the partial class definition should be in the same assembly and namespace, but you can use different source file name.
+* Every part of the partial class definition should have the same accessibility like private, protected, etc.
+* If any part of the partial class is declared as `abstract` or `sealed`, then the whole class is declared of the same type.
+
+Generally only encountered with generated code, where a portion of the code is automatically generated but another portion may be edited by the developer.  Splitting the parts across separate files can make things cleaner.
+
+```cs
+public partial class MyPartialClass 
+{ 
+    public void Method1() 
+    { 
+    } 
+}
+
+public partial class MyPartialClass 
+{ 
+    public void Method2() 
+    { 
+    } 
+}
+```
+
+After compilation, this becomes:
+
+```cs
+public class MyPartialClass 
+{ 
+    public void Method1() 
+    { 
+    } 
+    
+    public void Method2() 
+    { 
+    } 
+}
+```
+
+</div>
+</div>
+
+<div id="interview-sealed"> 
+  <button type="button" class="collapsible">+ `sealed`<br/>
+     <code class="ex">
+Sealed classes cannot be inherited.
+Sealed methods cannot be overrriden.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+The following code will not compile:
+
+```cs
+// Creating a sealed class
+sealed class Test : OptionalBaseClass 
+{ 
+} 
+
+// Inheriting the Sealed Class 
+class Example : Test 
+{ 
+}
+```
+
+Reasons for using a sealed class:
+
+* To prevent tampering of important classes that compromise security or performance.
+* If the class inherits many virtual members, it may be more efficient than sealing each individually.
+* The class is an attribute that requires a very fast runtime look-up (sealed attributes have slightly better performance).
+
+</div>
+</div>
+
+<div id="interview-interfacevsabstract"> 
+  <button type="button" class="collapsible">+ `interface` vs `abstract class`?<br/>
+     <code class="ex">
+Interfaces allow multiple inheritance (composition - "has a"); abstract classes do not (inheritance - "is a").
+Abstract classes have a constructor, interfaces cannot.
+Abstract classes can have static members, interfaces cannot.
+The members of an abstract class can have access modifiers, those in an interface cannot.
+Abstract classes can provide implementation, interfaces cannot.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -5268,19 +4943,146 @@ lock, semaphores, mutex
 </div>
 </div>
 
-<div id="interview-threads"> 
-  <button type="button" class="collapsible">+ How are Threads managed?<br/>
+<div id="interview-multipleinterfaces"> 
+  <button type="button" class="collapsible">+ Implementing multiple interfaces with the same method<br/>
      <code class="ex">
-SystemThread, ThreadPool, Delegate.BeginInvoke
+Yes, but they need to be accessed explicitly.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+```cs
+interface T1 
+{ 
+    void Set(); 
+} 
+
+interface T2 
+{ 
+    void Set(); 
+}
+```
+
+```cs
+// implements both interfaces 
+class Example : T1, T2
+{
+    void T1.Set()
+    {
+        Console.WriteLine("T1");
+    }
+    void T2.Set()
+    {
+        Console.WriteLine("T2");
+    }
+}
+```
+
+```cs
+static public void Main () 
+{ 
+    T1 t1 = new Example(); 
+
+    // calling T1 interface method 
+    t1.Set(); 
+
+    // Creating object of Example 
+    // of T2 interface 
+    T2 t2 = new Example(); 
+
+    // calling T2 interface method 
+    t2.Set(); 
+}
+```
+
+**Caveat**
+
+An alternative - but not recommended solution - is to make the shared member public:
+
+```cs
+class Example : T1, T2 
+{ 
+    public void Set() 
+    { 
+    } 
+}
+```
+
+This will work, however it is ambiguous to which interface the implementation refers.
+
 </div>
 </div>
 
-<div id="interview-interprocess"> 
-  <button type="button" class="collapsible">+ How can you send data between Processes?<br/>
+<div id="interview-static"> 
+  <button type="button" class="collapsible">+ `static`<br/>
+     <code class="ex">
+Static classes cannot be instantiated.
+Non-static classes must be instantiated.
+Only static members can be accessed from a static class.
+Non-static classes can have static members but static members cannot access non-static variables.
+A static constructor is called before any other constructor.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+All static objects, whether reference-type or value-type, are maintained on the **heap**, just the same as any other object, however they exist for the life of the app and so are not garbage collected (more specifically, static objects are stored in the **high-frequency heap**, which is a **loader heap**, which is separate to the normal **GC heap**).
+
+<img src="assets/images/dotnet_memory.png" />
+
+**Static Constructors**
+
+Static members and classes are initialized when an app first starts.  This means that static constructors will always be called before non-static ones.
+
+See the following example:
+
+```cs
+using System;
+
+class Program
+{
+    public class TestStatic
+    {
+        public static int TestValue;
+
+        public TestStatic()
+        {
+            if (TestValue == 0)
+            {
+                TestValue = 5;
+            }
+        }
+        
+        static TestStatic()
+        {
+            if (TestValue == 0)
+            {
+                TestValue = 10;
+            }
+        }
+
+        public void Print()
+        {
+            if (TestValue == 5)
+            {
+                TestValue = 6;
+            }
+            Console.WriteLine("TestValue : " + TestValue);
+        }
+    }
+
+    static void Main(string[] args)
+    {
+        TestStatic t = new TestStatic();
+        t.Print(); // output: 10
+    }
+}
+```
+
+</div>
+</div>
+
+<div id="interview-staticthis"> 
+  <button type="button" class="collapsible">+ Can you use `this` inside a static method in C#?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5290,8 +5092,152 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-threadstates"> 
-  <button type="button" class="collapsible">+ What states can a Thread have?<br/>
+<div id="interview-const"> 
+  <button type="button" class="collapsible">+ `const` vs `read-only`<br/>
+     <code class="ex">
+const: cannot be changed after compile time; only applies to primitive types (it is implicitly static).  
+       Should only be used if value will never, ever change.
+read-only: can only be set when a class is instantiated (i.e. in the class declaration or constructor)
+static readonly: effectively the same as const, although there are some significant subtleties (see inside).
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+The primary difference between `const` and `static readonly` is illustrated by the following example:
+
+Assembly A:
+
+```cs
+public class MyData
+{
+    public const int CONSTANT_NUMBER = 6;
+    public readonly int READONLY_NUMBER = 12;
+}
+```
+
+Assembly B:
+
+```cs
+public class MyLogic
+{
+    private int myConstantNumber;
+    private int myReadOnlyNumber;
+
+    public MyLogic()
+    {
+        this.myConstantNumber = MyData.CONSTANT_NUMBER;
+
+        MyData myData = new MyData();
+        this.myReadOnlyNumber = myData.READONLY_NUMBER;
+    }
+
+    public void WriteNumbers()
+    {
+        Console.WriteLine(string.Format("{0} & {1}", this.myConstantNumber, this.myReadOnlyNumber));
+    }
+}
+```
+
+Note that Assembly B depends on Assembly A.
+
+When initially run, `WriteNumbers()` will output `6 & 12`.
+
+Subsequently, the value of `CONSTANT_NUMBER` is changed in Assembly A, which is recompiled.  Assembly B, however, is not recompiled.
+
+Assembly A:
+
+```cs
+public class MyData
+{
+    public const int CONSTANT_NUMBER = 20;
+    public readonly int READONLY_NUMBER = 12;
+}
+```
+
+Now, when `WriteNumbers()` is run, **the output will still be `6 & 12`**.
+
+This is because, being a `const`, the value of `CONSTANT_NUMBER` will be "baked" into the IL of Assembly B at compile time, so it will ignore any subsequent changes to this value in Assembly A.
+
+For this reason, it is recommended that `const` only be used if you know that this value will never, ever, *ever* change for any reason.  If you are unsure, use `readonly`. 
+
+</div>
+</div>
+
+<div id="interview-whilevsfor"> 
+  <button type="button" class="collapsible">+ `while` vs `for`<br/>
+    <code class="ex">
+For is used when number of repeats is known.
+While is used when a sentinel loop is necessary.
+Exactly the same after compilation.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-dowhilevswhile"> 
+  <button type="button" class="collapsible">+ `while` vs `do-while`<br/>
+     <code class="ex">
+Do-While is used if the loop should always runs at least once.
+While is used if a test should be evaluated before the loop runs.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-continuevsbreak"> 
+  <button type="button" class="collapsible">+ `continue` vs `break`<br/>
+     <code class="ex">
+Break exists a loop.
+Continue skips to the next iteration of a loop.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div> 
+<button type="button" class="collapsible">+ `async` &amp; `await`<br/>
+    <code class="ex">
+async: indicates that a method performs asynchronous actions.
+await: indicates that the calling method should return immediately; 
+       the rest of the calling method will complete once the awaited method returns.
+    </code>
+</button>
+<div class="content" style="display: none;" markdown="1">
+
+If an `async` method calls another method or function using the `await` keyword, the calling method will return instantly at the point `await` is called; any instructions after the `await` will not complete until after the awaited method completes.
+
+In the following example, the output from the program will be null, since `result` will not be initialized until after `Task.Delay(5)` returns, which will not happen until after WriteLine() is called.
+
+```csharp
+class Program {
+  private static string result;
+ 
+  static void Main() {
+    SaySomething();
+    Console.WriteLine(result);
+  }
+ 
+  static async Task<string> SaySomething() {
+    await Task.Delay(5);
+    result = "Hello world!";
+    return “Something”;
+  }
+}
+```
+
+An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Delay(5)`, since this will cause the main thread to block until the `Sleep()` method returns, so that `result` will be initialized before the `SaySomething` method returns.  In this case, the program will return `Hello world!`.
+
+</div>
+</div>
+
+<div id="interview-refvsout"> 
+  <button type="button" class="collapsible">+ `ref` vs `out`?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5301,8 +5247,8 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-dispose"> 
-  <button type="button" class="collapsible">+ What is the difference between Dispose and Finalize?<br/>
+<div id="interview-asvsis"> 
+  <button type="button" class="collapsible">+ `as` vs `is`?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5312,9 +5258,101 @@ xxxxxxxx
 </div>
 </div>
 
+<div id="interview-exceptions"> 
+  <button type="button" class="collapsible">+ `throw`<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
 
-<div id="interview-querycomp"> 
-  <button type="button" class="collapsible">+ What is Query Comprehension/Syntax?<br/>
+`throw ex` vs `throw`
+
+</div>
+</div>
+
+<div id="interview-tryblock"> 
+  <button type="button" class="collapsible">+ `try`, `catch` &amp; `finally`<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-getset"> 
+  <button type="button" class="collapsible">+ `get` &amp; `set`<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-yield"> 
+  <button type="button" class="collapsible">+ `yield return`<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+</div>
+</div>
+
+<div id="performance"> 
+  <button type="button" class="collapsible">+ Performance</button>   
+<div class="content" style="display: none;" markdown="1">
+    
+<div id="interview-caching"> 
+  <button type="button" class="collapsible">+ Performance: Caching<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-objpool"> 
+  <button type="button" class="collapsible">+ Performance: Object Pools<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+</div>
+</div>
+
+<div id="generics"> 
+  <button type="button" class="collapsible">+ Generics</button>   
+<div class="content" style="display: none;" markdown="1">
+    
+<div id="interview-genericconstraints"> 
+  <button type="button" class="collapsible">+ Generics: Can you set Constraints on Generic Classes?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-genericperf"> 
+  <button type="button" class="collapsible">+ Generics: Performance<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5325,7 +5363,7 @@ xxxxxxxx
 </div>
 
 <div id="interview-covar"> 
-  <button type="button" class="collapsible">+ In Generics, what is the difference between Covariance and Contravariance?<br/>
+  <button type="button" class="collapsible">+ Generics: Covariance vs Contravariance?<br/>
      <code class="ex">
 xxxxxxxx
     </code>
@@ -5335,98 +5373,129 @@ xxxxxxxx
 </div>
 </div>
 
-<div id="interview-expressiontrees"> 
-  <button type="button" class="collapsible">+ What are Expression Trees?<br/>
+<div id="interview-overloadgeneric"> 
+  <button type="button" class="collapsible">+ Generics: Overloading a Generic Method<br/>
     <code class="ex">
-A way of breaking down functions into a tree like structure.
-Expression trees were created for the task of converting code such as a query expression into a string that can be passed to some other process and executed there.
-Of particular relevance to LINQ.
-   </code>
+Yes - Method(), Method&lt;T&gt;(T t), Methodd&lt;T&gt;(T t, int i), Methodd&lt;T1, T2&gt;(T1 t1, T2 t2), etc.
+    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-Given the following expression:
-
 ```cs
-Expression<Func<Student, bool>> isTeenagerExpr = s => s.age > 12 && s.age < 20;
-```
-
-The compiler will break this down into:
-
-```cs
-Expression.Lambda<Func<Student, bool>>(
-                Expression.AndAlso(
-                    Expression.GreaterThan(Expression.Property(pe, "Age"), Expression.Constant(12, typeof(int))),
-                    Expression.LessThan(Expression.Property(pe, "Age"), Expression.Constant(20, typeof(int)))),
-                        new[] { pe });
-```
-
-Expressions can also be built manually.  Take the following example:
-
-```cs
-Func<Student, bool> isAdult = s => s.age >= 18;
-```
-
-This is identical to:
-
-```cs
-public bool function(Student s)
+public class Dog
 {
-  return s.Age > 18;
+    public string Name { get; set; }
+ 
+    public Dog(string name)
+    {
+        Name = name;
+    }
+ 
+    public void Bury(Bone b)
+    {
+        Console.WriteLine("{0} is burying: {1}", Name, b);
+    }
+ 
+    public void Bury(Lawyer l)
+    {
+        Console.WriteLine("{0} is burying: {1}", Name, l);
+    }
+ 
+    public void Bury<T>(T thing)
+    {
+        Console.WriteLine("{0} is burying: {1}", Name, thing);
+    }
+ 
+    public void Bury<T>(T thing, string msg)
+    {
+        Console.WriteLine("{0} : {1}", msg, thing);
+    }
+ 
+    public void Bury<T1, T2>(T1 thing1, T2 thing2)
+    {
+        Console.WriteLine("{0} is burying: {1}", Name, thing1);
+        Console.WriteLine("{0} is burying: {1}", Name, thing2);
+    }
 }
 ```
 
-To construct this as an expression, first the parameters are extracted:
-
 ```cs
-ParameterExpression pe = Expression.Parameter(typeof(Student), "s");
+Dog fido = new Dog("Fido");
+ 
+fido.Bury(new Bone());
+fido.Bury(new Lawyer());
+fido.Bury<Cow>(new Cow("Bessie"));
+fido.Bury<Lawyer>(new Lawyer(), "One less lawyer");
+fido.Bury<Cow,Cat>(new Cow("Bessie"), new Cat("Puffy"));
 ```
 
-And then the members:
+</div>
+</div>
 
-```cs
-MemberExpression me = Expression.Property(pe, "Age");
-```
+</div>
+</div>
 
-And then constants:
-
-```cs
-ConstantExpression constant = Expression.Constant(18, typeof(int));
-```
-
-And then any binary expressions:
-
-```cs
-BinaryExpression body = Expression.GreaterThanOrEqual(me, constant);
-```
-
-Finally, this can all be put together as:
-
-```cs
-// var = Expression<Func <Student, bool>>
-var expressionTree = Expression.Lambda<Func<Student, bool>>(body, new[] { pe });
-```
-
-This can then be accessed in the following manner:
-
-```cs
-Console.WriteLine("Expression Tree: {0}", expressionTree); // Expression Tree: s => (s.Age >= 18)
+<div id="multithreading"> 
+  <button type="button" class="collapsible">+ Multithreading</button>   
+<div class="content" style="display: none;" markdown="1">
     
-Console.WriteLine("Expression Tree Body: {0}", expressionTree.Body); // Expression Tree Body: (s.Age >= 18)
-    
-Console.WriteLine("Number of Parameters in Expression Tree: {0}", 
-                                expressionTree.Parameters.Count); // Number of Parameters in Expression Tree: 1
-    
-Console.WriteLine("Parameters in Expression Tree: {0}", expressionTree.Parameters[0]); // Parameters in Expression Tree: s
-```
+<div id="interview-threadvsprocess"> 
+  <button type="button" class="collapsible">+ Thread vs Process?<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
 
-Note: the goal is not to generate a result but to generate an expression.
+</div>
+</div>
+
+<div id="interview-deadlocks"> 
+  <button type="button" class="collapsible">+ Locks, Semaphores &amp; Mutexes<br/>
+     <code class="ex">
+lock, semaphores, mutex
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-threads"> 
+  <button type="button" class="collapsible">+ Thread Management<br/>
+     <code class="ex">
+SystemThread, ThreadPool, Delegate.BeginInvoke
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-interprocess"> 
+  <button type="button" class="collapsible">+ Interprocess Communication<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-threadstates"> 
+  <button type="button" class="collapsible">+ Thread States<br/>
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
 
 </div>
 </div>
 
 <div id="interview-threadparams"> 
-  <button type="button" class="collapsible">+ Can a Thread have Parameters?<br/>
+  <button type="button" class="collapsible">+ Thread Parameters<br/>
     <code class="ex">
 Yes if thread delegate has a single object parameter.
 Compiler automatically creates a ParameterizedThreadStarter.
@@ -5513,67 +5582,8 @@ class Program
 </div>
 </div>
 
-<div id="interview-overloadgeneric"> 
-  <button type="button" class="collapsible">+ Can you overload a Generic Method?<br/>
-    <code class="ex">
-Yes - Method(), Method&lt;T&gt;(T t), Methodd&lt;T&gt;(T t, int i), Methodd&lt;T1, T2&gt;(T1 t1, T2 t2), etc.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-```cs
-public class Dog
-{
-    public string Name { get; set; }
- 
-    public Dog(string name)
-    {
-        Name = name;
-    }
- 
-    public void Bury(Bone b)
-    {
-        Console.WriteLine("{0} is burying: {1}", Name, b);
-    }
- 
-    public void Bury(Lawyer l)
-    {
-        Console.WriteLine("{0} is burying: {1}", Name, l);
-    }
- 
-    public void Bury<T>(T thing)
-    {
-        Console.WriteLine("{0} is burying: {1}", Name, thing);
-    }
- 
-    public void Bury<T>(T thing, string msg)
-    {
-        Console.WriteLine("{0} : {1}", msg, thing);
-    }
- 
-    public void Bury<T1, T2>(T1 thing1, T2 thing2)
-    {
-        Console.WriteLine("{0} is burying: {1}", Name, thing1);
-        Console.WriteLine("{0} is burying: {1}", Name, thing2);
-    }
-}
-```
-
-```cs
-Dog fido = new Dog("Fido");
- 
-fido.Bury(new Bone());
-fido.Bury(new Lawyer());
-fido.Bury<Cow>(new Cow("Bessie"));
-fido.Bury<Lawyer>(new Lawyer(), "One less lawyer");
-fido.Bury<Cow,Cat>(new Cow("Bessie"), new Cat("Puffy"));
-```
-
-</div>
-</div>
-
 <div id="interview-stopthread"> 
-  <button type="button" class="collapsible">+ How can you stop a thread?<br/>
+  <button type="button" class="collapsible">+ Stopping a Thread<br/>
     <code class="ex">
 Create global variable for thread to check
     </code>
