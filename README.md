@@ -4882,7 +4882,25 @@ class Program
 
 **Overload: Operators**
 
-Operators can also be overloaded, however this is a little more complex.
+Operators can also be overloaded, however this is a little more complex, since not all operators can be overloaded:
+
+CAN BE OVERLOADED
+  * Unary operators: +, -, !, ~, ++, --
+  * Binary operators: +, -, *, /, %
+  * Comparison operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=
+
+CANNOT BE OVERLOADED
+  * Conditional logical operators: &&, ||
+  * Assignment operators: +=, -=, *=, /=, %=
+  * Special operators: =, ., ?:, ->, new, is, sizeof, typeof
+
+Using the `+` operator as an example, the general pattern for overloading an operator is the following:
+
+```cs
+public static MyObj operator+ (MyObj b, MyObj c) 
+{
+}
+```
 
 </div>
 </div>
