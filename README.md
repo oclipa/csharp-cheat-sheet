@@ -4463,30 +4463,6 @@ A significant advantage of deferred execution is that it allows data to be filte
 </div>
 
 <!-- =========================#####################################################================================ -->
-<div id="interview-privateconstruct"> 
-  <button type="button" class="collapsible">+ Private Constructors
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
-<div id="interview-privateconstruct"> 
-  <button type="button" class="collapsible">+ Static Constructors
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
 <div id="interview-overload"> 
   <button type="button" class="collapsible">+ Overriding vs Overloading
      <code class="ex">
@@ -4665,24 +4641,144 @@ public static MyObj operator+ (MyObj b, MyObj c)
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-passbyvalue"> 
-  <button type="button" class="collapsible">+ Pass By Value
+  <button type="button" class="collapsible">+ Pass By Value vs Pass by Reference
      <code class="ex">
-xxxxxxxx
+Pass by value: a copy of the data is passed into a method.
+Pass by reference: the original data is passed into a method.
+
+In C#, all data is passed by value into a method by default, even reference types.
+However, when passing reference types, it is the reference that is passed, not the object.
+String is a special case, in that it is a reference type that (effectively) behaves like a value type.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-</div>
-</div>
+It is important to bear in mind that objects on the heap are always referenced by a value on the stack (hence "reference type").  When data is passed around in C#, it is normally the value on the stack that is passed around, not the object on the heap.  Accordingly, all data in C# is considered as "passed by value" by default.  When an item is passed by value, a copy is created of the item (to reiterate: for reference types, the item copied will be the reference, not the object).
 
-<!-- =========================#####################################################================================ -->
-<div id="interview-passbyrefeence"> 
-  <button type="button" class="collapsible">+ Pass By Reference
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+This behaviour can be overridden using the `ref` and `out` keywords.
+
+**Strings**
+
+Strings are a special case.  Consider the following example:
+
+```cs
+using System;
+
+class Program
+{
+    static void DoSomething(string strLocal)
+    {
+        strLocal = "local";
+    }
+
+    static void Main()
+    {
+        string strMain = "main";
+        DoSomething(strMain);
+        Console.WriteLine(strMain); // What gets printed?
+    }
+}
+```
+
+There are three things that need to be understood here:
+
+1. Strings are reference types in C#.
+1. Strings are immutable; a string cannot be changed. Any time a new string is "changed", a new string gets created and the existing reference is pointed at the new object. The old object gets thrown away.
+1. Even though strings are reference types, `strMain` isn't passed by reference. It's a reference type, but the reference itself is passed by value. Any time a parameter is passed without the `ref` keyword (not counting `out` parameters), something has been passed by value.
+
+So, taking this line by line:
+
+First, an object with the value `"main"` is created on the heap, and a reference to this object called `strMain` is created on the stack:
+
+```cs
+string strMain = "main";
+```
+
+Now, the `DoSomething` method is called, which results in a child frame being created (a new, additional step on the call-stack).  The `strMain` reference variable is input into the new frame:
+
+```cs
+DoSomething(strMain);
+```
+
+Upon entry to the method/frame, the input reference to `"main"` is **copied** into a new reference called `strLocal`:
+
+```cs
+void DoSomething(string strLocal)
+```
+
+Now, the `strLocal` reference variable is re-pointed to a brand new string object with the value `"local"`:
+
+```cs
+strLocal = "local";
+```
+
+The method/frame now returns/exits.  Since the `strLocal` reference variable is not returned, this is destroyed (removed from the stack), which means the `"local"` value is lost:
+
+Back in the parent method/frame, the `strMain` reference remains pointing to the original `"main"` value, which is what is printed:
+
+```cs
+Console.WriteLine(strMain); // output: main
+```
+
+**Why are "normal" object different?**
+
+The primary difference between the majority of objects and strings are that strings are immutable, while other objects are not.
+
+For example, consider the following case where `MutableThing` is a mutable reference type (it has a property `ChangeMe` property that can be changed): 
+
+```cs
+using System;
+    
+class MutableThing
+{
+    public int ChangeMe { get; set; }
+}
+    
+class Program
+{
+    static void DoSomething(MutableThing objLocal)
+    {
+        objLocal.ChangeMe = 0;
+    }
+    
+    static void Main()
+    {
+        var objMain = new MutableThing();
+        objMain.ChangeMe = 5;
+        Console.WriteLine(objMain.ChangeMe); // it's 5 on objMain
+
+        DoSomething(objMain);                // now it's 0 on objLocal
+        Console.WriteLine(objMain.ChangeMe); // it's also 0 on objMain 
+    }
+}
+```
+When the `objMain` reference variable is passed into `DoSomething`, the reference variable is copied to `objLocal` but remains pointing to the original `MutableThing` instance.  So far, this is just the same as string case.  
+
+The `DoSomething` method now follows the `objLocal` reference and updates the `ChangeMe` property of **the original object**.  At no point does a new `MutableThing` get created; only its properties have changed.
+
+Again, as in the string case, when `DoSomething` returns, `objMain` remains pointing to the original object, with its now updated property, which is what is displayed.
+
+
+The reason why this is the case is that it is not possible to update properties of a string; it is not possible, in C#, to do `strLocal[3] = 'H'`.  The only option is to create a while new string instead.
+
+**What about the `ref` keyword?**
+
+In the following example, the `ref` keyword is used:
+
+```cs
+void DoSomethingByReference(ref string strLocal)
+{
+    strLocal = "local";
+}
+void Main()
+{
+    string strMain = "main";
+    DoSomethingByReference(ref strMain);
+    Console.WriteLine(strMain);          // Prints "local"
+}
+```
+
+In this case, rather than a copy being made of `strMain` when it is passed into `DoSomethingByReference`, the original reference is passed in.  The reference is genuinely passed by reference and stored in `strLocal`.  This means that when `strLocal` is re-pointed to a new value (`"local"`), it is actually overwriting the original object.  Hence why, in this case, `strMain` is found to have been changed to `"local"` when the stack returns to the `Main()` method. 
 
 </div>
 </div>
@@ -4908,6 +5004,59 @@ Modifiers are used to provide some control over how the API is used.
 Interfaces members cannot have access modifiers (they are always the same as the interface).
 
 </div
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-privateconstruct"> 
+  <button type="button" class="collapsible">+ Private Constructors
+     <code class="ex">
+Private constructors are used to prevent a class being instantiated from outside.
+This is most commonly encountered in singletons, or when used as base constructors.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+public class Foo
+{
+    private Foo() { }
+
+    private static Foo FooInstance { get; set; }
+
+    public static Foo GetFooInstance()
+    {
+        if (FooInstance == null) { FooInstance = new Foo(); }
+        return FooInstance;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Foo foo = Foo.GetFooInstance();
+    }
+}
+```
+
+In addition to their use in singletons, private constructors can also be used as base constructors:
+
+```cs
+public class MyClass
+{
+    private MyClass(object data1, string data2) { }
+
+    public MyClass(object data1)
+        : this(data1, null) { }
+
+    public MyClass(string data2)
+        : this(null, data2) { }
+        
+    public MyClass()
+        : this(null, null) { }
+}
+```
+</div>
 </div>
 
 <!-- =========================#####################################################================================ -->
@@ -5239,6 +5388,14 @@ All static objects, whether reference-type or value-type, are maintained on the 
 **Static Constructors**
 
 Static members and classes are initialized when an app first starts.  This means that static constructors will always be called before non-static ones.
+
+Static constructors are typically used to initialize static fields, particularly if there are dependencies between static fields (using a static constructors allows the order of initialization to be controlled).
+
+There are some rules governing static constructors:
+  * A static constructor does not take access modifiers or have parameters.
+  * A static constructor is called automatically to initialize the class before the first instance is created or any static members are referenced.
+  * A static constructor cannot be called directly.
+  * The user has no control on when the static constructor is executed in the program.
 
 See the following example:
 
