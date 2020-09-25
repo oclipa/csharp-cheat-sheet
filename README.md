@@ -5608,12 +5608,79 @@ An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Del
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-refvsout"> 
-  <button type="button" class="collapsible">+ `ref` vs `out`
+  <button type="button" class="collapsible">+ `ref` vs `out` vs `in`
      <code class="ex">
-xxxxxxxx
+ref: forces an existing object to be passed by reference into a method.
+out: forces a method to assign a value to a variable before returning.
+in: prevents a method from changing the passed in object.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+**`ref`**
+
+The object being passed in must be initialized (even if only to `null`) before being passed in.
+
+```cs
+void DoSomething(ref string strLocal)
+{
+    strLocal = "local";
+}
+void Main()
+{
+    string strMain = "main";      // "main"
+    DoSomething(ref strMain);
+    Console.WriteLine(strMain);   // Prints "local"
+}
+```
+
+**`out`**
+
+The object being passed in need not be initialized before being passed in, however it must be assigned a value before the method returns.
+
+```cs
+void DoSomething(out string strLocal)
+{
+    strLocal = "local";
+}
+void Main()
+{
+    string strMain;        // null
+    DoSomething(out strMain);
+    Console.WriteLine(strMain);   // Prints "local"
+}
+```
+
+**`in`**
+
+`in` is a more recent addition to the language.  It is chiefly used for performance reasons when decalring a struct, to avoid it being modified.
+
+Note that it only prevents a new reference being assigned; properties of reference types can still be updated.
+
+```cs
+  static void Enroll(in Student student)
+  {
+    // With in assigning a new object, this would throw a compilation error
+    // student = new Student();
+
+    // We can still do this with reference types though
+    student.Enrolled = true;
+  }
+  
+  static void Main()
+  {
+    var student = new Student
+    {
+      Name = "Susan",
+      Enrolled = false
+    };
+
+    Enroll(student);
+  }
+```
+
+For further information on `in`, see here:
+  * [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-7.2/readonly-ref#motivation](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-7.2/readonly-ref#motivation)
 
 </div>
 </div>
