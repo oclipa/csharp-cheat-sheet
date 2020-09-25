@@ -4008,7 +4008,7 @@ Both yield the same result because query expressions are translated into their l
 
 Which one you should use is mostly personal preference; many people prefer lambda expressions because they’re shorter and more concise, but some people prefer the query syntax having worked extensively with SQL. 
 
-THe following example shows the same query written using the two different syntaxes:
+The following example shows the same query written using the two different syntaxes:
 
 ```cs
 using System;
@@ -4085,12 +4085,9 @@ class Program
 }
 ```
 
-**Lambda Expressions**
+**Example Expressions**
 
-The following are just some of the most common lambda expressions
-For further info see: 
-  * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](System.Linq.Enumerable API Documentation)
-  * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.queryable](System.Linq.Queryable API Documentation)
+The following are just some of the most common expressions:
 
 ### Where
 
@@ -4306,6 +4303,15 @@ ILookup<int, string> query =
                     p.IntProp, o.StrProp
     );
 ```
+
+For further info on Lambda Expressions, see the following: 
+  * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](System.Linq.Enumerable API Documentation)
+  * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.queryable](System.Linq.Queryable API Documentation)
+
+Query comprehension syntax can be summarized using the following diagram:
+
+<img src="assets/images/query-comprehension-syntax.png" />
+
 </div>
 </div>
 
@@ -4428,10 +4434,30 @@ Note: the goal is not to generate a result but to generate an expression.
 <div id="interview-defvsimed"> 
   <button type="button" class="collapsible">+ Deferred Execution vs Immediate Execution
      <code class="ex">
-xxxxxxxx
+Deferred execution: a method/function is declared but not executed until a late time.
+Typically used with LINQ providers, but can also be used with in-memory collections.
+An advantage is that data can be filtered before it is loaded into memory.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+A simple example is the following statement:
+
+```cs
+// the expression is built here, but not executed
+var persons = context.Persons.Where(a=>a.Age > 18)
+```
+
+In this case, the function is not executed until an additional "aggregate" function is called:
+
+```cs
+// calling .Count() forces the expression to be executed
+var persons = context.Persons.Where(a=>a.Age > 18).Count();
+```
+
+Note that, since execution is deferred, the results returned will match the data source at execution time, not at the time the function was defined.
+
+A significant advantage of deferred execution is that it allows data to be filtered before it is loaded into memory. 
 
 </div>
 </div>
