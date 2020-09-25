@@ -6839,7 +6839,7 @@ To reduce fragmentation:
 
 <hr/>
 
-**Move along; nothing to see here...**
+<strong>Move along; nothing to see here...</strong>
 
 <script type="text/javascript">
 
