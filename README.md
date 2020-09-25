@@ -12,10 +12,12 @@
 &nbsp;
 -------------------------------------------------------------------------------------------------------
 
+<!-- =========================#####################################################================================ -->
 <div id="stupid">
 <button type="button" class="collapsible">+ Stupid, Simple Stuff I Keep Forgetting</button>
 <div class="content" style="display: none;" markdown="1">
 
+<!-- =========================#####################################################================================ -->
 <div id="stupid-class">
 <button type="button" class="collapsible">+ Class Syntax</button>
 <div class="content" style="display: none;" markdown="1">
@@ -68,6 +70,7 @@ namespace MyNamespace
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="stupid-struct">
 <button type="button" class="collapsible">+ Struct Syntax</button>
 <div class="content" style="display: none;" markdown="1">
@@ -116,6 +119,7 @@ namespace MyNamespace
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="stupid-enum">
 <button type="button" class="collapsible">+ Enum Syntax</button>
 <div class="content" style="display: none;" markdown="1">
@@ -153,6 +157,7 @@ namespace MyNamespace
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="stupid-switch">
 <button type="button" class="collapsible">+ Switch Syntax</button>
 <div class="content" style="display: none;" markdown="1">
@@ -191,6 +196,7 @@ namespace MyNamespace
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="stupid-switch">
 <button type="button" class="collapsible">+ Event Syntax</button>
 <div class="content" style="display: none;" markdown="1">
@@ -236,6 +242,7 @@ namespace MyNamespace
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="stupid-strings">
 <button type="button" class="collapsible">+ Displaying Strings</button>
 <div class="content" style="display: none;" markdown="1">
@@ -254,6 +261,7 @@ Console.WriteLine($"{var1} & {var2}");
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="stupid-strings">
 <button type="button" class="collapsible">+ Serialize to JSON</button>
 <div class="content" style="display: none;" markdown="1">
@@ -334,10 +342,12 @@ class Program
 
 -------------------------------------------------------------------------------------------------------
 
+<!-- =========================#####################################################================================ -->
 <div id="theory">
 <button type="button" class="collapsible">+ Theory</button>
 <div class="content" style="display: none;" markdown="1">
     
+<!-- =========================#####################################################================================ -->
 <div id="intro">
 <button type="button" class="collapsible">+ What is C#?
     <code class="ex">
@@ -349,6 +359,7 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="memory">
 <button type="button" class="collapsible">+ Stack vs Heap
     <code class="ex">
@@ -375,6 +386,7 @@ Heap: dynamic memory; objects are garbage collected on occasion.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-encapsulation"> 
   <button type="button" class="collapsible">+ Encapsulation<br/>
     <code class="ex">
@@ -394,6 +406,7 @@ The benefits of encapsulation are:
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-inheritance"> 
   <button type="button" class="collapsible">+ Inheritance<br/>
     <code class="ex">
@@ -434,6 +447,7 @@ namespace Sandbox
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-polymorphism"> 
   <button type="button" class="collapsible">+ Polymorphism<br/>
     <code class="ex">
@@ -481,6 +495,7 @@ namespace Sandbox
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-abstraction"> 
   <button type="button" class="collapsible">+ Abstraction<br/>
     <code class="ex">
@@ -533,6 +548,7 @@ namespace Sandbox
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-classvsobj"> 
   <button type="button" class="collapsible">+ Class vs Object?<br/>
     <code class="ex">
@@ -545,6 +561,7 @@ Object = Instantiation of an class.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-kiss"> 
   <button type="button" class="collapsible">+ KISS: Keep It Simple Stupid<br/>
     <code class="ex">
@@ -556,6 +573,7 @@ Simple names and simple implementations are better than complex or obscure ones.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-dry"> 
   <button type="button" class="collapsible">+ DRY: Don't Repeat Yourself<br/>
     <code class="ex">
@@ -567,6 +585,7 @@ Code in small pieces and reuse the pieces.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-yagni"> 
   <button type="button" class="collapsible">+ YAGNI: You Ain't Gonna Need It<br/>
     <code class="ex">
@@ -578,6 +597,7 @@ Don't include features "just in case".
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-tda"> 
   <button type="button" class="collapsible">+ TDA: Tell Don't Ask<br/>
     <code class="ex">
@@ -590,6 +610,7 @@ Tell the object what you want to do and assume that it knows enough about its in
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-solid"> 
   <button type="button" class="collapsible">+ What are the SOLID Principles?<br/>
      <code class="ex">
@@ -627,6 +648,7 @@ Entities must depend on abstractions not on concretions (a high level module sho
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="srp">    
 <button type="button" class="collapsible">+ SRP: Single Responsibility Principle?
     <code class="ex">
@@ -871,6 +893,7 @@ To determine if SRP is being violated, try the following:
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-ocp"> 
   <button type="button" class="collapsible">+ OCP: Open-Close Principle<br/>
      <code class="ex">
@@ -1010,6 +1033,7 @@ Note: An interface is created here just as an example. There could be an abstrac
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-lsp"> 
   <button type="button" class="collapsible">+ LSP: Liskov Substitution Principle<br/>
      <code class="ex">
@@ -1238,6 +1262,7 @@ After these changes, `FixDepositSavingAccount` is no longer able to produce unex
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-isp"> 
   <button type="button" class="collapsible">+ ISP: Interface Segregation Principle<br/>
      <code class="ex">
@@ -1281,6 +1306,7 @@ In a case such as this, the solution is to split the interface into smaller, mor
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="ioc">    
 <button type="button" class="collapsible">+ DIP: Dependency Inversion Principle? 
     <code class="ex">
@@ -1362,6 +1388,7 @@ namespace MyNamespace.Consumer
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="ioc">    
 <button type="button" class="collapsible">+ What is the Inversion Of Control (IoC) Principle?
     <code class="ex">
@@ -1384,6 +1411,7 @@ Adopting IoC is a prerequisite of TDD.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="dependency">    
 <button type="button" class="collapsible">+ What is the Dependency Injection (DI) pattern?
     <code class="ex">
@@ -1600,6 +1628,7 @@ namespace MyNamespace.Logic
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="strategy">    
 <button type="button" class="collapsible">+ Strategy Pattern   
     <code class="ex">
@@ -1772,6 +1801,7 @@ namespace MyNamespace.Consumer
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-builder"> 
   <button type="button" class="collapsible">+ Builder Pattern<br/>
      <code class="ex">
@@ -1955,6 +1985,7 @@ class Program
 </div>
 </div>
  
+<!-- =========================#####################################################================================ -->
 <div id="interview-builder"> 
   <button type="button" class="collapsible">+ Factory Method Pattern<br/>
     <code class="ex">
@@ -2117,6 +2148,7 @@ class Program
 </div>
 </div>
   
+<!-- =========================#####################################################================================ -->
 <div id="interview-decorator"> 
   <button type="button" class="collapsible">+ Decorator Pattern<br/>
      <code class="ex">
@@ -2451,6 +2483,7 @@ class Program
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-chainofreponse"> 
   <button type="button" class="collapsible">+ Chain of Responsibility Pattern<br/>
      <code class="ex">
@@ -2591,6 +2624,7 @@ class Program
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-adapter"> 
   <button type="button" class="collapsible">+ Adapter Pattern<br/>
      <code class="ex">
@@ -2689,6 +2723,7 @@ class Program
 </div>
 </div>
  
+<!-- =========================#####################################################================================ -->
 <div id="interview-iterator"> 
   <button type="button" class="collapsible">+ Iterator Pattern<br/>
      <code class="ex">
@@ -2840,6 +2875,7 @@ class Program
 </div>
 </div>
  
+<!-- =========================#####################################################================================ -->
 <div id="interview-nullobject"> 
   <button type="button" class="collapsible">+ Null Object Pattern<br/>
      <code class="ex">
@@ -2966,6 +3002,7 @@ class Program
 </div>
 </div>
  
+<!-- =========================#####################################################================================ -->
 <div id="interview-visitor"> 
   <button type="button" class="collapsible">+ Visitor Pattern<br/>
      <code class="ex">
@@ -3178,6 +3215,7 @@ class Employees
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-visitor"> 
   <button type="button" class="collapsible">+ Strategy vs Visitor Pattern<br/>
      <code class="ex">
@@ -3345,6 +3383,7 @@ Example:
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-managed"> 
   <button type="button" class="collapsible">+ Managed vs Unmanaged Code<br/>
      <code class="ex">
@@ -3398,6 +3437,7 @@ Reasons to avoid unsafe code in C#:
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-strongvsweak"> 
   <button type="button" class="collapsible">+ Strong vs Weak Typing?<br/>
      <code class="ex">
@@ -3417,6 +3457,7 @@ C# is strongly typed because:
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-deadlocksql"> 
   <button type="button" class="collapsible">+ What is the difference between an SQL Deadlock and a C# Deadlock?<br/>
      <code class="ex">
@@ -3575,10 +3616,12 @@ class Program
 
 -------------------------------------------------------------------------------------------------------
 
+<!-- =========================#####################################################================================ -->
 <div id="basics">
 <button type="button" class="collapsible">+ Language Features</button>
 <div class="content" style="display: none;" markdown="1">
     
+<!-- =========================#####################################################================================ -->
 <div id="structs">  
 <button type="button" class="collapsible">+ Structs vs Classes
     <code class="ex">
@@ -3640,6 +3683,7 @@ public class MyStruct
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="boxing">  
 <button type="button" class="collapsible">+ Boxing vs Unboxing
     <code class="ex">
@@ -3664,6 +3708,7 @@ e.g. `int x = (int)o;`
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="delegates">   
 <button type="button" class="collapsible">+ Delegate vs Action vs Func vs Predicate vs Events
     <code class="ex">
@@ -3809,6 +3854,7 @@ namespace MyNamespace
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="closures">  
 <button type="button" class="collapsible">+ Closures
     <code class="ex">
@@ -3943,6 +3989,7 @@ class PrinterClosure
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="linq">  
 <button type="button" class="collapsible">+ LINQ
     <code class="ex">
@@ -4262,6 +4309,7 @@ ILookup<int, string> query =
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-linq"> 
   <button type="button" class="collapsible">+ LINQ vs Stored Procedures
      <code class="ex">
@@ -4284,6 +4332,7 @@ Stored Procedures: Are executed on the server side, so can be executed quickly, 
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-expressiontrees"> 
   <button type="button" class="collapsible">+ Expression Trees
     <code class="ex">
@@ -4375,6 +4424,7 @@ Note: the goal is not to generate a result but to generate an expression.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-defvsimed"> 
   <button type="button" class="collapsible">+ Deferred Execution vs Immediate Execution
      <code class="ex">
@@ -4386,6 +4436,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-privateconstruct"> 
   <button type="button" class="collapsible">+ Private Constructors
      <code class="ex">
@@ -4397,6 +4448,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-privateconstruct"> 
   <button type="button" class="collapsible">+ Static Constructors
      <code class="ex">
@@ -4408,6 +4460,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-overload"> 
   <button type="button" class="collapsible">+ Overriding vs Overloading
      <code class="ex">
@@ -4584,6 +4637,7 @@ public static MyObj operator+ (MyObj b, MyObj c)
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-passbyvalue"> 
   <button type="button" class="collapsible">+ Pass By Value
      <code class="ex">
@@ -4595,6 +4649,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-passbyrefeence"> 
   <button type="button" class="collapsible">+ Pass By Reference
      <code class="ex">
@@ -4606,6 +4661,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-attribute"> 
   <button type="button" class="collapsible">+ Attributes
      <code class="ex">
@@ -4617,6 +4673,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-extensions"> 
   <button type="button" class="collapsible">+ Extension Methods
      <code class="ex">
@@ -4628,6 +4685,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-anontype"> 
   <button type="button" class="collapsible">+ Anonymous Types
      <code class="ex">
@@ -4639,7 +4697,7 @@ xxxxxxxx
 </div>
 </div>
 
-
+<!-- =========================#####################################################================================ -->
 <div id="interview-stream"> 
   <button type="button" class="collapsible">+ Streams
      <code class="ex">
@@ -4651,6 +4709,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-binding"> 
   <button type="button" class="collapsible">+ Early-Binding and Late-Binding
      <code class="ex">
@@ -4662,6 +4721,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-reflection"> 
   <button type="button" class="collapsible">+ Reflection
      <code class="ex">
@@ -4673,6 +4733,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-string"> 
   <button type="button" class="collapsible">+ `String` vs `StringBuilder`
      <code class="ex">
@@ -4684,6 +4745,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-dispose"> 
   <button type="button" class="collapsible">+ `Dispose` vs `Finalize`
      <code class="ex">
@@ -4695,6 +4757,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-equals"> 
   <button type="button" class="collapsible">+ `Equals()` vs `==`
      <code class="ex">
@@ -4706,6 +4769,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-type"> 
   <button type="button" class="collapsible">+ `typeof` vs `GetType()`
      <code class="ex">
@@ -4720,6 +4784,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="data-structures">
 <button type="button" class="collapsible">+ Data Structures</button>
 <div class="content" style="display: none;" markdown="1">
@@ -4759,6 +4824,7 @@ See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-tr
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-list"> 
   <button type="button" class="collapsible">+ Common List Interfaces
      <code class="ex">
@@ -4770,6 +4836,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-enumerable"> 
   <button type="button" class="collapsible">+ IEnumerable vs IQueryable
      <code class="ex">
@@ -4784,12 +4851,12 @@ xxxxxxxx
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="keywords">
 <button type="button" class="collapsible">+ Keywords</button>
 <div class="content" style="display: none;" markdown="1">
     
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-accessmodifiers"> 
   <button type="button" class="collapsible">+ Access Modifiers
     <code class="ex">
@@ -4817,7 +4884,7 @@ Interfaces members cannot have access modifiers (they are always the same as the
 </div
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-partial"> 
   <button type="button" class="collapsible">+ Classes: `partial`
      <code class="ex">
@@ -4870,7 +4937,7 @@ public class MyPartialClass
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-interfacevsabstract"> 
   <button type="button" class="collapsible">+ Classes: `interface` vs `abstract`
      <code class="ex">
@@ -4879,17 +4946,83 @@ Abstract classes have a constructor, interfaces cannot.
 Abstract classes can have static members, interfaces cannot.
 The members of an abstract class can have access modifiers, those in an interface cannot.
 Abstract classes can provide implementation, interfaces cannot.
+
+It is possible for a class to inherit methods with the same signature from multiple interfaces, however 
+each method implementation needs to be accessed explicitly.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+An example of inheriting the same method signature from multiple interfaces:
+
+```cs
+interface T1 
+{ 
+    void Set(); 
+} 
+
+interface T2 
+{ 
+    void Set(); 
+}
+```
+
+```cs
+// implements both interfaces 
+class Example : T1, T2
+{
+    void T1.Set()
+    {
+        Console.WriteLine("T1");
+    }
+    void T2.Set()
+    {
+        Console.WriteLine("T2");
+    }
+}
+```
+
+```cs
+static public void Main () 
+{ 
+    T1 t1 = new Example(); 
+
+    // calling T1 interface method 
+    t1.Set(); 
+
+    // Creating object of Example 
+    // of T2 interface 
+    T2 t2 = new Example(); 
+
+    // calling T2 interface method 
+    t2.Set(); 
+}
+```
+
+**Caveat**
+
+An alternative - but not recommended solution - is to make the shared member public:
+
+```cs
+class Example : T1, T2 
+{ 
+    public void Set() 
+    { 
+    } 
+}
+```
+
+This will work, however it is ambiguous to which interface the implementation refers.
+
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-inheritaccessmodifiers"> 
-  <button type="button" class="collapsible">+ Methods: Inheritance Access Modifiers
+  <button type="button" class="collapsible">+ Methods: `abstract`, `virtual`, `override` &amp; `new` 
     <code class="ex">
+a.k.a Inheritance Access Modifiers
+
 abstract: cannot have functionality but can be overridden.
 virtual: can provide a default implementation and can be overridden.
 override: overrides the underlying implementation (but can access it via the base keyword).
@@ -5027,9 +5160,9 @@ class Program
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-sealed"> 
-  <button type="button" class="collapsible">+ `sealed`
+  <button type="button" class="collapsible">+ Classes/Methods: `sealed`
      <code class="ex">
 Sealed classes cannot be inherited.
 Sealed methods cannot be overrriden.
@@ -5060,9 +5193,9 @@ Reasons for using a sealed class:
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-static"> 
-  <button type="button" class="collapsible">+ `static`
+  <button type="button" class="collapsible">+ Classes/Methods: `static`
      <code class="ex">
 Static classes cannot be instantiated.
 Non-static classes must be instantiated.
@@ -5129,7 +5262,7 @@ class Program
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-staticthis"> 
   <button type="button" class="collapsible">+ Can you use `this` inside a static method in C#?
      <code class="ex">
@@ -5141,9 +5274,9 @@ xxxxxxxx
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-const"> 
-  <button type="button" class="collapsible">+ `const` vs `read-only`
+  <button type="button" class="collapsible">+ Variables: `const` vs `read-only`
      <code class="ex">
 const: cannot be changed after compile time; only applies to primitive types (it is implicitly static).  
        Should only be used if value will never, ever change.
@@ -5213,78 +5346,7 @@ For this reason, it is recommended that `const` only be used if you know that th
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
-<div id="interview-multipleinterfaces"> 
-  <button type="button" class="collapsible">+ Implementing multiple interfaces with the same method
-     <code class="ex">
-Each method implementation needs to be accessed explicitly.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-```cs
-interface T1 
-{ 
-    void Set(); 
-} 
-
-interface T2 
-{ 
-    void Set(); 
-}
-```
-
-```cs
-// implements both interfaces 
-class Example : T1, T2
-{
-    void T1.Set()
-    {
-        Console.WriteLine("T1");
-    }
-    void T2.Set()
-    {
-        Console.WriteLine("T2");
-    }
-}
-```
-
-```cs
-static public void Main () 
-{ 
-    T1 t1 = new Example(); 
-
-    // calling T1 interface method 
-    t1.Set(); 
-
-    // Creating object of Example 
-    // of T2 interface 
-    T2 t2 = new Example(); 
-
-    // calling T2 interface method 
-    t2.Set(); 
-}
-```
-
-**Caveat**
-
-An alternative - but not recommended solution - is to make the shared member public:
-
-```cs
-class Example : T1, T2 
-{ 
-    public void Set() 
-    { 
-    } 
-}
-```
-
-This will work, however it is ambiguous to which interface the implementation refers.
-
-</div>
-</div>
-
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-whilevsfor"> 
   <button type="button" class="collapsible">+ `while` vs `for`<br/>
     <code class="ex">
@@ -5298,7 +5360,7 @@ Exactly the same after compilation.
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-dowhilevswhile"> 
   <button type="button" class="collapsible">+ `while` vs `do-while`<br/>
      <code class="ex">
@@ -5311,7 +5373,7 @@ While is used if a test should be evaluated before the loop runs.
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-continuevsbreak"> 
   <button type="button" class="collapsible">+ `continue` vs `break`
      <code class="ex">
@@ -5324,7 +5386,7 @@ Continue skips to the next iteration of a loop.
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="async-await"> 
 <button type="button" class="collapsible">+ `async` &amp; `await`
     <code class="ex">
@@ -5361,7 +5423,7 @@ An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Del
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-refvsout"> 
   <button type="button" class="collapsible">+ `ref` vs `out`
      <code class="ex">
@@ -5373,7 +5435,7 @@ xxxxxxxx
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-asvsis"> 
   <button type="button" class="collapsible">+ `as` vs `is`
      <code class="ex">
@@ -5385,7 +5447,7 @@ xxxxxxxx
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-exceptions"> 
   <button type="button" class="collapsible">+ `throw`
      <code class="ex">
@@ -5399,7 +5461,7 @@ xxxxxxxx
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-tryblock"> 
   <button type="button" class="collapsible">+ `try`, `catch` &amp; `finally`
      <code class="ex">
@@ -5411,7 +5473,7 @@ xxxxxxxx
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-getset"> 
   <button type="button" class="collapsible">+ `get` &amp; `set`
      <code class="ex">
@@ -5423,7 +5485,7 @@ xxxxxxxx
 </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-- =========================#####################################################================================ -->
 <div id="interview-yield"> 
   <button type="button" class="collapsible">+ `yield return`
      <code class="ex">
@@ -5438,10 +5500,12 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="performance"> 
   <button type="button" class="collapsible">+ Performance</button>   
 <div class="content" style="display: none;" markdown="1">
     
+<!-- =========================#####################################################================================ -->
 <div id="interview-caching"> 
   <button type="button" class="collapsible">+ Caching
      <code class="ex">
@@ -5453,6 +5517,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-objpool"> 
   <button type="button" class="collapsible">+ Object Pools
      <code class="ex">
@@ -5464,6 +5529,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-genericperf"> 
   <button type="button" class="collapsible">+ Generics<br/>
      <code class="ex">
@@ -5478,10 +5544,12 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="generics"> 
   <button type="button" class="collapsible">+ Generics</button>   
 <div class="content" style="display: none;" markdown="1">
     
+<!-- =========================#####################################################================================ -->
 <div id="interview-genericconstraints"> 
   <button type="button" class="collapsible">+ Can you set Constraints on Generic Classes?
      <code class="ex">
@@ -5493,6 +5561,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-covar"> 
   <button type="button" class="collapsible">+ Covariance vs Contravariance
      <code class="ex">
@@ -5504,6 +5573,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-overloadgeneric"> 
   <button type="button" class="collapsible">+ Overloading a Generic Method
     <code class="ex">
@@ -5566,10 +5636,12 @@ fido.Bury<Cow,Cat>(new Cow("Bessie"), new Cat("Puffy"));
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="multithreading"> 
   <button type="button" class="collapsible">+ Multithreading</button>   
 <div class="content" style="display: none;" markdown="1">
     
+<!-- =========================#####################################################================================ -->
 <div id="interview-threadvsprocess"> 
   <button type="button" class="collapsible">+ Thread vs Process
      <code class="ex">
@@ -5581,6 +5653,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-deadlocks"> 
   <button type="button" class="collapsible">+ Locks, Semaphores &amp; Mutexes
      <code class="ex">
@@ -5592,6 +5665,7 @@ lock, semaphores, mutex
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-threads"> 
   <button type="button" class="collapsible">+ Thread Management
      <code class="ex">
@@ -5603,6 +5677,7 @@ SystemThread, ThreadPool, Delegate.BeginInvoke
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-interprocess"> 
   <button type="button" class="collapsible">+ Interprocess Communication
      <code class="ex">
@@ -5614,6 +5689,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-threadstates"> 
   <button type="button" class="collapsible">+ Thread States
      <code class="ex">
@@ -5625,6 +5701,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-threadparams"> 
   <button type="button" class="collapsible">+ Thread Parameters
     <code class="ex">
@@ -5713,6 +5790,7 @@ class Program
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-stopthread"> 
   <button type="button" class="collapsible">+ Stopping a Thread
     <code class="ex">
@@ -5805,10 +5883,12 @@ class Program
 
 -------------------------------------------------------------------------------------------------------
 
+<!-- =========================#####################################################================================ -->
 <div id="config">
 <button type="button" class="collapsible">+ Configuration</button>
 <div class="content" style="display: none;" markdown="1">
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-gc"> 
   <button type="button" class="collapsible">+ How does Garbage Collection work?<br/>
      <code class="ex">
@@ -5820,6 +5900,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-remoting"> 
   <button type="button" class="collapsible">+ What is .NET Remoting?<br/>
    <code class="ex">
@@ -5851,6 +5932,7 @@ Windows Communication Framework (WCF) is preferred (better performance, more fle
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-assemblyload"> 
   <button type="button" class="collapsible">+ When would you use `Assembly.LoadFrom()` or `Assembly.LoadslFile()`?<br/>
     <code class="ex">
@@ -5863,6 +5945,7 @@ LoadFile: Only loads from the specified path, so avoids risk of loading the wron
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-strongnaming"> 
   <button type="button" class="collapsible">+ What are the benefits of Strongly Named Assemblies?<br/>
     <code class="ex">
@@ -5877,6 +5960,7 @@ Strong name verification can be disabled by user.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-cicd"> 
   <button type="button" class="collapsible">+ What is CI/CD?<br/>
     <code class="ex">
@@ -5889,6 +5973,7 @@ CD: Continuous Deployment - CI + deploys new release build to customers.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-cloud"> 
   <button type="button" class="collapsible">+ What are differences between Cloud and On-Premise?<br/>
     <code class="ex">
@@ -5903,6 +5988,7 @@ Cloud means you are responsible for resources, rather than customer.
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-dllvsexe"> 
   <button type="button" class="collapsible">+ What is the difference between an EXE and a DLL?<br/>
      <code class="ex">
@@ -5914,6 +6000,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-gac"> 
   <button type="button" class="collapsible">+ What is the GAC?<br/>
      <code class="ex">
@@ -5925,6 +6012,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-tddvsddd"> 
   <button type="button" class="collapsible">+ What are TDD and DDD?<br/>
      <code class="ex">
@@ -5936,6 +6024,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-compilation"> 
   <button type="button" class="collapsible">+ How is C# compiled?<br/>
      <code class="ex">
@@ -5947,6 +6036,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-serialization"> 
   <button type="button" class="collapsible">+ What is the difference between XML and Binary Serialization?<br/>
      <code class="ex">
@@ -5963,10 +6053,12 @@ xxxxxxxx
 
 -------------------------------------------------------------------------------------------------------
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-mvc"> 
 <button type="button" class="collapsible">+ MVC Interview Questions</button>   
 <div class="content" style="display: none;" markdown="1">
  
+<!-- =========================#####################################################================================ -->
 <div id="interview-getvspost"> 
   <button type="button" class="collapsible">+ What is the difference between GET and POST?<br/>
      <code class="ex">
@@ -5978,6 +6070,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-controller"> 
   <button type="button" class="collapsible">+ In MVC, what is a Controller?<br/>
      <code class="ex">
@@ -5989,6 +6082,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-requestflow"> 
   <button type="button" class="collapsible">+ In MVC, what is the Request Flow?<br/>
      <code class="ex">
@@ -6000,6 +6094,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-mvcdesc"> 
   <button type="button" class="collapsible">+ What is MVC?<br/>
      <code class="ex">
@@ -6011,6 +6106,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-viewvssession"> 
   <button type="button" class="collapsible">+ What is the difference between ViewState and SessionState?<br/>
      <code class="ex">
@@ -6022,6 +6118,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-xsd"> 
   <button type="button" class="collapsible">+ What is an XSD file?<br/>
      <code class="ex">
@@ -6033,6 +6130,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-xml"> 
   <button type="button" class="collapsible">+ What is the difference between an XML Fragment and an XML Document?<br/>
      <code class="ex">
@@ -6044,6 +6142,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-cors"> 
   <button type="button" class="collapsible">+ What is CORS?<br/>
      <code class="ex">
@@ -6058,10 +6157,12 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-git"> 
 <button type="button" class="collapsible">+ Git Interview Questions</button>   
 <div class="content" style="display: none;" markdown="1">
  
+<!-- =========================#####################################################================================ -->
 <div id="interview-gitreset"> 
   <button type="button" class="collapsible">+ What does `git reset` do?<br/>
      <code class="ex">
@@ -6073,6 +6174,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-gitpush"> 
   <button type="button" class="collapsible">+ What does `git push origin master` do?<br/>
      <code class="ex">
@@ -6087,10 +6189,12 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-html"> 
 <button type="button" class="collapsible">+ HTML Interview Questions</button>   
 <div class="content" style="display: none;" markdown="1">
  
+<!-- =========================#####################################################================================ -->
 <div id="interview-divspan"> 
   <button type="button" class="collapsible">+ What is the difference between Div and Span?<br/>
      <code class="ex">
@@ -6102,6 +6206,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-htmlvscss"> 
   <button type="button" class="collapsible">+ Why is it a good idea to split HTML and CSS?<br/>
      <code class="ex">
@@ -6113,6 +6218,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-classvsid"> 
   <button type="button" class="collapsible">+ What is the difference between Classes and Ids?<br/>
      <code class="ex">
@@ -6124,6 +6230,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-marginvspadding"> 
   <button type="button" class="collapsible">+ What is the difference between Margin and Padding?<br/>
      <code class="ex">
@@ -6135,6 +6242,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-hyperlinks"> 
   <button type="button" class="collapsible">+ To which elements can a hyperlink be applied?<br/>
      <code class="ex">
@@ -6146,6 +6254,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-doctype"> 
   <button type="button" class="collapsible">+ What is the significant of a DocType?<br/>
      <code class="ex">
@@ -6160,10 +6269,12 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-js"> 
 <button type="button" class="collapsible">+ JavaScript Interview Questions</button>   
 <div class="content" style="display: none;" markdown="1">
  
+<!-- =========================#####################################################================================ -->
 <div id="interview-sessionvslocal"> 
   <button type="button" class="collapsible">+ What is the difference between Session Storage and Local Storage?<br/>
      <code class="ex">
@@ -6175,6 +6286,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-strict"> 
   <button type="button" class="collapsible">+ What does Strict mean?<br/>
      <code class="ex">
@@ -6186,6 +6298,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-nan"> 
   <button type="button" class="collapsible">+ What does NaN mean?<br/>
      <code class="ex">
@@ -6197,6 +6310,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-timers"> 
   <button type="button" class="collapsible">+ How do Timers work?<br/>
      <code class="ex">
@@ -6208,6 +6322,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-timers"> 
   <button type="button" class="collapsible">+ How can you enumerate data types?<br/>
      <code class="ex">
@@ -6219,6 +6334,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-eventbubble"> 
   <button type="button" class="collapsible">+ How do you define Event Bubbling?<br/>
      <code class="ex">
@@ -6230,6 +6346,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-eventbubble"> 
   <button type="button" class="collapsible">+ How do you define Event Bubbling?<br/>
      <code class="ex">
@@ -6241,6 +6358,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-typescript"> 
   <button type="button" class="collapsible">+ What is the difference between TypeScript and JavaScript?<br/>
      <code class="ex">
@@ -6252,6 +6370,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-casesensitive"> 
   <button type="button" class="collapsible">+ Is JavaScript Case Sensitive?<br/>
      <code class="ex">
@@ -6263,6 +6382,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-objinheritance"> 
   <button type="button" class="collapsible">+ How does Object Inheritance work in JavaScript?<br/>
      <code class="ex">
@@ -6274,6 +6394,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-this"> 
   <button type="button" class="collapsible">+ How does the `this` keyword work in JavaScript?<br/>
      <code class="ex">
@@ -6287,6 +6408,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-ajax"> 
   <button type="button" class="collapsible">+ What is Ajax?<br/>
      <code class="ex">
@@ -6298,6 +6420,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-privatemembers"> 
   <button type="button" class="collapsible">+ Can you have private members in JavaScript?<br/>
      <code class="ex">
@@ -6311,6 +6434,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-errors"> 
   <button type="button" class="collapsible">+ What are some types of JavaScript errors?<br/>
      <code class="ex">
@@ -6322,6 +6446,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-arrays"> 
   <button type="button" class="collapsible">+ How can you empty an array?<br/>
      <code class="ex">
@@ -6333,6 +6458,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-hoisting"> 
   <button type="button" class="collapsible">+ What is Function Hoisting?<br/>
      <code class="ex">
@@ -6344,6 +6470,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-deferred"> 
   <button type="button" class="collapsible">+ What is the Deferred Attribute?<br/>
      <code class="ex">
@@ -6355,6 +6482,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-async"> 
   <button type="button" class="collapsible">+ What is the Async Attribute?<br/>
      <code class="ex">
@@ -6366,6 +6494,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-innerhtml"> 
   <button type="button" class="collapsible">+ What does `.innerHTML` do?<br/>
     <code class="ex">
@@ -6394,6 +6523,7 @@ myDiv.innerHTML =+ newElements;
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-appendchild"> 
   <button type="button" class="collapsible">+ What do `.createElement()` and `.appendChild()` do?<br/>
     <code class="ex">Add single elements to the DOM without requiring a complete rebuild.</code>
@@ -6423,6 +6553,7 @@ for (i = 0; i < 100; i++) {
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-eval"> 
   <button type="button" class="collapsible">+ What does `.eval()` do?<br/>
     <code class="ex">
@@ -6448,6 +6579,7 @@ For further information, see:
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-hidecode"> 
   <button type="button" class="collapsible">+ How can you hide code?<br/>
     <code class="ex">
@@ -6472,10 +6604,12 @@ code here
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-js"> 
 <button type="button" class="collapsible">+ SQL Interview Questions</button>   
 <div class="content" style="display: none;" markdown="1">
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-sqlcommands"> 
   <button type="button" class="collapsible">+ What are common SQL commands?<br/>
     <code class="ex">
@@ -6499,6 +6633,7 @@ SELECT, UPDATE, DELETE, INSERT INTO, CREATE DATABASE, ALTER DATABASE, CREATE TAB
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-sqlorder"> 
   <button type="button" class="collapsible">+ In what order should SQL commands be used?<br/>
     <code class="ex">
@@ -6519,6 +6654,7 @@ SELECT, UPDATE, DELETE, INSERT INTO, CREATE DATABASE, ALTER DATABASE, CREATE TAB
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-sqljoin"> 
   <button type="button" class="collapsible">+ What are the different types of Join?<br/>
     <code class="ex">
@@ -6600,6 +6736,7 @@ AND
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-sqlcursor"> 
   <button type="button" class="collapsible">+ What is the SQL Cursor?<br/>
     <code class="ex">
@@ -6654,6 +6791,7 @@ DEALLOCATE sample_cursor;
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
 <div id="interview-frag"> 
   <button type="button" class="collapsible">+ What is Index Fragmentation?<br/>
     <code class="ex">
