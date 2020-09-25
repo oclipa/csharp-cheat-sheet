@@ -5442,18 +5442,25 @@ class Program
 }
 ```
 
-</div>
-</div>
+**Can you use `this` inside a static method in C#?**
 
-<!-- =========================#####################################################================================ -->
-<div id="interview-staticthis"> 
-  <button type="button" class="collapsible">+ Can you use `this` inside a static method in C#?
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+No ...and yes.
 
+Generally, no; in a static class there is no instance, so there is nothing for `this` to reference.
+
+However, the `this` keyword is used in the context of extension methods, which are static, however the meaning is different.  In this case, `this` identifies the method as an extension and indicates the type on which the extension method should be called.
+
+For example, in the following case, `this` indicates that the `FutureTime` method should be called on the `DateTime` object.
+
+```cs
+public static class MyExtensionMethods 
+{ 
+    public static DateTime FutureTime(this DateTime date, int days) 
+    { 
+        return date.AddDays(days); 
+    } 
+}
+```
 </div>
 </div>
 
