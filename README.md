@@ -4265,8 +4265,10 @@ ILookup<int, string> query =
 <div id="interview-linq"> 
   <button type="button" class="collapsible">+ LINQ vs Stored Procedures
      <code class="ex">
-LINQ: A common query syntax to query various data sources, such as SQL Server, Oracle, XML, Collections, etc. It has full type checking at compile-time and IntelliSense support in Visual Studio.
-Stored Procedures: Pre-compiled SQL statements that are stored on a remote database. Since they are executed on the server side, they can be executed with minimum time and also reduce the network traffic.
+LINQ: A common query syntax to query various data sources, such as SQL Server, Oracle, XML, Collections, etc. 
+LINQ: Has full type checking at compile-time and IntelliSense support in Visual Studio.
+Stored Procedures: Pre-compiled SQL statements that are stored on a remote database. 
+Stored Procedures: Are executed on the server side, so can be executed quickly, with reduced network traffic.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -4286,7 +4288,8 @@ Stored Procedures: Pre-compiled SQL statements that are stored on a remote datab
   <button type="button" class="collapsible">+ Expression Trees
     <code class="ex">
 A way of breaking down functions into a tree like structure.
-Expression trees were created for the task of converting code such as a query expression into a string that can be passed to some other process and executed there.
+Expression trees were created for the task of converting code such as a query expression into 
+a string that can be passed to some other process and executed there.
 Of particular relevance to LINQ.
    </code>
   </button>   
@@ -4781,10 +4784,12 @@ xxxxxxxx
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="keywords">
 <button type="button" class="collapsible">+ Keywords</button>
 <div class="content" style="display: none;" markdown="1">
     
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-accessmodifiers"> 
   <button type="button" class="collapsible">+ Access Modifiers
     <code class="ex">
@@ -4809,137 +4814,12 @@ Modifiers are used to provide some control over how the API is used.
 
 Interfaces members cannot have access modifiers (they are always the same as the interface).
 
-**Inheritance Access Modifiers**
-
-By definition, inheritance means that a sub-class contains all members of its direct super-class (except for constructors and destructors).  This includes all private members: they are inaccessible, but still occupy memory.
-
-In a sub-class, the methods of the super-class can be overridden using either the `new` or `override` keywords.
-  * `new`: in this case, the sub-class version of the method will be called if the super-class has been downcast to the sub-class (otherwise the super-class version will be called).
-  * `override`: in this case, the sub-class version of the method will always be called, even if the sub-class has been upcast to the super-class.
-  
-Using the `base` keyword in a sub-class method will access the super-class version of the methods.
-
-```cs
-using System;
-
-class BaseClass
-{
-    public virtual void Method1()
-    {
-        Console.WriteLine("Base - Method1");
-    }
-
-    public void Method2()
-    {
-        Console.WriteLine("Base - Method2");
-    }
-
-    public virtual void Method3()
-    {
-        Console.WriteLine("Base - Method3");
-    }
-}
-
-class DerivedClass : BaseClass
-{
-    public override void Method1()
-    {
-        Console.WriteLine("Derived - Method1");
-    }
-
-    public new void Method2()
-    {
-        Console.WriteLine("Derived - Method2");
-    }
-
-    public override void Method3()
-    {
-        base.Method3();
-    }
-}
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        BaseClass bc = new BaseClass();
-        DerivedClass dc = new DerivedClass();
-        BaseClass bcdc = new DerivedClass();
-
-        bc.Method1();   // Base - Method1
-        bc.Method2();   // Base - Method2
-        bc.Method3();   // Base - Method3
-        dc.Method1();   // Derived - Method1
-        dc.Method2();   // Derived - Method2
-        dc.Method3();   // Base - Method3
-        bcdc.Method1(); // Derived - Method1
-        bcdc.Method2(); // Derived - Method1
-        bcdc.Method3(); // Base - Method2
-    }
-}
-```
-</div>
+</div
 </div>
 
-<div id="interview-abstractvsvirtual"> 
-  <button type="button" class="collapsible">+ `abstract` vs `virtual`
-     <code class="ex">
-Abstract methods cannot have functionality.
-Virtual methods provide a default implementation.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-* Abstract methods can only be declared in abstract classes.
-* Abstract classes cannot be instantiated.
-* An abstract sub-class can inherit from an abstract super-class without providing an implementation.
-
-* In the abstract and virtual cases, use the `override` key word to provide an implementation in a sub-class.
-
-```cs
-using System;
-
-public abstract class Vehicle
-{
-    public Vehicle() { }
-    public virtual int Wheels { get { return 4; } }
-}
-
-public class Truck : Vehicle
-{
-    private int wheels;
-
-    public Truck(int wheels) : base() { this.wheels = wheels; }
-    public override int Wheels { get { return this.wheels; } }
-}
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        Vehicle truck = new Truck(12);
-
-        Console.WriteLine(truck.Wheels);
-    }
-}
-```
-
-</div>
-</div>
-
-<div id="interview-hiding"> 
-  <button type="button" class="collapsible">+ `new`
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-partial"> 
-  <button type="button" class="collapsible">+ `partial`
+  <button type="button" class="collapsible">+ Classes: `partial`
      <code class="ex">
 A class that is constructed from functionality defined in multiple files.
     </code>
@@ -4990,6 +4870,164 @@ public class MyPartialClass
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
+<div id="interview-interfacevsabstract"> 
+  <button type="button" class="collapsible">+ Classes: `interface` vs `abstract`
+     <code class="ex">
+Interfaces allow multiple inheritance (composition - "has a"); abstract classes do not (inheritance - "is a").
+Abstract classes have a constructor, interfaces cannot.
+Abstract classes can have static members, interfaces cannot.
+The members of an abstract class can have access modifiers, those in an interface cannot.
+Abstract classes can provide implementation, interfaces cannot.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+<div id="interview-inheritaccessmodifiers"> 
+  <button type="button" class="collapsible">+ Methods: Inheritance Access Modifiers
+    <code class="ex">
+abstract: cannot have functionality but can be overridden.
+virtual: can provide a default implementation and can be overridden.
+override: overrides the underlying implementation (but can access it via the base keyword).
+new: renders the underlying implementation inaccessible.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+By definition, inheritance means that a sub-class contains all members of its direct super-class (except for constructors and destructors).  This includes all private members: they are inaccessible, but still occupy memory.
+
+**`abstract` &amp; `virtual`**
+
+* Abstract methods can only be declared in abstract classes.
+* Virtual methods can be declared in any class.
+* Abstract classes cannot be instantiated.
+* An abstract sub-class can inherit from an abstract super-class without providing an implementation.
+* A virtual method must provide a base implementation (even if that does nothing).
+
+* In the abstract and virtual cases, use the `override` key word to provide an implementation in a sub-class.
+
+**`new` &amp; `override`**
+
+In a sub-class, the methods of the super-class can be overridden using either the `new` or `override` keywords.
+  * `new`: in this case, the sub-class version of the method will be called if the super-class has been downcast to the sub-class (otherwise the super-class version will be called).
+  * `override`: in this case, the sub-class version of the method will always be called, even if the sub-class has been upcast to the super-class.
+
+**`base`**
+
+Using the `base` keyword in a sub-class method will access the super-class version of the methods.
+
+**Example**
+
+*An example using `abstract` and `virtual`*:
+
+```cs
+using System;
+
+public abstract class Vehicle
+{
+    public Vehicle() { }
+    public abstract float MaxLoad { get; }
+    public virtual int Wheels { get { return 4; } }
+}
+
+public class Truck : Vehicle
+{
+    private int wheels;
+    private float loadPerWheel = 2500.0f;
+
+    public Truck(int wheels) : base() { this.wheels = wheels; }
+    public override float MaxLoad { get { return this.wheels * this.loadPerWheel; } }
+    public override int Wheels { get { return this.wheels; } }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Vehicle truck = new Truck(12);
+        Console.WriteLine($"The vehicle has {truck.Wheels} wheels and can carry {truck.MaxLoad} kgs");
+    }
+}
+```
+
+*An example using `new` and `override`*:
+
+```cs
+using System;
+
+class BaseClass
+{
+    // can be overridden
+    public virtual void Method1()
+    {
+        Console.WriteLine("Base - Method1");
+    }
+
+    // is not flagged as overridable
+    public void Method2()
+    {
+        Console.WriteLine("Base - Method2");
+    }
+
+    // can be overridden
+    public virtual void Method3()
+    {
+        Console.WriteLine("Base - Method3");
+    }
+}
+
+class DerivedClass : BaseClass
+{
+    // override super-class
+    public override void Method1()
+    {
+        Console.WriteLine("Derived - Method1");
+    }
+
+    // hide super-class
+    public new void Method2()
+    {
+        Console.WriteLine("Derived - Method2");
+    }
+
+    // override super-class, but internally defer to super-class
+    public override void Method3()
+    {
+        base.Method3();
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        BaseClass bc = new BaseClass();       // instance of super-class
+        DerivedClass dc = new DerivedClass(); // instance of sub-class
+        BaseClass bcdc = new DerivedClass();  // instance of super-class downcast to sub-class
+
+        bc.Method1();   // super-class dominates: "Base - Method1"
+        bc.Method2();   // super-class dominates: "Base - Method2"
+        bc.Method3();   // super-class dominates: "Base - Method3"
+        
+        dc.Method1();   // sub-class dominates: "Derived - Method1"
+        dc.Method2();   // sub-class dominates: "Derived - Method2:"
+        dc.Method3();   // sub-class defers to super-class: "Base - Method3"
+        
+        bcdc.Method1(); // sub-class dominates: "Derived - Method1"
+        bcdc.Method2(); // super-class dominates: "Base - Method2"
+        bcdc.Method3(); // sub-class defers to super-class: "Base - Method3"
+    }
+}
+```
+
+</div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-sealed"> 
   <button type="button" class="collapsible">+ `sealed`
      <code class="ex">
@@ -5022,91 +5060,7 @@ Reasons for using a sealed class:
 </div>
 </div>
 
-<div id="interview-interfacevsabstract"> 
-  <button type="button" class="collapsible">+ `interface` vs `abstract class`
-     <code class="ex">
-Interfaces allow multiple inheritance (composition - "has a"); abstract classes do not (inheritance - "is a").
-Abstract classes have a constructor, interfaces cannot.
-Abstract classes can have static members, interfaces cannot.
-The members of an abstract class can have access modifiers, those in an interface cannot.
-Abstract classes can provide implementation, interfaces cannot.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-</div>
-</div>
-
-<div id="interview-multipleinterfaces"> 
-  <button type="button" class="collapsible">+ Implementing multiple interfaces with the same method
-     <code class="ex">
-Each method implementation needs to be accessed explicitly.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-```cs
-interface T1 
-{ 
-    void Set(); 
-} 
-
-interface T2 
-{ 
-    void Set(); 
-}
-```
-
-```cs
-// implements both interfaces 
-class Example : T1, T2
-{
-    void T1.Set()
-    {
-        Console.WriteLine("T1");
-    }
-    void T2.Set()
-    {
-        Console.WriteLine("T2");
-    }
-}
-```
-
-```cs
-static public void Main () 
-{ 
-    T1 t1 = new Example(); 
-
-    // calling T1 interface method 
-    t1.Set(); 
-
-    // Creating object of Example 
-    // of T2 interface 
-    T2 t2 = new Example(); 
-
-    // calling T2 interface method 
-    t2.Set(); 
-}
-```
-
-**Caveat**
-
-An alternative - but not recommended solution - is to make the shared member public:
-
-```cs
-class Example : T1, T2 
-{ 
-    public void Set() 
-    { 
-    } 
-}
-```
-
-This will work, however it is ambiguous to which interface the implementation refers.
-
-</div>
-</div>
-
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-static"> 
   <button type="button" class="collapsible">+ `static`
      <code class="ex">
@@ -5175,6 +5129,7 @@ class Program
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-staticthis"> 
   <button type="button" class="collapsible">+ Can you use `this` inside a static method in C#?
      <code class="ex">
@@ -5186,6 +5141,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-const"> 
   <button type="button" class="collapsible">+ `const` vs `read-only`
      <code class="ex">
@@ -5257,6 +5213,78 @@ For this reason, it is recommended that `const` only be used if you know that th
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
+<div id="interview-multipleinterfaces"> 
+  <button type="button" class="collapsible">+ Implementing multiple interfaces with the same method
+     <code class="ex">
+Each method implementation needs to be accessed explicitly.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+```cs
+interface T1 
+{ 
+    void Set(); 
+} 
+
+interface T2 
+{ 
+    void Set(); 
+}
+```
+
+```cs
+// implements both interfaces 
+class Example : T1, T2
+{
+    void T1.Set()
+    {
+        Console.WriteLine("T1");
+    }
+    void T2.Set()
+    {
+        Console.WriteLine("T2");
+    }
+}
+```
+
+```cs
+static public void Main () 
+{ 
+    T1 t1 = new Example(); 
+
+    // calling T1 interface method 
+    t1.Set(); 
+
+    // Creating object of Example 
+    // of T2 interface 
+    T2 t2 = new Example(); 
+
+    // calling T2 interface method 
+    t2.Set(); 
+}
+```
+
+**Caveat**
+
+An alternative - but not recommended solution - is to make the shared member public:
+
+```cs
+class Example : T1, T2 
+{ 
+    public void Set() 
+    { 
+    } 
+}
+```
+
+This will work, however it is ambiguous to which interface the implementation refers.
+
+</div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-whilevsfor"> 
   <button type="button" class="collapsible">+ `while` vs `for`<br/>
     <code class="ex">
@@ -5270,6 +5298,7 @@ Exactly the same after compilation.
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-dowhilevswhile"> 
   <button type="button" class="collapsible">+ `while` vs `do-while`<br/>
      <code class="ex">
@@ -5282,6 +5311,7 @@ While is used if a test should be evaluated before the loop runs.
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-continuevsbreak"> 
   <button type="button" class="collapsible">+ `continue` vs `break`
      <code class="ex">
@@ -5294,7 +5324,8 @@ Continue skips to the next iteration of a loop.
 </div>
 </div>
 
-<div> 
+<!--------------------------------------------------------------------------------------------------------------------->
+<div id="async-await"> 
 <button type="button" class="collapsible">+ `async` &amp; `await`
     <code class="ex">
 async: indicates that a method performs asynchronous actions.
@@ -5330,6 +5361,7 @@ An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Del
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-refvsout"> 
   <button type="button" class="collapsible">+ `ref` vs `out`
      <code class="ex">
@@ -5341,6 +5373,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-asvsis"> 
   <button type="button" class="collapsible">+ `as` vs `is`
      <code class="ex">
@@ -5352,6 +5385,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-exceptions"> 
   <button type="button" class="collapsible">+ `throw`
      <code class="ex">
@@ -5365,6 +5399,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-tryblock"> 
   <button type="button" class="collapsible">+ `try`, `catch` &amp; `finally`
      <code class="ex">
@@ -5376,6 +5411,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-getset"> 
   <button type="button" class="collapsible">+ `get` &amp; `set`
      <code class="ex">
@@ -5387,6 +5423,7 @@ xxxxxxxx
 </div>
 </div>
 
+<!--------------------------------------------------------------------------------------------------------------------->
 <div id="interview-yield"> 
   <button type="button" class="collapsible">+ `yield return`
      <code class="ex">
