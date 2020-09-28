@@ -4796,11 +4796,11 @@ Best practice is that all attributes be designed as sealed.
 <div class="content" style="display: none;" markdown="1">
 
 The .NET framework provides three pre-defined attributes:
-  * AttributeUsage
+  * `AttributeUsage`
     * Describes how a custom attribute class can be used.
-  * Conditional
+  * `Conditional`
     * Indicates a method whose execution depends on a specified pre-processing identifier.
-  * Obsolete
+  * `Obsolete`
     * Marks a program entity that should not be used.
 
 In addition it also allows for the creation of Custom Attributes.
@@ -4819,9 +4819,9 @@ The general syntax for this tag is:
 
 Where:
 
-  * `validon` specifies the language elements on which the attribute can be placed. It is a combination of the value of an enumerator AttributeTargets. The default value is AttributeTargets.All.
-  * `allowmultiple` (optional) is a boolean value that indicates whether the attribute can be applied multiple times to the same element.  The default is false (single-use).
-  * `inherited` (optional) is a boolean value that indicates whether the attribute is inherited by derived classes. The default value is false (not inherited).
+  * `validon` specifies the language elements on which the attribute can be placed. It is a combination of the value of an enumerator `AttributeTargets`. The default value is `AttributeTargets.All`.
+  * `allowmultiple` (optional) is a boolean value that indicates whether the attribute can be applied multiple times to the same element.  The default is `false` (single-use).
+  * `inherited` (optional) is a boolean value that indicates whether the attribute is inherited by derived classes. The default value is `false` (not inherited).
 
 For example:
 
@@ -4890,7 +4890,7 @@ The general syntax for this tag is:
 Where:
 
   * `message` is a string describing why the item is obsolete and what should be done instead.
-  * `iserror` (optional) is a boolean value that indicates whether the compiler should treat the user of this item as an error.  The default is false (treat as warning).
+  * `iserror` (optional) is a boolean value that indicates whether the compiler should treat the user of this item as an error.  The default is `false` (treat as warning).
 
 For example:
 
@@ -5010,40 +5010,49 @@ class Rectangle {
 Finally, reflection is used to read the attributes for the element, and react accordingly:
 
 ```cs
-class ExecuteRectangle {
-  static void Main(string[] args) {
-     Rectangle r = new Rectangle(4.5, 7.5);
-     r.Display();
-     Type type = typeof(Rectangle);
+using System.Reflection;
 
-     //iterating through the attribtues of the Rectangle class
-     foreach (Object attributes in type.GetCustomAttributes(false)) {
-        DebugInfo dbi = (DebugInfo)attributes;
+class Program
+{
+    static void Main(string[] args)
+    {
+        Rectangle r = new Rectangle(4.5, 7.5);
+        r.Display();
+        Type type = typeof(Rectangle);
 
-        if (null != dbi) {
-           Console.WriteLine("Bug no: {0}", dbi.BugNo);
-           Console.WriteLine("Developer: {0}", dbi.Developer);
-           Console.WriteLine("Last Reviewed: {0}", dbi.LastReview);
-           Console.WriteLine("Remarks: {0}", dbi.Message);
+        //iterating through the attribtues of the Rectangle class
+        foreach (Object attributes in type.GetCustomAttributes(false))
+        {
+            DebugInfo dbi = attributes as DebugInfo;
+
+            if (null != dbi)
+            {
+                Console.WriteLine("Bug no: {0}", dbi.BugNo);
+                Console.WriteLine("Developer: {0}", dbi.Developer);
+                Console.WriteLine("Last Reviewed: {0}", dbi.LastReview);
+                Console.WriteLine("Remarks: {0}", dbi.Message);
+            }
         }
-     }
 
-     //iterating through the method attribtues
-     foreach (MethodInfo m in type.GetMethods()) {
+        //iterating through the method attribtues
+        foreach (MethodInfo m in type.GetMethods())
+        {
 
-        foreach (Attribute a in m.GetCustomAttributes(true)) {
-           DebugInfo dbi = (DebugInfo)a;
+            foreach (Attribute a in m.GetCustomAttributes(true))
+            {
+                DebugInfo dbi = a as DebugInfo;
 
-           if (null != dbi) {
-              Console.WriteLine("Bug no: {0}, for Method: {1}", dbi.BugNo, m.Name);
-              Console.WriteLine("Developer: {0}", dbi.Developer);
-              Console.WriteLine("Last Reviewed: {0}", dbi.LastReview);
-              Console.WriteLine("Remarks: {0}", dbi.Message);
-           }
+                if (null != dbi)
+                {
+                    Console.WriteLine("Bug no: {0}, for Method: {1}", dbi.BugNo, m.Name);
+                    Console.WriteLine("Developer: {0}", dbi.Developer);
+                    Console.WriteLine("Last Reviewed: {0}", dbi.LastReview);
+                    Console.WriteLine("Remarks: {0}", dbi.Message);
+                }
+            }
         }
-     }
-     Console.ReadLine();
-  }
+        Console.ReadLine();
+    }
 }
 ```
 </div>
@@ -5053,10 +5062,48 @@ class ExecuteRectangle {
 <div id="interview-extensions"> 
   <button type="button" class="collapsible">+ Extension Methods
      <code class="ex">
-xxxxxxxx
+Allow additional methods to be injected into existing element at runtime.
+Must be static, with the type to which it should be applied identified by the first 
+parameter, which must be preceeded by the 'this' keyword.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Extension methods, as the name suggests, are additional methods. Extension methods allow you to inject additional methods without modifying, deriving or recompiling the original class, struct or interface. Extension methods can be added to your own custom class, .NET framework classes, or third party classes or interfaces.
+
+**WARNING:** It is possible that a change to the implementation to which the extension method has been added could break the extension method, so they should be used carefully.
+
+There are three significant features that define an extension method:
+1. The method must be static.
+1. The type of the first parameter of the method must be the type into which the method will be injected.
+1. The first parameter of the method must be preceeded with the `this` keyword (all other parameters are treated as parameters of the method).
+
+For example, in the following case, `this` indicates that the `FutureTime` method should be called on the `DateTime` object.
+
+```cs
+public static class MyExtensionMethods 
+{ 
+    public static DateTime FutureTime(this DateTime date, int days) 
+    { 
+        return date.AddDays(days); 
+    } 
+}
+```
+
+This can then be referenced in the code as a method of the `DateTime` object:
+
+```cs
+class Program
+{
+    static void Main()
+    {
+        // prints the date in 2 days time
+        Console.WriteLine(DateTime.Now.FutureTime(2).ToShortDateString());
+    }
+}
+```
+
+Note that, in this case, the `this` keyword is unrelated to the `this` keyword used to identify local variables.
 
 </div>
 </div>
