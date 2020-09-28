@@ -4647,7 +4647,7 @@ Pass by value: a copy of the data is passed into a method.
 Pass by reference: the original data is passed into a method.
 
 In C#, all data is passed by value into a method by default, even reference types.
-However, when passing reference types, it is the reference that is passed, not the object.
+However, when passing reference types, it is a copy of the reference that is passed, not the object.
 String is a special case, in that it is a reference type that (effectively) behaves like a value type.
     </code>
   </button>   
@@ -4787,11 +4787,263 @@ In this case, rather than a copy being made of `strMain` when it is passed into 
 <div id="interview-attribute"> 
   <button type="button" class="collapsible">+ Attributes
      <code class="ex">
-xxxxxxxx
+Attributes are metadata assigned to a specific object.
+Defined by placing the attribute tag (enclosed in square brackets []) just about the relevant element.
+Attributes should describe facts about the mechanism of the type or method, rather than their meaning.
+Best practice is that all attributes be designed as sealed.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+The .NET framework provides three pre-defined attributes:
+  * AttributeUsage
+    * Describes how a custom attribute class can be used.
+  * Conditional
+    * Indicates a method whose execution depends on a specified pre-processing identifier.
+  * Obsolete
+    * Marks a program entity that should not be used.
+
+In addition it also allows for the creation of Custom Attributes.
+
+**AttributeUsage**
+
+The general syntax for this tag is:
+
+```cs
+[AttributeUsage (
+   validon,
+   AllowMultiple = allowmultiple,
+   Inherited = inherited
+)]
+```
+
+Where:
+
+  * `validon` specifies the language elements on which the attribute can be placed. It is a combination of the value of an enumerator AttributeTargets. The default value is AttributeTargets.All.
+  * `allowmultiple` (optional) is a boolean value that indicates whether the attribute can be applied multiple times to the same element.  The default is false (single-use).
+  * `inherited` (optional) is a boolean value that indicates whether the attribute is inherited by derived classes. The default value is false (not inherited).
+
+For example:
+
+```cs
+[AttributeUsage(
+   AttributeTargets.Class |
+   AttributeTargets.Constructor |
+   AttributeTargets.Field |
+   AttributeTargets.Method |
+   AttributeTargets.Property, 
+   AllowMultiple = true)]
+```
+
+**Conditional**
+
+The general syntax for this tag is:
+
+```cs
+[Conditional(
+   conditionalSymbol
+)]
+```
+Where `conditionalSymbol` is the pre-processing identifier.
+
+For example:
+
+```cs
+#define DEBUG
+using System;
+using System.Diagnostics;
+
+public class Myclass {
+   [Conditional("DEBUG")]
+   
+   public static void Message(string msg) {
+      Console.WriteLine(msg);
+   }
+}
+class Test {
+   static void function1() {
+      Myclass.Message("In Function 1.");
+      function2();
+   }
+   static void function2() {
+      Myclass.Message("In Function 2.");
+   }
+   public static void Main() {
+      Myclass.Message("In Main function.");
+      function1();
+      Console.ReadKey();
+   }
+}
+```
+
+**Obsolete**
+
+The general syntax for this tag is:
+
+```cs
+[Obsolete (
+   message,
+   iserror
+)]
+```
+
+Where:
+
+  * `message` is a string describing why the item is obsolete and what should be done instead.
+  * `iserror` (optional) is a boolean value that indicates whether the compiler should treat the user of this item as an error.  The default is false (treat as warning).
+
+For example:
+
+```cs
+using System;
+
+public class MyClass {
+   [Obsolete("Don't use OldMethod, use NewMethod instead", true)]
+   
+   static void OldMethod() {
+      Console.WriteLine("It is the old method");
+   }
+   static void NewMethod() {
+      Console.WriteLine("It is the new method"); 
+   }
+   public static void Main() {
+      OldMethod();
+   }
+}
+```
+
+**Custom Attributes**
+
+Custom attributes are used to store declarative information about an element, which can be retrieved at runtime.
+
+There are four steps to creating a custom attribute:
+   1. Declaring the attribute.
+   1. Constructing the attribute.
+   1. Applying the attribute to an element.
+   1. Accessing the attribute through reflection.
+
+For example, in the following example a `DebugInfo` attribute is declared:
+
+```cs
+//a custom attribute BugFix to be assigned to a class and its members
+[AttributeUsage(
+   AttributeTargets.Class |
+   AttributeTargets.Constructor |
+   AttributeTargets.Field |
+   AttributeTargets.Method |
+   AttributeTargets.Property,
+   AllowMultiple = true)]
+
+public class DebugInfo : System.Attribute
+```
+
+And constructed with the following functionality:
+
+```cs
+{
+   private int bugNo;
+   private string developer;
+   private string lastReview;
+   public string message;
+   
+   public DebugInfo(int bg, string dev, string d) {
+      this.bugNo = bg;
+      this.developer = dev;
+      this.lastReview = d;
+   }
+   public int BugNo {
+      get {
+         return bugNo;
+      }
+   }
+   public string Developer {
+      get {
+         return developer;
+      }
+   }
+   public string LastReview {
+      get {
+         return lastReview;
+      }
+   }
+   public string Message {
+      get {
+         return message;
+      }
+      set {
+         message = value;
+      }
+   }
+}
+```
+
+It can then be applied to an element such as, in this case, `Rectangle`:
+
+```cs
+[DeBugInfo(45, "Zara Ali", "12/8/2012", Message = "Return type mismatch")]
+[DeBugInfo(49, "Nuha Ali", "10/10/2012", Message = "Unused variable")]
+class Rectangle {
+   //member variables
+   protected double length;
+   protected double width;
+   public Rectangle(double l, double w) {
+      length = l;
+      width = w;
+   }
+   [DebugInfo(55, "Zara Ali", "19/10/2012", Message = "Return type mismatch")]
+   
+   public double GetArea() {
+      return length * width;
+   }
+   [DebugInfo(56, "Zara Ali", "19/10/2012")]
+   
+   public void Display() {
+      Console.WriteLine("Length: {0}", length);
+      Console.WriteLine("Width: {0}", width);
+      Console.WriteLine("Area: {0}", GetArea());
+   }
+}
+```
+
+Finally, reflection is used to read the attributes for the element, and react accordingly:
+
+```cs
+class ExecuteRectangle {
+  static void Main(string[] args) {
+     Rectangle r = new Rectangle(4.5, 7.5);
+     r.Display();
+     Type type = typeof(Rectangle);
+
+     //iterating through the attribtues of the Rectangle class
+     foreach (Object attributes in type.GetCustomAttributes(false)) {
+        DebugInfo dbi = (DebugInfo)attributes;
+
+        if (null != dbi) {
+           Console.WriteLine("Bug no: {0}", dbi.BugNo);
+           Console.WriteLine("Developer: {0}", dbi.Developer);
+           Console.WriteLine("Last Reviewed: {0}", dbi.LastReview);
+           Console.WriteLine("Remarks: {0}", dbi.Message);
+        }
+     }
+
+     //iterating through the method attribtues
+     foreach (MethodInfo m in type.GetMethods()) {
+
+        foreach (Attribute a in m.GetCustomAttributes(true)) {
+           DebugInfo dbi = (DebugInfo)a;
+
+           if (null != dbi) {
+              Console.WriteLine("Bug no: {0}, for Method: {1}", dbi.BugNo, m.Name);
+              Console.WriteLine("Developer: {0}", dbi.Developer);
+              Console.WriteLine("Last Reviewed: {0}", dbi.LastReview);
+              Console.WriteLine("Remarks: {0}", dbi.Message);
+           }
+        }
+     }
+     Console.ReadLine();
+  }
+}
+```
 </div>
 </div>
 
