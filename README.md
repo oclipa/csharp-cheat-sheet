@@ -5227,10 +5227,40 @@ student.FirstName = "Steve"; // Error: cannot change value
 <div id="interview-stream"> 
   <button type="button" class="collapsible">+ Streams
      <code class="ex">
-xxxxxxxx
+Streams derived from System.IO.Stream and are used to read/write bytes to/from a resource.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Streams derive from the abstract `System.IO.Stream` class, which provides standard methods to transfer bytes from/to a source/target.
+
+Common stream implementations are `FileStream`, `MemoryStream`, `BufferedStream`, etc.
+
+In order for a stream to be accessed, it must be opened, however care must be taken to ensure it is also closed once it is no longer required.  Closing a stream is usually accomplished by wrapping it in a `using()` statement (although this could be achieved using a `try`/`finally` block as well, but in that case the `Dispose()` method will need to be called explicitly).
+
+The following is an example of using a `FileStream` (note the `using` wrapper):
+
+```cs
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        using(FileStream stream1 = File.Open("C:\\a", FileMode.Open))
+        {
+            Print(stream1);
+        }
+    }
+
+    static void Print(Stream stream)
+    {
+        Console.WriteLine(stream.Length);
+        Console.WriteLine(stream.Position);
+    }
+}
+```
 
 </div>
 </div>
