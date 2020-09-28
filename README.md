@@ -5109,6 +5109,85 @@ Note that, in this case, the `this` keyword is unrelated to the `this` keyword u
 </div>
 
 <!-- =========================#####################################################================================ -->
+<div id="interview-objinit"> 
+  <button type="button" class="collapsible">+ Object Initializer Syntax
+     <code class="ex">
+xxxxxxxx
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+Object initializers allow you to assign values to the fields or properties at the time of creating an object without invoking a constructor.
+
+For example:
+
+```cs
+public class Student
+{
+    public int StudentID { get; set; }
+    public string StudentName { get; set; }
+    public int Age { get; set; }
+    public string Address { get; set; }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Student std = new Student()
+        {
+            StudentID = 1,
+            StudentName = "Bill",
+            Age = 20,
+            Address = "New York"
+        };
+    }
+}
+```
+
+This syntax can also be used to initialize collections:
+
+```cs
+var student1 = new Student() { StudentID = 1, StudentName = "John" };
+var student2 = new Student() { StudentID = 2, StudentName = "Steve" };
+var student3 = new Student() { StudentID = 3, StudentName = "Bill" } ;
+var student4 = new Student() { StudentID = 3, StudentName = "Bill" };
+var student5 = new Student() { StudentID = 5, StudentName = "Ron" };
+
+IList<Student> studentList = new List<Student>() { 
+                                                    student1, 
+                                                    student2, 
+                                                    student3, 
+                                                    student4, 
+                                                    student5 
+                                                };
+```
+
+Or:
+
+```cs
+IList<Student> studentList = new List<Student>() { 
+                    new Student() { StudentID = 1, StudentName = "John"} ,
+                    new Student() { StudentID = 2, StudentName = "Steve"} ,
+                    new Student() { StudentID = 3, StudentName = "Bill"} ,
+                    new Student() { StudentID = 3, StudentName = "Bill"} ,
+                    new Student() { StudentID = 4, StudentName = "Ram" } ,
+                    new Student() { StudentID = 5, StudentName = "Ron" } 
+                };
+```
+
+You can also specify `null` as an element:
+
+```cs
+IList<Student> studentList = new List<Student>() { 
+                                    new Student() { StudentID = 1, StudentName = "John"} ,
+                                    null
+                                };
+```
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
 <div id="interview-anontype"> 
   <button type="button" class="collapsible">+ Anonymous Types
      <code class="ex">
@@ -5116,6 +5195,30 @@ xxxxxxxx
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+An anonymous type is a type without any name that can contain public read-only properties only. It cannot contain other members, such as fields, methods, events, etc.
+
+Anonymous types are created using the `new` operator with an object initializer syntax. The implicitly typed variable `var` is used to hold the reference of anonymous types.
+
+For example:
+
+```cs
+var student = new { Id = 1, FirstName = "James", LastName = "Bond" };
+```
+
+**Note:** The properties of anonymous types are read-only and cannot be initialized with a null, anonymous function, or a pointer type. The properties can be accessed using dot (.) notation, same as object properties. However, you cannot change the values of properties as they are read-only.
+
+The following will fail at compile-time:
+
+```cs
+var student = new { Id = 1, FirstName = "James", LastName = "Bond" };
+Console.WriteLine(student.Id); // output: 1
+Console.WriteLine(student.FirstName); // output: James
+Console.WriteLine(student.LastName); // output: Bond
+
+student.Id = 2; // Error: cannot change value
+student.FirstName = "Steve"; // Error: cannot change value
+```
 
 </div>
 </div>
