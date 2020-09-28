@@ -1257,7 +1257,7 @@ class Program
 }
 ```
 
-After these changes, `FixDepositSavingAccount` is no longer able to produce unexpected behaviour, since it is constrained at compile time.  This now satifies LSP.
+After these changes, `FixDepositSavingAccount` is no longer able to produce unexpected behaviour, since it is constrained at compile-time.  This now satifies LSP.
 
 </div>
 </div>
@@ -1418,7 +1418,7 @@ Adopting IoC is a prerequisite of TDD.
 Secondary responsibilities are injected into a class, to avoid direct dependencies or unnecessary encapsulation.
 Constructor Injection, Property Injection & Method Injection.
 
-A refinement of DI is the Strategy pattern (ability to select algorithm at runtime)
+A refinement of DI is the Strategy pattern (ability to select algorithm at run-time)
     </code>
 </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1632,7 +1632,7 @@ namespace MyNamespace.Logic
 <div id="strategy">    
 <button type="button" class="collapsible">+ Strategy Pattern   
     <code class="ex">
-Allows algorithms to be selected at runtime.
+Allows algorithms to be selected at run-time.
 The strategy pattern is intended to provide a means to define a family of algorithms, encapsulate each one as an object, and make them interchangeable. 
 The strategy pattern lets the algorithms vary independently from clients that use them.
 
@@ -1641,7 +1641,7 @@ This is of particular relevance for the Dependency Injection pattern.
 </button>    
 <div class="content" style="display: none;" markdown="1">
 
-This pattern allows algorithms to be selected a runtime, so that algorithms can vary indepentently from the clients that use them.
+This pattern allows algorithms to be selected a run-time, so that algorithms can vary indepentently from the clients that use them.
 
 The Strategy pattern is of particular use when combined with the Dependency Injection pattern.
 
@@ -2160,7 +2160,7 @@ Wrap components to override or extend functionality.
 
 The idea of the Decorator Pattern is to wrap an existing class, add other functionality to it, then expose the same interface to the outside world. Because of this our decorator exactly looks like the original class to the people who are using it.
 
-It is used to extend or alter the functionality at runtime. It does this by wrapping them in an object of the decorator class without modifying the original object. So it can be called a wrapper pattern.
+It is used to extend or alter the functionality at run-time. It does this by wrapping them in an object of the decorator class without modifying the original object. So it can be called a wrapper pattern.
 
 There are four components to the Decorator Pattern:
 
@@ -3219,8 +3219,8 @@ class Employees
 <div id="interview-visitor"> 
   <button type="button" class="collapsible">+ Strategy vs Visitor Pattern<br/>
      <code class="ex">
-Strategy: one algorithm per logic object; select which logic object at runtime.
-Visitor: multiple algorithms encapsulated in a single logic object; API is set at compile time (?).
+Strategy: one algorithm per logic object; select which logic object at run-time.
+Visitor: multiple algorithms encapsulated in a single logic object; API is set at compile-time (?).
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3232,7 +3232,7 @@ The following is based on the following discussions:
 At first glance, there is a lot of similarity between the Strategy Pattern and the Visitor Pattern.  In both cases, logic to act on a data structure is injected into the data structure, so there is a clean separation between logic and data.  However, a significant difference exists:
 
 * A Visitor implementation needs to be aware of the different types of elements it might encounter in a data structure.  Adding functionality to a Visitor implementation normally means an API change, which means this cannot be changed after compile-time.
-* A Strategy implementation need only be aware of a specific element type within the data structure.  Adding functionality to a Strategy implementation does not normally require an API change, which means this can be done at runtime (which is the exact point of the Strategy Pattern).
+* A Strategy implementation need only be aware of a specific element type within the data structure.  Adding functionality to a Strategy implementation does not normally require an API change, which means this can be done at run-time (which is the exact point of the Strategy Pattern).
 
 By way of example, see the following:
 
@@ -3378,7 +3378,7 @@ Example:
   * An object structure is likely to change often.
   
 Example:
-  * Different methods of calculating interest and fees will be used by clients of a bank. These algorithms can be encapsulated in Strategy implementations and associated with individual clients at runtime.
+  * Different methods of calculating interest and fees will be used by clients of a bank. These algorithms can be encapsulated in Strategy implementations and associated with individual clients at run-time.
 
 </div>
 </div>
@@ -3442,7 +3442,7 @@ Reasons to avoid unsafe code in C#:
   <button type="button" class="collapsible">+ Strong vs Weak Typing?<br/>
      <code class="ex">
 Weak typing means delaying the check of variable’s type usually until run-time. 
-Strong typing means checking type as soon as possible, usually at compile time.
+Strong typing means checking type as soon as possible, usually at compile-time.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3450,9 +3450,9 @@ Strong typing means checking type as soon as possible, usually at compile time.
 Most scripting languages are weakly typed (such as JavaScript)
 
 C# is strongly typed because:  
-  * All types are known at compile time. Don’t be confused by `dynamic` here, this is still a type (just a special one).
+  * All types are known at compile-time. Don’t be confused by `dynamic` here, this is still a type (just a special one).
   * An `int` cannot be used instead of a `string`, where a `string` is needed
-  * You receive a compile time error if the right type is not used.
+  * You receive a compile-time error if the right type is not used.
 
 </div>
 </div>
@@ -3905,7 +3905,7 @@ namespace MyNamespace
     }
 }
 ```
-At first glance, the above code would seem to indicate that `i` is incremented for each new delegate added to `printers`, however in practice what happens is that the compiler has associated the delegates with the variable `i` and the runtime will use whatever the value of `i` is at the time the delegate method is called (in the `foreach` loop).
+At first glance, the above code would seem to indicate that `i` is incremented for each new delegate added to `printers`, however in practice what happens is that the compiler has associated the delegates with the variable `i` and the run-time will use whatever the value of `i` is at the time the delegate method is called (in the `foreach` loop).
 
 Conceptually, the compiler does something like this:
 
@@ -4914,7 +4914,7 @@ public class MyClass {
 
 **Custom Attributes**
 
-Custom attributes are used to store declarative information about an element, which can be retrieved at runtime.
+Custom attributes are used to store declarative information about an element, which can be retrieved at run-time.
 
 There are four steps to creating a custom attribute:
    1. Declaring the attribute.
@@ -5062,7 +5062,7 @@ class Program
 <div id="interview-extensions"> 
   <button type="button" class="collapsible">+ Extension Methods
      <code class="ex">
-Allow additional methods to be injected into existing element at runtime.
+Allow additional methods to be injected into existing element at run-time.
 Must be static, with the type to which it should be applied identified by the first 
 parameter, which must be preceeded by the 'this' keyword.
     </code>
@@ -5269,10 +5269,71 @@ class Program
 <div id="interview-binding"> 
   <button type="button" class="collapsible">+ Early-Binding and Late-Binding
      <code class="ex">
-xxxxxxxx
+Binding is the act of associating the parameters, types, return values and function calls to an object.
+Early-Binding: a method is defined at compile-time.
+Late-Binding: a method is defined at run-time.
+Late-binding is usually slower than early-binding.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+In the case of C#, almost everything is early-bound by default (as opposed to scripting languages, where almost everything is late-bound).
+
+It is possible to use late-binding in C# using the following approaches:
+
+  * Using Reflection (see below).
+  * Use the `virtual` and `override` keywords.
+
+Late-binding is usually slower than early-binding.
+
+The following is an example of using Reflection to enable late-binding:
+
+```cs
+using System;
+using System.Reflection;
+
+class Program
+{
+    // Main Method 
+    static void Main(string[] args)
+    {
+        // Declare Instance of class Assembly 
+        // Call the GetExecutingAssembly method 
+        // to load the current assembly 
+        Assembly executing = Assembly.GetExecutingAssembly();
+
+        // To find the type of the Class Student 
+        Type studentType = executing.GetType("LateBinding.Student");
+
+        // Create an Instance of the Student type 
+        object studentObject = Activator.CreateInstance(studentType);
+
+        // Store the info of the method in an object 
+        // of class MethodInfo 
+        MethodInfo getMethod = studentType.GetMethod("GetDetails");
+
+        // To store the parameters required 
+        // by Method GetDetails 
+        String[] param = new String[2];
+        param[0] = "1";
+        param[1] = "Lisa";
+
+        // To display the result of the method 
+        String det = (String)getMethod.Invoke(studentObject, param);
+        Console.WriteLine("Student Details : ");
+        Console.WriteLine("Roll Number - Name \n{0}", det);
+    } // end Main 
+} // end Program 
+
+
+public class Student
+{
+    public String GetDetails(String rollNumber, String name)
+    {
+        return rollNumber + " - " + name;
+    }
+} // end Student 
+```
 
 </div>
 </div>
@@ -5502,7 +5563,7 @@ A class that is constructed from functionality defined in multiple files.
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-The functionality from multiple partial classes can be combined into a single class at runtime. 
+The functionality from multiple partial classes can be combined into a single class at run-time. 
 
 Partial class are declared using the `partial` keyword.
 
@@ -5797,7 +5858,7 @@ Reasons for using a sealed class:
 
 * To prevent tampering of important classes that compromise security or performance.
 * If the class inherits many virtual members, it may be more efficient than sealing each individually.
-* The class is an attribute that requires a very fast runtime look-up (sealed attributes have slightly better performance).
+* The class is an attribute that requires a very fast run-time look-up (sealed attributes have slightly better performance).
 
 </div>
 </div>
@@ -5902,7 +5963,7 @@ public static class MyExtensionMethods
 <div id="interview-const"> 
   <button type="button" class="collapsible">+ Variables: `const` vs `read-only`
      <code class="ex">
-const: cannot be changed after compile time; only applies to primitive types (it is implicitly static).  
+const: cannot be changed after compile-time; only applies to primitive types (it is implicitly static).  
        Should only be used if value will never, ever change.
 read-only: can only be set when a class is instantiated (i.e. in the class declaration or constructor)
 static readonly: effectively the same as const, although there are some significant subtleties (see inside).
@@ -5963,7 +6024,7 @@ public class MyData
 
 Now, when `WriteNumbers()` is run, **the output will still be `6 & 12`**.
 
-This is because, being a `const`, the value of `CONSTANT_NUMBER` will be "baked" into the IL of Assembly B at compile time, so it will ignore any subsequent changes to this value in Assembly A.
+This is because, being a `const`, the value of `CONSTANT_NUMBER` will be "baked" into the IL of Assembly B at compile-time, so it will ignore any subsequent changes to this value in Assembly A.
 
 For this reason, it is recommended that `const` only be used if you know that this value will never, ever, *ever* change for any reason.  If you are unsure, use `readonly`. 
 
@@ -6605,18 +6666,18 @@ Windows Communication Framework (WCF) is preferred (better performance, more fle
 1. Makes reference to remotable object available to a client application (using an Activation URL).
 1. Client application instantiates it (by connecting to the URL) .
 1. Client use the remotable object as if it were a local object, however the actual code execution happens at the server-side. 
-1. Remoting runtime creates a listener for the object when the server registers the channel that is used to connect to the remotable object. 
+1. Remoting run-time creates a listener for the object when the server registers the channel that is used to connect to the remotable object. 
 1. At the client side, the remoting infrastructure creates a proxy that stands-in as a pseudo-instantiation of the remotable object. 
 1. The client does not implement the functionality of the remotable object, but presents a similar interface. 
 1. The remoting infrastructure needs to know the public interface of the remotable object beforehand. 
 1. Any method calls made against the object, including the identity of the method and any parameters passed, are serialized to a byte stream and transferred over a communication protocol-dependent Channel to a recipient proxy object at the server side ("marshalled"), by writing to the Channel's transport sink.
 1. At the server side, the proxy reads the stream off the sink and makes the call to the remotable object on the behalf of the client. 
 1. The results are serialized and transferred over the sink to the client, where the proxy reads the result and hands it over to the calling application.
-1. If the remotable object needs to make a callback to a client object for some services, the client application must mark it as remotable and have a remoting runtime host a listener for it.
+1. If the remotable object needs to make a callback to a client object for some services, the client application must mark it as remotable and have a remoting run-time host a listener for it.
 1. The server can connect to it over a different Channel, or over the already existent one if the underlying connection supports bidirectional communication.
 1. A channel can be composed of a number of different Channel objects, possibly with different heterogeneous transports. 
 1. Remoting can also work across systems separated by an interconnection of heterogeneous networks, including the internet.
-1. Type safety is enforced by the Common Type System and the .NET Remoting runtime. 
+1. Type safety is enforced by the Common Type System and the .NET Remoting run-time. 
 1. Remote method calls are inherently synchronous; asynchronous calls can be implemented using threading libraries. 
 1. Authentication and access control can be implemented for clients by either using custom Channels or by hosting the remotable objects in IIS and then using the IIS authentication system.
 
