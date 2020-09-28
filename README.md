@@ -4934,10 +4934,12 @@ For example, in the following example a `DebugInfo` attribute is declared:
    AttributeTargets.Property,
    AllowMultiple = true)]
 
-public class DebugInfo : System.Attribute
+public sealed class DebugInfo : System.Attribute
 ```
 
-And constructed with the following functionality:
+Note that the class is `sealed`, to avoid it being overridden.
+
+The class is now constructed with the following functionality:
 
 ```cs
 {
@@ -4980,8 +4982,8 @@ And constructed with the following functionality:
 It can then be applied to an element such as, in this case, `Rectangle`:
 
 ```cs
-[DeBugInfo(45, "Zara Ali", "12/8/2012", Message = "Return type mismatch")]
-[DeBugInfo(49, "Nuha Ali", "10/10/2012", Message = "Unused variable")]
+[DebugInfo(45, "Zara Ali", "12/8/2012", Message = "Return type mismatch")]
+[DebugInfo(49, "Nuha Ali", "10/10/2012", Message = "Unused variable")]
 class Rectangle {
    //member variables
    protected double length;
