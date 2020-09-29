@@ -5481,11 +5481,18 @@ xxxxxxxx
 <div id="interview-type"> 
   <button type="button" class="collapsible">+ `typeof` vs `GetType()`
      <code class="ex">
-xxxxxxxx
+typeof(): get type at compile-time (can only be used on a class name)
+GetType(): get type as run-time (can be used on a class name or instance)
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+```cs
+object obj = "hello";
+Console.WriteLine(typeof(object)); // ==> System.Object
+//Console.WriteLine(typeof(obj)); // ==> compile-time error 
+Console.WriteLine(obj.GetType()); // ==> System.String
+```
 </div>
 </div>
 
