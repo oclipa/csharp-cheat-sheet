@@ -3899,7 +3899,7 @@ namespace MyNamespace
 
             foreach (var printer in printers)
             {
-                printer();
+                printer(); // 10, 10, 10 ....
             }
         }
     }
@@ -3942,7 +3942,7 @@ static void Main()
         // PrinterClosure now picks up the
         // value of i (10)
         printer.CurrentI = i;
-        printer.printer();
+        printer.printer();  // 10, 10, 10 ....
     }
 }
 ```
@@ -3968,7 +3968,7 @@ static void Main()
     foreach (var printer in printers)
     {
         // prints out 0..9 as expected
-        printer();
+        printer();  // 0, 1, 2 ....
     }
 }
 ```
@@ -3984,6 +3984,126 @@ class PrinterClosure
         Console.WriteLine(i);
     };
 }
+```
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-objinit"> 
+  <button type="button" class="collapsible">+ Object Initializer Syntax
+     <code class="ex">
+Student student = new Student()
+{
+    StudentID = 1,
+    StudentName = "Bill",
+    Age = 20
+};
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+Object initializers allow you to assign values to the fields or properties at the time of creating an object without invoking a constructor.
+
+For example:
+
+```cs
+public class Student
+{
+    public int StudentID { get; set; }
+    public string StudentName { get; set; }
+    public int Age { get; set; }
+    public string Address { get; set; }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Student std = new Student()
+        {
+            StudentID = 1,
+            StudentName = "Bill",
+            Age = 20,
+            Address = "New York"
+        };
+    }
+}
+```
+
+This syntax can also be used to initialize collections:
+
+```cs
+var student1 = new Student() { StudentID = 1, StudentName = "John" };
+var student2 = new Student() { StudentID = 2, StudentName = "Steve" };
+var student3 = new Student() { StudentID = 3, StudentName = "Bill" } ;
+var student4 = new Student() { StudentID = 3, StudentName = "Bill" };
+var student5 = new Student() { StudentID = 5, StudentName = "Ron" };
+
+IList<Student> studentList = new List<Student>() { 
+                                                    student1, 
+                                                    student2, 
+                                                    student3, 
+                                                    student4, 
+                                                    student5 
+                                                };
+```
+
+Or:
+
+```cs
+IList<Student> studentList = new List<Student>() { 
+                    new Student() { StudentID = 1, StudentName = "John"} ,
+                    new Student() { StudentID = 2, StudentName = "Steve"} ,
+                    new Student() { StudentID = 3, StudentName = "Bill"} ,
+                    new Student() { StudentID = 3, StudentName = "Bill"} ,
+                    new Student() { StudentID = 4, StudentName = "Ram" } ,
+                    new Student() { StudentID = 5, StudentName = "Ron" } 
+                };
+```
+
+You can also specify `null` as an element:
+
+```cs
+IList<Student> studentList = new List<Student>() { 
+                                    new Student() { StudentID = 1, StudentName = "John"} ,
+                                    null
+                                };
+```
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-anontype"> 
+  <button type="button" class="collapsible">+ Anonymous Types
+     <code class="ex">
+var student = new { Id = 1, FirstName = "James", LastName = "Bond" };
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+An anonymous type is a type without any name that can contain public read-only properties only. It cannot contain other members, such as fields, methods, events, etc.
+
+Anonymous types are created using the `new` operator with an object initializer syntax. The implicitly typed variable `var` is used to hold the reference of anonymous types.
+
+For example:
+
+```cs
+var student = new { Id = 1, FirstName = "James", LastName = "Bond" };
+```
+
+**Note:** The properties of anonymous types are read-only and cannot be initialized with a null, anonymous function, or a pointer type. The properties can be accessed using dot (.) notation, same as object properties. However, you cannot change the values of properties as they are read-only.
+
+The following will fail at compile-time:
+
+```cs
+var student = new { Id = 1, FirstName = "James", LastName = "Bond" };
+Console.WriteLine(student.Id); // output: 1
+Console.WriteLine(student.FirstName); // output: James
+Console.WriteLine(student.LastName); // output: Bond
+
+student.Id = 2; // Error: cannot change value
+student.FirstName = "Steve"; // Error: cannot change value
 ```
 
 </div>
@@ -4640,6 +4760,177 @@ public static MyObj operator+ (MyObj b, MyObj c)
 </div>
 
 <!-- =========================#####################################################================================ -->
+<div id="interview-binding"> 
+  <button type="button" class="collapsible">+ Early-Binding and Late-Binding
+     <code class="ex">
+Binding is the act of associating the parameters, types, return values and function calls to an object.
+Early-Binding: a method is defined at compile-time.
+Late-Binding: a method is defined at run-time.
+Late-binding is usually slower than early-binding.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+In the case of C#, almost everything is early-bound by default (as opposed to scripting languages, where almost everything is late-bound).
+
+It is possible to use late-binding in C# using the following approaches:
+
+  * Using Reflection (see below).
+  * Use the `virtual` and `override` keywords.
+
+Late-binding is usually slower than early-binding.
+
+The following is an example of using Reflection to enable late-binding:
+
+```cs
+using System;
+using System.Reflection;
+
+class Program
+{
+    // Main Method 
+    static void Main(string[] args)
+    {
+        // Declare Instance of class Assembly 
+        // Call the GetExecutingAssembly method 
+        // to load the current assembly 
+        Assembly executing = Assembly.GetExecutingAssembly();
+
+        // To find the type of the Class Student 
+        Type studentType = executing.GetType("LateBinding.Student");
+
+        // Create an Instance of the Student type 
+        object studentObject = Activator.CreateInstance(studentType);
+
+        // Store the info of the method in an object 
+        // of class MethodInfo 
+        MethodInfo getMethod = studentType.GetMethod("GetDetails");
+
+        // To store the parameters required 
+        // by Method GetDetails 
+        String[] param = new String[2];
+        param[0] = "1";
+        param[1] = "Lisa";
+
+        // To display the result of the method 
+        String det = (String)getMethod.Invoke(studentObject, param);
+        Console.WriteLine("Student Details : ");
+        Console.WriteLine("Roll Number - Name \n{0}", det);
+    } // end Main 
+} // end Program 
+
+
+public class Student
+{
+    public String GetDetails(String rollNumber, String name)
+    {
+        return rollNumber + " - " + name;
+    }
+} // end Student 
+```
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-reflection"> 
+  <button type="button" class="collapsible">+ Reflection
+     <code class="ex">
+Reflection is when managed code can read its own metadata to find assemblies.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+Reflection allows the contents of an assembly to be interrogated.  Its use should be avoided if not strictly necessary since there is a performance penalty.
+
+Bear in mind:
+  * Assemblies contain modules.
+  * Modules contain types.
+  * Types contain members.
+
+With reflection in C#, you can:
+  * Dynamically create an instance of a type and bind that type to an existing object.
+  * Get the type from an existing object and access its properties.
+  * Enable access to attributes.
+
+Common use cases for reflection are:
+  * Identifying members that have been marked with attributes.
+  * Testing particularly difficult assemblies.
+  * Debugging.
+  * Implementing a system of plugins.
+  * Custom serialization routines.
+  
+The reflection API is contained in the 'System.Reflection' namespace.  The most commonly used features are:
+  * Use `Module` to get all global and non-global methods defined in the module.
+  * Use `MethodInfo` to look at information such as parameters, name, return type, access modifiers and implementation details.
+  * Use `EventInfo` to find out the event-handler data type, the name, declaring type and custom attributes.
+  * Use `ConstructorInfo` to get data on the parameters, access modifiers, and implementation details of a constructor.
+  * Use `Assembly` to load modules listed in the assembly manifest.
+  * Use `PropertyInfo` to get the declaring type, reflected type, data type, name and writable status of a property or to get and set property values.
+  * Use `CustomAttributeData` to find out information on custom attributes or to review attributes without having to create more instances.
+
+**Examples**
+
+As shown in the following, simple example, implementing reflection is a 2 step process:
+  1. Get the `type` object.
+  1. Browse the members of the `type` object.
+
+```cs
+// Using GetType to obtain type information:
+int i = 42;
+System.Type type = i.GetType();
+System.Console.WriteLine(type); // output: System.Int32
+```
+
+In the following example, a new instance of the DateTime class is created from the system assembly:
+
+```cs
+// create instance of class DateTime
+DateTime dateTime = (DateTime)Activator.CreateInstance(typeof(DateTime));
+```
+
+In this more complex example, a class (`Calculator`) is accessed from the `Test.dll` assembly and the property values updated:
+
+```cs
+namespace Test
+{
+    public class Calculator
+    {
+        public Calculator() { ... }
+        private double _number;
+        public double Number { get { ... } set { ... } }
+        public void Clear() { ... }
+        private void DoClear() { ... }
+        public double Add(double number) { ... }
+        public static double Pi { ... }
+        public static double GetPi() { ... }
+    }
+}
+```
+
+```cs
+// dynamically load assembly from file Test.dll
+Assembly testAssembly = Assembly.LoadFile(@"c:\Test.dll");
+
+// get type of class Calculator from just loaded assembly
+Type calcType = testAssembly.GetType("Test.Calculator");
+
+// create instance of class Calculator
+object calcInstance = Activator.CreateInstance(calcType);
+
+// get info about property: public double Number
+PropertyInfo numberPropertyInfo = calcType.GetProperty("Number");
+
+// get value of property: public double Number
+double value = (double)numberPropertyInfo.GetValue(calcInstance, null);
+
+// set value of property: public double Number
+numberPropertyInfo.SetValue(calcInstance, 10.0, null);
+```
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
 <div id="interview-passbyvalue"> 
   <button type="button" class="collapsible">+ Pass By Value vs Pass by Reference
      <code class="ex">
@@ -5109,121 +5400,6 @@ Note that, in this case, the `this` keyword is unrelated to the `this` keyword u
 </div>
 
 <!-- =========================#####################################################================================ -->
-<div id="interview-objinit"> 
-  <button type="button" class="collapsible">+ Object Initializer Syntax
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-Object initializers allow you to assign values to the fields or properties at the time of creating an object without invoking a constructor.
-
-For example:
-
-```cs
-public class Student
-{
-    public int StudentID { get; set; }
-    public string StudentName { get; set; }
-    public int Age { get; set; }
-    public string Address { get; set; }
-}
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        Student std = new Student()
-        {
-            StudentID = 1,
-            StudentName = "Bill",
-            Age = 20,
-            Address = "New York"
-        };
-    }
-}
-```
-
-This syntax can also be used to initialize collections:
-
-```cs
-var student1 = new Student() { StudentID = 1, StudentName = "John" };
-var student2 = new Student() { StudentID = 2, StudentName = "Steve" };
-var student3 = new Student() { StudentID = 3, StudentName = "Bill" } ;
-var student4 = new Student() { StudentID = 3, StudentName = "Bill" };
-var student5 = new Student() { StudentID = 5, StudentName = "Ron" };
-
-IList<Student> studentList = new List<Student>() { 
-                                                    student1, 
-                                                    student2, 
-                                                    student3, 
-                                                    student4, 
-                                                    student5 
-                                                };
-```
-
-Or:
-
-```cs
-IList<Student> studentList = new List<Student>() { 
-                    new Student() { StudentID = 1, StudentName = "John"} ,
-                    new Student() { StudentID = 2, StudentName = "Steve"} ,
-                    new Student() { StudentID = 3, StudentName = "Bill"} ,
-                    new Student() { StudentID = 3, StudentName = "Bill"} ,
-                    new Student() { StudentID = 4, StudentName = "Ram" } ,
-                    new Student() { StudentID = 5, StudentName = "Ron" } 
-                };
-```
-
-You can also specify `null` as an element:
-
-```cs
-IList<Student> studentList = new List<Student>() { 
-                                    new Student() { StudentID = 1, StudentName = "John"} ,
-                                    null
-                                };
-```
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
-<div id="interview-anontype"> 
-  <button type="button" class="collapsible">+ Anonymous Types
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-An anonymous type is a type without any name that can contain public read-only properties only. It cannot contain other members, such as fields, methods, events, etc.
-
-Anonymous types are created using the `new` operator with an object initializer syntax. The implicitly typed variable `var` is used to hold the reference of anonymous types.
-
-For example:
-
-```cs
-var student = new { Id = 1, FirstName = "James", LastName = "Bond" };
-```
-
-**Note:** The properties of anonymous types are read-only and cannot be initialized with a null, anonymous function, or a pointer type. The properties can be accessed using dot (.) notation, same as object properties. However, you cannot change the values of properties as they are read-only.
-
-The following will fail at compile-time:
-
-```cs
-var student = new { Id = 1, FirstName = "James", LastName = "Bond" };
-Console.WriteLine(student.Id); // output: 1
-Console.WriteLine(student.FirstName); // output: James
-Console.WriteLine(student.LastName); // output: Bond
-
-student.Id = 2; // Error: cannot change value
-student.FirstName = "Steve"; // Error: cannot change value
-```
-
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
 <div id="interview-stream"> 
   <button type="button" class="collapsible">+ Streams
      <code class="ex">
@@ -5261,91 +5437,6 @@ class Program
     }
 }
 ```
-
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
-<div id="interview-binding"> 
-  <button type="button" class="collapsible">+ Early-Binding and Late-Binding
-     <code class="ex">
-Binding is the act of associating the parameters, types, return values and function calls to an object.
-Early-Binding: a method is defined at compile-time.
-Late-Binding: a method is defined at run-time.
-Late-binding is usually slower than early-binding.
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
-
-In the case of C#, almost everything is early-bound by default (as opposed to scripting languages, where almost everything is late-bound).
-
-It is possible to use late-binding in C# using the following approaches:
-
-  * Using Reflection (see below).
-  * Use the `virtual` and `override` keywords.
-
-Late-binding is usually slower than early-binding.
-
-The following is an example of using Reflection to enable late-binding:
-
-```cs
-using System;
-using System.Reflection;
-
-class Program
-{
-    // Main Method 
-    static void Main(string[] args)
-    {
-        // Declare Instance of class Assembly 
-        // Call the GetExecutingAssembly method 
-        // to load the current assembly 
-        Assembly executing = Assembly.GetExecutingAssembly();
-
-        // To find the type of the Class Student 
-        Type studentType = executing.GetType("LateBinding.Student");
-
-        // Create an Instance of the Student type 
-        object studentObject = Activator.CreateInstance(studentType);
-
-        // Store the info of the method in an object 
-        // of class MethodInfo 
-        MethodInfo getMethod = studentType.GetMethod("GetDetails");
-
-        // To store the parameters required 
-        // by Method GetDetails 
-        String[] param = new String[2];
-        param[0] = "1";
-        param[1] = "Lisa";
-
-        // To display the result of the method 
-        String det = (String)getMethod.Invoke(studentObject, param);
-        Console.WriteLine("Student Details : ");
-        Console.WriteLine("Roll Number - Name \n{0}", det);
-    } // end Main 
-} // end Program 
-
-
-public class Student
-{
-    public String GetDetails(String rollNumber, String name)
-    {
-        return rollNumber + " - " + name;
-    }
-} // end Student 
-```
-
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
-<div id="interview-reflection"> 
-  <button type="button" class="collapsible">+ Reflection
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
 
 </div>
 </div>
