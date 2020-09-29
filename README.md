@@ -351,7 +351,10 @@ class Program
 <div id="intro">
 <button type="button" class="collapsible">+ What is C#?
     <code class="ex">
-C# is an object-oriented, type-safe, and managed language that is compiled by .NET Framework to generate Microsoft Intermediate Language.
+C# is an object-oriented, type-safe, and 
+  managed language that is compiled by .NET 
+  Framework to generate Microsoft Intermediate 
+  Language.
     </code>
 </button>
 <div class="content" style="display: none;" markdown="1">
@@ -363,8 +366,13 @@ C# is an object-oriented, type-safe, and managed language that is compiled by .N
 <div id="memory">
 <button type="button" class="collapsible">+ Stack vs Heap
     <code class="ex">
-Stack: contiguous memory; consists of frames, each of which corresponds to a method; frames are pushed to the stack, or popped from the stack (hence "call-stack")
-Heap: dynamic memory; objects are garbage collected on occasion.
+Stack: contiguous memory; consists of frames, 
+  each of which corresponds to a method; 
+  frames are pushed to the stack, or popped 
+  from the stack (hence "call-stack")
+
+Heap: dynamic memory; objects are garbage 
+  collected on occasion.
     </code>
 </button>
 <div class="content" style="display: none;" markdown="1">
@@ -413,7 +421,9 @@ The benefits of encapsulation are:
 Inheritance is the ability for multiple derived 
   classes with similar features to be treated as 
   objects of a common base class (or interface). 
+
 To prevent inheritance of a class, use 'sealed class'.
+
 To stop inheritance of a virtual or abstract 
   member, use 'sealed override myMember'.
     </code>
@@ -457,7 +467,9 @@ namespace Sandbox
 Polymorphism is the ability for derived 
   classes to override properties of a common 
   base class.
+
 Static = Overloading
+
 Dynamic = Interfaces, Abstract Classes, Virtual Members
    </code>
   </button>   
@@ -611,6 +623,7 @@ Don't include features "just in case".
     <code class="ex">
 Don't test an object's state and then make 
   decisions about the methods to call.
+
 Tell the object what you want to do and 
   assume that it knows enough about its 
   internal state to make the right decision.
@@ -665,9 +678,11 @@ Entities must depend on abstractions not on concretions (a high level module sho
     <code class="ex">
 A class or function should have only one 
   reason to change.
+
 One responsibility per class/function, 
   where "responsibility" means "a reason 
   to change".
+
 The responsibility should be entirely 
   encapsulated by the class/function.
     </code>
@@ -912,8 +927,12 @@ To determine if SRP is being violated, try the following:
 <div id="interview-ocp"> 
   <button type="button" class="collapsible">+ OCP: Open-Close Principle<br/>
      <code class="ex">
-Objects should be open for extension, but closed for modification
-It should be easy to extend an implementation, but it should not be possible to change the base implementation.
+Objects should be open for extension, but 
+  closed for modification
+
+It should be easy to extend an implementation, 
+  but it should not be possible to change the 
+  base implementation.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1054,6 +1073,7 @@ Note: An interface is created here just as an example. There could be an abstrac
      <code class="ex">
 Every sub-class should be substitutable for 
   its super-class.
+
 A client should not need to know whether it 
   is dealing with a sub-class or a super-class.
     </code>
@@ -1285,6 +1305,7 @@ After these changes, `FixDepositSavingAccount` is no longer able to produce unex
      <code class="ex">
 A client should not be forced to depend on 
   methods it does not use.
+
 A sub-class should not be forced to implement 
   methods it does not use.
     </code>
@@ -1331,9 +1352,11 @@ In a case such as this, the solution is to split the interface into smaller, mor
     <code class="ex">
 Entities must depend on abstractions not 
   on concretions.
+
 A high level module should not depend on a 
   low level module; they should both depend 
   on abstractions.
+
 Extending this principle leading the the 
   Dependency Injection (DI) pattern.
     </code>
@@ -1419,6 +1442,7 @@ Any responsibility that is not the main
   responsibility of the class should not 
   be encapsulated in the class, and should 
   not be a direct dependency of the class.
+
 Achieved using Dependency Inversion Principle (DIP), 
   and the Dependency Injection (DI) and Strategy 
   patterns.
@@ -1446,6 +1470,7 @@ Adopting IoC is a prerequisite of TDD.
 Secondary responsibilities are injected into 
   a class, to avoid direct dependencies or 
   unnecessary encapsulation.
+
 Constructor Injection, Property Injection & 
   Method Injection.
 
@@ -1665,10 +1690,12 @@ namespace MyNamespace.Logic
 <button type="button" class="collapsible">+ Strategy Pattern   
     <code class="ex">
 Allows algorithms to be selected at run-time.
+
 The strategy pattern is intended to provide a 
   means to define a family of algorithms, 
   encapsulate each one as an object, and make 
   them interchangeable. 
+
 The strategy pattern lets the algorithms vary 
   independently from clients that use them.
 
@@ -1845,8 +1872,10 @@ Separate the construction of a complex object
   from its representation so that the same 
   construction process can create different 
   representations.
+
 Construct a complex object step by step and the 
   final step returns the object. 
+
 Also, the process of constructing an object 
   should be generic so that it can be used to 
   create different representations of the same 
@@ -2202,6 +2231,7 @@ class Program
      <code class="ex">
 An alternative to sub-classing for extending 
   functionality dynamically.
+
 Wrap components to override or extend 
   functionality.
     </code>
@@ -2540,6 +2570,7 @@ class Program
 Used when one of many callers might take 
   action on an object (e.g. a chain of 
   approvals).
+
 Each actor is represented by a handler, for 
   which there is a successor.
     </code>
@@ -3068,6 +3099,7 @@ class Program
 Create and perform new operations on a set of 
   objects without changing the object structure 
   or classes.
+
 Used to separate business logic and algorithms 
   from an object's data structure.
     </code>
@@ -3283,6 +3315,7 @@ class Employees
      <code class="ex">
 Strategy: one algorithm per logic object; 
   select which logic object at run-time.
+
 Visitor: multiple algorithms encapsulated in 
   a single logic object; API is set at compile-time (?).
     </code>
@@ -3453,6 +3486,7 @@ Example:
      <code class="ex">
 Managed code is interpreted and runs in a 
   secure, managed framework.
+
 Unmanaged code is compiled to machine code 
   and runs "as-is", with no management.
     </code>
@@ -3509,6 +3543,7 @@ Reasons to avoid unsafe code in C#:
      <code class="ex">
 Weak typing means delaying the check of 
   variable’s type usually until run-time. 
+
 Strong typing means checking type as soon as 
   possible, usually at compile-time.
     </code>
@@ -3533,8 +3568,10 @@ A deadlock is  when separate threads are
   waiting for 2 objects, each one being locked 
   by the other thread. So they are waiting for 
   each other to unfreeze that object.
+
 SQL can recover from a deadlock, because it has 
   like a timeout by default.
+
 C# application does not have a timeout and so 
   it freezes and much be fixed.
     </code>
