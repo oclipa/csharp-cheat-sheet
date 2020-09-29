@@ -5469,10 +5469,26 @@ xxxxxxxx
 <div id="interview-equals"> 
   <button type="button" class="collapsible">+ `Equals()` vs `==`
      <code class="ex">
-xxxxxxxx
+Theorectically:
+  Equals() : value comparison
+        == : identify comparison
+Although, for reference types the behaviour depends on the implementation, which can be overridden.
+Particular care is required with a String that has been upcast to object.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+Conceptually, `Equals()` checks whether two instances have equivalent values (a value comparison), while `==` checks whether two references are actually pointing at the same object (an identity comparison).
+
+However, in practice the behaviour depends on the instances being tested.
+
+  * For value types, both `Equals()` and `==` are functionally equivalent; both approaches check whether two instances have the same value.
+
+  * For reference types, the behaviour of both of these equality tests depends on the underlying implementation, which can be overridden.
+    * A notable exception to this rule is `String`, which is a reference type but behaves as a value type (and hence always performs a value comparison).
+      * An exception to the exception is a `String` that has been upcast to `object`, in which case `==` will perform an identify comparison (when this occurs, a compile-time warning will be produced suggesting that the object should be explicitly cast to a 'String').
+
+As a general rule of thumb, prefer `Equals()` if a value comparison is required and `==` if an identify comparison is required.
 
 </div>
 </div>
