@@ -353,8 +353,8 @@ class Program
     <code class="ex">
 C# is an object-oriented, type-safe, and 
   managed language that is compiled by .NET 
-  Framework to generate Microsoft Intermediate 
-  Language.
+  Framework to generate Microsoft 
+  Intermediate Language.
     </code>
 </button>
 <div class="content" style="display: none;" markdown="1">
@@ -418,11 +418,13 @@ The benefits of encapsulation are:
 <div id="interview-inheritance"> 
   <button type="button" class="collapsible">+ Inheritance<br/>
     <code class="ex">
-Inheritance is the ability for multiple derived 
-  classes with similar features to be treated as 
-  objects of a common base class (or interface). 
+Inheritance is the ability for multiple 
+  derived classes with similar features to be 
+  treated as objects of a common base class 
+  (or interface). 
 
-To prevent inheritance of a class, use 'sealed class'.
+To prevent inheritance of a class, use 
+  'sealed class'.
 
 To stop inheritance of a virtual or abstract 
   member, use 'sealed override myMember'.
@@ -470,7 +472,8 @@ Polymorphism is the ability for derived
 
 Static = Overloading
 
-Dynamic = Interfaces, Abstract Classes, Virtual Members
+Dynamic = Interfaces, Abstract Classes, 
+  Virtual Members
    </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1075,7 +1078,8 @@ Every sub-class should be substitutable for
   its super-class.
 
 A client should not need to know whether it 
-  is dealing with a sub-class or a super-class.
+  is dealing with a sub-class or a 
+  super-class.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1443,9 +1447,9 @@ Any responsibility that is not the main
   be encapsulated in the class, and should 
   not be a direct dependency of the class.
 
-Achieved using Dependency Inversion Principle (DIP), 
-  and the Dependency Injection (DI) and Strategy 
-  patterns.
+Achieved using Dependency Inversion Principle 
+  (DIP), and the Dependency Injection (DI) 
+  and Strategy patterns.
     </code>
 </button>    
 <div class="content" style="display: none;" markdown="1">
@@ -1699,7 +1703,8 @@ The strategy pattern is intended to provide a
 The strategy pattern lets the algorithms vary 
   independently from clients that use them.
 
-This is of particular relevance for the Dependency Injection pattern.
+This is of particular relevance for the 
+  Dependency Injection pattern.
     </code>
 </button>    
 <div class="content" style="display: none;" markdown="1">
@@ -1873,16 +1878,16 @@ Separate the construction of a complex object
   construction process can create different 
   representations.
 
-Construct a complex object step by step and the 
-  final step returns the object. 
+Construct a complex object step by step and
+  the final step returns the object. 
 
 Also, the process of constructing an object 
   should be generic so that it can be used to 
-  create different representations of the same 
-  object.
+  create different representations of the 
+  same object.
 
-Similar to Factory pattern, but more related to 
-  enabling clients to create different 
+Similar to Factory pattern, but more related 
+  to enabling clients to create different 
   representations of the same object.
     </code>
   </button>   
@@ -2812,10 +2817,10 @@ class Program
 <div id="interview-iterator"> 
   <button type="button" class="collapsible">+ Iterator Pattern<br/>
      <code class="ex">
-Iterator Design Pattern provides a way to access 
-  the elements of a collection object in a 
-  sequential manner without knowing its underlying 
-  structure.
+Iterator Design Pattern provides a way to 
+  access the elements of a collection object 
+  in a sequential manner without knowing its 
+  underlying structure.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3097,11 +3102,12 @@ class Program
   <button type="button" class="collapsible">+ Visitor Pattern<br/>
      <code class="ex">
 Create and perform new operations on a set of 
-  objects without changing the object structure 
-  or classes.
+  objects without changing the object 
+  structure or classes.
 
-Used to separate business logic and algorithms 
-  from an object's data structure.
+Used to separate business logic and 
+  algorithms from an object's data 
+  structure.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3317,7 +3323,8 @@ Strategy: one algorithm per logic object;
   select which logic object at run-time.
 
 Visitor: multiple algorithms encapsulated in 
-  a single logic object; API is set at compile-time (?).
+  a single logic object; API is set at 
+  compile-time (?).
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3564,16 +3571,17 @@ C# is strongly typed because:
 <div id="interview-deadlocksql"> 
   <button type="button" class="collapsible">+ What is the difference between an SQL Deadlock and a C# Deadlock?<br/>
      <code class="ex">
-A deadlock is  when separate threads are 
-  waiting for 2 objects, each one being locked 
-  by the other thread. So they are waiting for 
-  each other to unfreeze that object.
+A deadlock is when separate threads are 
+  waiting for 2 objects, each one being 
+  locked by the other thread. So they are 
+  waiting for each other to unfreeze that 
+  object.
 
-SQL can recover from a deadlock, because it has 
-  like a timeout by default.
+SQL can recover from a deadlock, because it 
+  has a timeout by default.
 
-C# application does not have a timeout and so 
-  it freezes and much be fixed.
+A C# application does not have a timeout and 
+  so it freezes and much be fixed.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
