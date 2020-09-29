@@ -410,9 +410,12 @@ The benefits of encapsulation are:
 <div id="interview-inheritance"> 
   <button type="button" class="collapsible">+ Inheritance<br/>
     <code class="ex">
-Inheritance is the ability for multiple derived classes with similar features to be treated as objects of a common base class (or interface). 
+Inheritance is the ability for multiple derived 
+  classes with similar features to be treated as 
+  objects of a common base class (or interface). 
 To prevent inheritance of a class, use 'sealed class'.
-To stop inheritance of a virtual or abstract member, use 'sealed override myMember'.
+To stop inheritance of a virtual or abstract 
+  member, use 'sealed override myMember'.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -451,7 +454,9 @@ namespace Sandbox
 <div id="interview-polymorphism"> 
   <button type="button" class="collapsible">+ Polymorphism<br/>
     <code class="ex">
-Polymorphism is the ability for derived classes to override properties of a common base class.
+Polymorphism is the ability for derived 
+  classes to override properties of a common 
+  base class.
 Static = Overloading
 Dynamic = Interfaces, Abstract Classes, Virtual Members
    </code>
@@ -499,7 +504,9 @@ namespace Sandbox
 <div id="interview-abstraction"> 
   <button type="button" class="collapsible">+ Abstraction<br/>
     <code class="ex">
-Abstraction hiding internal implementation details by making a class/interface as 'abstract' as possible.
+Abstraction hiding internal implementation 
+  details by making a class/interface as 
+  'abstract' as possible.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -550,7 +557,7 @@ namespace Sandbox
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-classvsobj"> 
-  <button type="button" class="collapsible">+ Class vs Object?<br/>
+  <button type="button" class="collapsible">+ Class vs Object<br/>
     <code class="ex">
 Class = Definition of an object.
 Object = Instantiation of an class.
@@ -565,7 +572,8 @@ Object = Instantiation of an class.
 <div id="interview-kiss"> 
   <button type="button" class="collapsible">+ KISS: Keep It Simple Stupid<br/>
     <code class="ex">
-Simple names and simple implementations are better than complex or obscure ones.
+Simple names and simple implementations are 
+  better than complex or obscure ones.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -601,8 +609,11 @@ Don't include features "just in case".
 <div id="interview-tda"> 
   <button type="button" class="collapsible">+ TDA: Tell Don't Ask<br/>
     <code class="ex">
-Don't test an object's state and then make decisions about the methods to call.  
-Tell the object what you want to do and assume that it knows enough about its internal state to make the right decision.
+Don't test an object's state and then make 
+  decisions about the methods to call.
+Tell the object what you want to do and 
+  assume that it knows enough about its 
+  internal state to make the right decision.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -652,9 +663,13 @@ Entities must depend on abstractions not on concretions (a high level module sho
 <div id="srp">    
 <button type="button" class="collapsible">+ SRP: Single Responsibility Principle?
     <code class="ex">
-A class or function should have only one reason to change.
-One responsibility per class/function, where "responsibility" means "a reason to change".
-The responsibility should be entirely encapsulated by the class/function.
+A class or function should have only one 
+  reason to change.
+One responsibility per class/function, 
+  where "responsibility" means "a reason 
+  to change".
+The responsibility should be entirely 
+  encapsulated by the class/function.
     </code>
 </button>    
 <div class="content" style="display: none;" markdown="1">
@@ -1037,8 +1052,10 @@ Note: An interface is created here just as an example. There could be an abstrac
 <div id="interview-lsp"> 
   <button type="button" class="collapsible">+ LSP: Liskov Substitution Principle<br/>
      <code class="ex">
-Every sub-class should be substitutable for its super-class.
-A client should not need to know whether it is dealing with a sub-class or a super-class.
+Every sub-class should be substitutable for 
+  its super-class.
+A client should not need to know whether it 
+  is dealing with a sub-class or a super-class.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1266,8 +1283,10 @@ After these changes, `FixDepositSavingAccount` is no longer able to produce unex
 <div id="interview-isp"> 
   <button type="button" class="collapsible">+ ISP: Interface Segregation Principle<br/>
      <code class="ex">
-A client should not be forced to depend on methods it does not use.
-A sub-class should not be forced to implement methods it does not use.
+A client should not be forced to depend on 
+  methods it does not use.
+A sub-class should not be forced to implement 
+  methods it does not use.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1310,9 +1329,13 @@ In a case such as this, the solution is to split the interface into smaller, mor
 <div id="ioc">    
 <button type="button" class="collapsible">+ DIP: Dependency Inversion Principle? 
     <code class="ex">
-Entities must depend on abstractions not on concretions.
-A high level module should not depend on a low level module; they should both depend on abstractions.
-Extending this principle leading the the Dependency Injection (DI) pattern.
+Entities must depend on abstractions not 
+  on concretions.
+A high level module should not depend on a 
+  low level module; they should both depend 
+  on abstractions.
+Extending this principle leading the the 
+  Dependency Injection (DI) pattern.
     </code>
 </button>    
 <div class="content" style="display: none;" markdown="1">
@@ -1392,8 +1415,13 @@ namespace MyNamespace.Consumer
 <div id="ioc">    
 <button type="button" class="collapsible">+ What is the Inversion Of Control (IoC) Principle?
     <code class="ex">
-Any responsibility that is not the main responsibility of the class should not be encapsulated in the class, and should not be a direct dependency of the class.
-Achieved using Dependency Inversion Principle (DIP), and the Dependency Injection (DI) and Strategy patterns.
+Any responsibility that is not the main 
+  responsibility of the class should not 
+  be encapsulated in the class, and should 
+  not be a direct dependency of the class.
+Achieved using Dependency Inversion Principle (DIP), 
+  and the Dependency Injection (DI) and Strategy 
+  patterns.
     </code>
 </button>    
 <div class="content" style="display: none;" markdown="1">
@@ -1415,10 +1443,14 @@ Adopting IoC is a prerequisite of TDD.
 <div id="dependency">    
 <button type="button" class="collapsible">+ What is the Dependency Injection (DI) pattern?
     <code class="ex">
-Secondary responsibilities are injected into a class, to avoid direct dependencies or unnecessary encapsulation.
-Constructor Injection, Property Injection & Method Injection.
+Secondary responsibilities are injected into 
+  a class, to avoid direct dependencies or 
+  unnecessary encapsulation.
+Constructor Injection, Property Injection & 
+  Method Injection.
 
-A refinement of DI is the Strategy pattern (ability to select algorithm at run-time)
+A refinement of DI is the Strategy pattern 
+  (ability to select algorithm at run-time)
     </code>
 </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1633,8 +1665,12 @@ namespace MyNamespace.Logic
 <button type="button" class="collapsible">+ Strategy Pattern   
     <code class="ex">
 Allows algorithms to be selected at run-time.
-The strategy pattern is intended to provide a means to define a family of algorithms, encapsulate each one as an object, and make them interchangeable. 
-The strategy pattern lets the algorithms vary independently from clients that use them.
+The strategy pattern is intended to provide a 
+  means to define a family of algorithms, 
+  encapsulate each one as an object, and make 
+  them interchangeable. 
+The strategy pattern lets the algorithms vary 
+  independently from clients that use them.
 
 This is of particular relevance for the Dependency Injection pattern.
     </code>
@@ -1805,11 +1841,20 @@ namespace MyNamespace.Consumer
 <div id="interview-builder"> 
   <button type="button" class="collapsible">+ Builder Pattern<br/>
      <code class="ex">
-Separate the construction of a complex object from its representation so that the same construction process can create different representations.
-Construct a complex object step by step and the final step returns the object. 
-Also, the process of constructing an object should be generic so that it can be used to create different representations of the same object.
+Separate the construction of a complex object 
+  from its representation so that the same 
+  construction process can create different 
+  representations.
+Construct a complex object step by step and the 
+  final step returns the object. 
+Also, the process of constructing an object 
+  should be generic so that it can be used to 
+  create different representations of the same 
+  object.
 
-Similar to Factory pattern, but more related to enabling clients to create different representations of the same object.
+Similar to Factory pattern, but more related to 
+  enabling clients to create different 
+  representations of the same object.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -1989,9 +2034,12 @@ class Program
 <div id="interview-builder"> 
   <button type="button" class="collapsible">+ Factory Method Pattern<br/>
     <code class="ex">
-Allows classes to be created without client needing to know how to do it.
+Allows classes to be created without client 
+  needing to know how to do it.
 
-Similar to Builder pattern, but more related to enabling clients to create multiple different, but related, objects.
+Similar to Builder pattern, but more related 
+  to enabling clients to create multiple 
+  different, but related, objects.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2152,8 +2200,10 @@ class Program
 <div id="interview-decorator"> 
   <button type="button" class="collapsible">+ Decorator Pattern<br/>
      <code class="ex">
-An alternative to sub-classing for extending functionality dynamically.
-Wrap components to override or extend functionality.
+An alternative to sub-classing for extending 
+  functionality dynamically.
+Wrap components to override or extend 
+  functionality.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2487,8 +2537,11 @@ class Program
 <div id="interview-chainofreponse"> 
   <button type="button" class="collapsible">+ Chain of Responsibility Pattern<br/>
      <code class="ex">
-Used when one of many callers might take action on an object (e.g. a chain of approvals).
-Each actor is represented by a handler, for which there is a successor.
+Used when one of many callers might take 
+  action on an object (e.g. a chain of 
+  approvals).
+Each actor is represented by a handler, for 
+  which there is a successor.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2628,7 +2681,8 @@ class Program
 <div id="interview-adapter"> 
   <button type="button" class="collapsible">+ Adapter Pattern<br/>
      <code class="ex">
-Allows communication between two incompatible interfaces by acting as a bridge.
+Allows communication between two incompatible 
+  interfaces by acting as a bridge.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2727,7 +2781,10 @@ class Program
 <div id="interview-iterator"> 
   <button type="button" class="collapsible">+ Iterator Pattern<br/>
      <code class="ex">
-Iterator Design Pattern provides a way to access the elements of a collection object in a sequential manner without knowing its underlying structure.
+Iterator Design Pattern provides a way to access 
+  the elements of a collection object in a 
+  sequential manner without knowing its underlying 
+  structure.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -2879,7 +2936,9 @@ class Program
 <div id="interview-nullobject"> 
   <button type="button" class="collapsible">+ Null Object Pattern<br/>
      <code class="ex">
-Provides a non-functional object in place of a null reference and therefore allows methods to be called on it.
+Provides a non-functional object in place of 
+  a null reference and therefore allows 
+  methods to be called on it.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3006,8 +3065,11 @@ class Program
 <div id="interview-visitor"> 
   <button type="button" class="collapsible">+ Visitor Pattern<br/>
      <code class="ex">
-Create and perform new operations on a set of objects without changing the object structure or classes.
-Used to separate business logic and algorithms from an object's data structure.
+Create and perform new operations on a set of 
+  objects without changing the object structure 
+  or classes.
+Used to separate business logic and algorithms 
+  from an object's data structure.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3219,8 +3281,10 @@ class Employees
 <div id="interview-visitor"> 
   <button type="button" class="collapsible">+ Strategy vs Visitor Pattern<br/>
      <code class="ex">
-Strategy: one algorithm per logic object; select which logic object at run-time.
-Visitor: multiple algorithms encapsulated in a single logic object; API is set at compile-time (?).
+Strategy: one algorithm per logic object; 
+  select which logic object at run-time.
+Visitor: multiple algorithms encapsulated in 
+  a single logic object; API is set at compile-time (?).
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3387,8 +3451,10 @@ Example:
 <div id="interview-managed"> 
   <button type="button" class="collapsible">+ Managed vs Unmanaged Code<br/>
      <code class="ex">
-Managed code is interpreted and runs in a secure, managed framework.
-Unmanaged code is compiled to machine code and runs "as-is", with no management.
+Managed code is interpreted and runs in a 
+  secure, managed framework.
+Unmanaged code is compiled to machine code 
+  and runs "as-is", with no management.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3441,8 +3507,10 @@ Reasons to avoid unsafe code in C#:
 <div id="interview-strongvsweak"> 
   <button type="button" class="collapsible">+ Strong vs Weak Typing?<br/>
      <code class="ex">
-Weak typing means delaying the check of variable’s type usually until run-time. 
-Strong typing means checking type as soon as possible, usually at compile-time.
+Weak typing means delaying the check of 
+  variable’s type usually until run-time. 
+Strong typing means checking type as soon as 
+  possible, usually at compile-time.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -3461,9 +3529,14 @@ C# is strongly typed because:
 <div id="interview-deadlocksql"> 
   <button type="button" class="collapsible">+ What is the difference between an SQL Deadlock and a C# Deadlock?<br/>
      <code class="ex">
-A deadlock is  when separate threads are waiting for 2 objects, each one being locked by the other thread. So they are waiting for each other to unfreeze that object.
-SQL can recover from a deadlock, because it has like a timeout by default.
-C# application does not have a timeout and so it freezes and much be fixed.
+A deadlock is  when separate threads are 
+  waiting for 2 objects, each one being locked 
+  by the other thread. So they are waiting for 
+  each other to unfreeze that object.
+SQL can recover from a deadlock, because it has 
+  like a timeout by default.
+C# application does not have a timeout and so 
+  it freezes and much be fixed.
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
