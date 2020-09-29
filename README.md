@@ -5443,12 +5443,46 @@ class Program
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-string"> 
-  <button type="button" class="collapsible">+ `String` vs `StringBuilder`
+  <button type="button" class="collapsible">+ `string` vs `String` vs `StringBuilder`
      <code class="ex">
-xxxxxxxx
+In C#, there is no difference between `string` and `String` (the latter is effectively an alias for the former).
+Changing (or concatentating) a `String` always results in a new `String` object.
+Use `StringBuilder` for better performance when concatenating strings (except in one case, discussed inside).
     </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+There is one case where using `String` is faster than using `StringBuilder`: if a string is created by concatenating multiple strings in the same declaration, this can be faster than producing the same string using multiple calls to `StringBuilder`.
+
+i.e.
+
+```cs
+string a,b,c,d;
+ a = b + c + d;
+```
+
+can be faster than:
+
+```cs
+string a,b,c,d;
+StringBuilder e = new StringBuilder();
+ e.Append(b);
+ e.Append(c);
+ e.Append(d);
+ a = e.ToString();
+```
+
+This is because, under the covers, both `+` and `StringBuilder` defer to the same primitive, but `StringBuilder` potentially has a greater reallocation overhead.
+
+
+Note that both of the above examples are normally faster than the following, although this can depend on how good a job the compiler does, since a well written compiler may compile this to `a = b + c + d` anyway:
+
+```cs
+string a,b,c,d;
+ a = a + b;
+ a = a + c;
+ a = a + d;
+```
 
 </div>
 </div>
