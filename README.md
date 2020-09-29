@@ -5442,6 +5442,93 @@ class Program
 </div>
 
 <!-- =========================#####################################################================================ -->
+<div id="interview-dispose"> 
+  <button type="button" class="collapsible">+ `Close` vs `Dispose()` vs `Finalize()`
+     <code class="ex">
+Close(): This is a legacy method that is typically the same as 'Dispose()'.  It is most commonly used
+         to remove a connection to a resource (e.g. a file handle or stream).
+Dispose(): Defined by the IDisposable interface.  Allows programmatic control of the freeing of both 
+           managed and unmanaged resources.  Enables the use of the using() statement.
+Finalize(): Defined on the base object class, this is automatically invoked by the Garbage Collector. 
+            It should only be used to destroy unmanaged resource.
+    </code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+**Close()**
+
+The `Close()` method is the idiomatic opposite of the `Open()` method, which is typically used to open a connection to a resource.  It has subsequently been replaced by the `Dispose()` method, however remains for legacy support reasons.  It is not recommended that it be used, although conceptually it can be used in the following manner:
+
+```cs
+FileStream stream = null;
+try
+{
+    stream = File.Open("C:\\a", FileMode.Open)
+    // Do something with file   
+} finally {
+    stream.Close();
+}
+```
+
+**Dispose()**
+
+The `Dispose()` method, defined by the `IDisposable` interface, is the appropriate approach for disposing of managed and unmanaged resources within an object.
+
+The following is one example of how 'Dispose()' may be called.
+
+```cs
+FileStream stream = null;
+try
+{
+    stream = File.Open("C:\\a", FileMode.Open)
+    // Do something with file   
+} finally {
+    stream.Dispose(); // internally calls Close()
+}
+```
+
+A more sophisticated approach is to use a `using()` statement to wrap the object to be disposed.  If `IDisposable` is implemented, exiting the `using()` statement will result in `Dispose()` being called automatically.
+
+```cs
+using(FileStream file = new FileStream("C:\\a", FileMode.Open, FileAccess.Read))   
+{  
+    // Do something with file   
+} 
+```
+
+**Finalize()**
+
+The `Finalize()` method is also known as the destructor.  It cannot be called explicitly in the code; it can only be called by the Garbage Collector.  Also, the method cannot be implemented directly, but can be defined as a destructor (`~`) method, as shown in the following example:
+
+```cs
+public class MyClass: IDisposable {  
+  
+    //Construcotr   
+    public MyClass() {  
+        //Initialization:   
+    }  
+  
+    //Destrucor also called Finalize   
+    ~MyClass() {  
+        this.Dispose();  
+    }  
+  
+    public void Dispose() {  
+        //write code to release unmanaged resource.   
+    }  
+} 
+```
+
+If a destructor is to be implemented, it is recommended that IDisposable also be implemented. 
+
+The common use case for implementing a destructor is when an unmanaged resource is accessed (such as a stream or file handle).  If this resource is used in many places in the application, it may be unclear when the resource can be manually closed.  In this case, passing this responsibility to `Finaize()` means that the decision to close can be delegated to the Garbage Collector.
+
+Note that calling `Finalize()` can be expensive, which is another reason to avoid using it unless necessary.
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
 <div id="interview-string"> 
   <button type="button" class="collapsible">+ `string` vs `String` vs `StringBuilder`
      <code class="ex">
@@ -5483,18 +5570,6 @@ string a,b,c,d;
  a = a + c;
  a = a + d;
 ```
-
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
-<div id="interview-dispose"> 
-  <button type="button" class="collapsible">+ `Dispose` vs `Finalize`
-     <code class="ex">
-xxxxxxxx
-    </code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
 
 </div>
 </div>
