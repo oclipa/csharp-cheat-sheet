@@ -3760,8 +3760,8 @@ Event: Special case of delegate that facilitates event-driven programming.
 **Be sure to also read the section on Closures.**
 
    * ### Delegate:
-      * An older, generic form of Action, Func, Predicate or EventHandler
-      * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
+      * An older, generic form of Action, Func, Predicate or Event
+      * Nowadays, prefer one of the other forms, which are generally less complex and easier to read.
       
 ```cs
 using System;
@@ -3795,11 +3795,14 @@ namespace MyNamespace
     }
 }
 ```
-      * TODO: A multicast delegate, events
-      * Nowadays, prefer Action and Func, which are generally less complex and easier to read.
 
-   * ### Action&lt;T&gt;: 
-      * Return type must be `void`
+**Multicast Delegates**
+
+
+
+   * ### Action&lt;T&gt;:
+      * Performs an action that accepts a parameter of type `T`, but does not return a value.
+      * Overloads include Action&lt;T1, T2&gt;, Func&lt;T1, T2, T3&gt;, Func&lt;T1, T2, T3, T4&gt; etc.
 
 Note that:
 
@@ -3820,7 +3823,6 @@ public class TestCustomDelegate
 Is functionally the same as:
 
 ```cs
-
 public class TestAction
 {
    public static void Main()
@@ -3874,7 +3876,8 @@ namespace MyNamespace
 ```
 
    * ### Func&lt;TResult&gt;:
-      * Must return a value
+      * Performs an function that must return a value of type `TResult`.
+      * Overloads include Func&lt;T, TResult&gt;, Func&lt;T1, T2, TResult&gt;, Func&lt;T1, T2, T3, TResult&gt; etc.
 
 Note that:
 
@@ -3965,18 +3968,308 @@ namespace MyNamespace
    * ### Event:
       * An event is a special kind of delegate that facilitates event-driven programming.
 
-The `event` keyword prevents unwanted access to the field.
+The `event` keyword prevents unwanted access to the field.  There are two main reasons for this:
+  * To avoid the event handler being replaced unexpectedly (e.g. `obj.Leave = MyLeaveHandler;`).
+  * To prevent the event handler being fired directly from outside the class  (e.g. `obj.Leave(new EmployeeEventArgs())`).
 
-The behaviour of events can be replicated using `Action`, however using `EventHandler` results in the intention of the code being clearer.
+An event typically relies on an `EventHandler` to react to the event.
 
 ```cs
-public event EventHandler<EmployeeEventArgs> Leave;
+using System;
 
-protected virtual void OnLeave(EmployeeEventArgs e) {
-    var handler = Leave;
-    if (handler != null) handler(this, e);
+public class EmployeeEventArgs : EventArgs
+{
+    public EmployeeEventArgs(int employeeId, int daysTaken) : base()
+    {
+        EmployeeId = employeeId;
+        DaysTaken = daysTaken;
+    }
+
+    public int EmployeeId;
+    public int DaysTaken;
+}
+
+public class Employees
+{
+    // assign empty delegate to avoid checks for null
+    public event EventHandler<EmployeeEventArgs> Leave = delegate { };
+
+    protected void OnLeave(object sender, EmployeeEventArgs e)
+    {
+        Leave(this, e);
+    }
+
+    public void VacationTaken(int employeeId, int daysTaken)
+    {
+        OnLeave(this, new EmployeeEventArgs(employeeId, daysTaken));
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Employees employees = new Employees();
+
+        employees.Leave += (object sender, EmployeeEventArgs e) => Console.WriteLine($"Employee {e.EmployeeId} took {e.DaysTaken} days vacation");
+
+        employees.VacationTaken(123, 2); // output: Employee 123 took 2 days vacation
+    }
 }
 ```
+
+As shown in the following alternative example, the behaviour of events can be replicated using `Action`, however using `EventHandler` generally gives a clearer indication of intention:
+
+```cs
+using System;
+
+public class EmployeeEventArgs : EventArgs
+{
+    public EmployeeEventArgs(int employeeId, int daysTaken) : base()
+    {
+        EmployeeId = employeeId;
+        DaysTaken = daysTaken;
+    }
+
+    public int EmployeeId;
+    public int DaysTaken;
+}
+
+public class Employees
+{
+    // assign empty delegate to avoid checks for null
+    public event Action<EmployeeEventArgs> Leave = delegate { };
+
+    // when using Action, no need to include sender in parameters
+    protected void OnLeave(EmployeeEventArgs e)
+    {
+        Leave(e);
+    }
+
+    public void VacationTaken(int employeeId, int daysTaken)
+    {
+        // when using Action, no need to include sender in parameters
+        OnLeave(new EmployeeEventArgs(employeeId, daysTaken));
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Employees employees = new Employees();
+
+        // when using Action, no need to include sender in parameters
+        employees.Leave += (EmployeeEventArgs e) => Console.WriteLine($"Employee {e.EmployeeId} took {e.DaysTaken} days vacation");
+
+        employees.VacationTaken(123, 2); // output: Employee 123 took 2 days vacation
+    }
+}
+```
+
+</div>
+</div>
+
+
+<!-- =========================#####################################################================================ -->
+<div id="delegates">   
+<button type="button" class="collapsible">+ Multicast Delegates
+<code class="ex">
+Delegates (including Action, Func, Predicate and Event) can be chained together.
+</code>
+</button>
+<div class="content" style="display: none;" markdown="1">
+
+Combinations of delegates can be manipulated using the `+` and `-` operators:
+  * `delC = delA + delB`: delegate `delC` will perform delegate `delA` followed by delegate `delB`
+  * `delD = delC - delB`: delegate `delB` will be removed from `delC`, which will now perform only `delA`
+
+Only delegates of the same type can be combined.
+
+```cs
+using System;
+
+class Program
+{
+    static void Hello(string s)
+    {
+        Console.WriteLine("  Hello, {0}!", s);
+        // return "said hello"; // if using Func
+        // return true; // if using Predicate
+    }
+
+    static void Goodbye(string s)
+    {
+        Console.WriteLine("  Goodbye, {0}!", s);
+        // return "said goodbye"; // if using Func
+        // return true; // if using Predicate
+    }
+
+    delegate void CustomDelegate(string s);
+
+    static void Main()
+    {
+        CustomDelegate a, b, c, d;
+
+        // In this example, you could also replace the custom delegate with 
+        // Action<string>, Func<string, string> or Predicate<string> instead.
+        // Action<string> a, b, c, d;
+        // Func<string, string> a, b, c, d;
+        // Predicate<string> a, b, c, d;
+
+        // Create the delegate object a that references 
+        // the method Hello:
+        a = Hello;
+
+        // Create the delegate object b that references 
+        // the method Goodbye:
+        b = Goodbye;
+
+        // The two delegates, a and b, are composed to form c: 
+        c = a + b;
+
+        // Remove a from the composed delegate, leaving d, 
+        // which calls only the method Goodbye:
+        d = c - a;
+
+        Console.WriteLine("Invoking delegate a:");
+        a("A");
+        Console.WriteLine("Invoking delegate b:");
+        b("B");
+        Console.WriteLine("Invoking delegate c:");
+        c("C");
+        Console.WriteLine("Invoking delegate d:");
+        d("D");
+
+        /* Output:
+        Invoking delegate a:
+          Hello, A!
+        Invoking delegate b:
+          Goodbye, B!
+        Invoking delegate c:
+          Hello, C!
+          Goodbye, C!
+        Invoking delegate d:
+          Goodbye, D!
+        */
+    }
+}
+```
+
+**Multicast Delegates That Return Values**
+
+* If the multicast delegate invocation includes output parameters or a return value (e.g. multiple `Func` statements), their final value will come from the invocation of the last delegate in the list.  All other return values are lost.
+
+e.g.
+
+```cs
+using System;
+
+class Program
+{
+    static string Hello(string s)
+    {
+        Console.WriteLine("Hello, {0}!", s);
+        return "  said A";
+    }
+
+    static string Goodbye(string s)
+    {
+        Console.WriteLine("Goodbye, {0}!", s);
+        return "  said B";
+    }
+
+    static void Main()
+    {
+        Func<string, string> a, b, c, d;
+
+        a = Hello;
+        b = Goodbye;
+        c = a + b;
+        d = b + a;
+
+        Console.WriteLine(c("C"));
+        Console.WriteLine(d("D"));
+
+        /* Output:
+        Hello, C!
+        Goodbye, C!
+          said B
+        Goodbye, D!
+        Hello, D!
+          said A
+        */
+    }
+}
+```
+
+* A multicast delegate can be split into its constituent delegates using `Delegate.GetInvocationList()`, as shown in the following example:
+
+```cs
+using System;
+
+class Program
+{
+    static string Hello(string s)
+    {
+        Console.WriteLine("Hello, {0}!", s);
+        return "  said A";
+    }
+
+    static string Goodbye(string s)
+    {
+        Console.WriteLine("Goodbye, {0}!", s);
+        return "  said B";
+    }
+
+    static void Main()
+    {
+        Func<string, string> a, b, c;
+
+        a = Hello;
+        b = Goodbye;
+        c = a + b;
+
+        foreach (Func<string, string> func in c.GetInvocationList())
+        {
+            Console.WriteLine(func("world"));
+        }
+
+        /* Output:
+        Hello, world!
+          said A
+        Goodbye, world!
+          said B
+        */
+    }
+}
+```
+
+* In practice, there are few real-world use cases for multicast delegates of functions.
+
+**Multicast Events (WIP)**
+
+In the case of events, the `+` and `-` syntax is not supported, however it is possible to assign multiple event handlers using the `+=` operators.  Event handlers can be removed using the `=-` operator.
+
+???????
+
+A use case for multicast events is in the case of asynchronous event handlers:
+
+```cs
+public delegate Task AsyncEventHandler(object sender, EventArgs e);
+public event AsyncEventHandler X;
+public async Task OnX(EventArgs e) {
+  // ...
+
+  var myMulticastEvent = X;
+  if (myMulticastEvent != null)
+    await Task.WhenAll(
+      Array.ConvertAll(
+        myMulticastEvent.GetInvocationList(),
+        d => ((AsyncEventHandler)d)(this, e)));
+}
+```
+
 </div>
 </div>
 
