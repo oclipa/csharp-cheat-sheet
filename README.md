@@ -459,7 +459,7 @@ Polymorphism is the ability for derived classes to override properties of a comm
 Static = Overloading
 
 Dynamic = Interfaces, Abstract Classes, Virtual Members
-   </code>
+</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -4881,7 +4881,7 @@ A way of breaking down functions into a tree like structure.
 Expression trees were created for the task of converting code such as a query expression into 
 a string that can be passed to some other process and executed there.
 Of particular relevance to LINQ.
-   </code>
+</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -7297,7 +7297,7 @@ xxxxxxxx
 Enables interprocess/domain communication (HTTP, TCP, and SMTP protocols)
 Legacy feature.
 Windows Communication Framework (WCF) is preferred (better performance, more flexible, HTTP, TCP, SMTP, named pipes, MSMQ)
-   </code>
+</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -7328,7 +7328,7 @@ Windows Communication Framework (WCF) is preferred (better performance, more fle
 <code class="ex">
 LoadFrom: Searches for assembly, so could load wrong one (useful if don't know/care where assembly is)
 LoadFile: Only loads from the specified path, so avoids risk of loading the wrong assembly.
-   </code>
+</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -7356,7 +7356,7 @@ Strong name verification can be disabled by user.
 <code class="ex">
 CI: Continuous Integration - every push triggers a build and then runs tests before changes are integrated into master.
 CD: Continuous Deployment - CI + deploys new release build to customers.
-   </code>
+</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
@@ -7371,7 +7371,7 @@ Cloud reduces complexity of testing and deploying app.
 Cloud allows better data analysis (state + usage).
 Cloud adds risk in terms of privacy and data protection.
 Cloud means you are responsible for resources, rather than customer.
-   </code>
+</code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
