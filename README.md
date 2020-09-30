@@ -3796,10 +3796,6 @@ namespace MyNamespace
 }
 ```
 
-**Multicast Delegates**
-
-
-
    * ### Action&lt;T&gt;:
       * Performs an action that accepts a parameter of type `T`, but does not return a value.
       * Overloads include Action&lt;T1, T2&gt;, Func&lt;T1, T2, T3&gt;, Func&lt;T1, T2, T3, T4&gt; etc.
