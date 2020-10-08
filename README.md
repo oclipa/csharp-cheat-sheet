@@ -3,7 +3,7 @@
 <a class="link" href="http://oclipa.github.io/toolbox.html">&lt; toolbox</a>
 </div> 
 
-## C# (work-in-progress)
+## C#
 
 &nbsp;
 
@@ -6033,6 +6033,21 @@ Console.WriteLine(typeof(object)); // ==> System.Object
 //Console.WriteLine(typeof(obj)); // ==> compile-time error 
 Console.WriteLine(obj.GetType()); // ==> System.String
 ```
+</div>
+</div>
+
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-bitwise"> 
+  <button type="button" class="collapsible">+ Bitwise Operators
+ <code class="ex">
+Operators that operate on `int` and `uint` at a binary level. 
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+...
+
 </div>
 </div>
 
