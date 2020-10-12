@@ -6897,7 +6897,8 @@ For further information on `in`, see here:
 <!-- =========================#####################################################================================ -->
 <div id="interview-asvsis"> 
   <button type="button" class="collapsible">+ `as` vs `is`
-<code class="ex">     
+<code class="ex">
+TODO
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -7557,101 +7558,132 @@ TODO
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-mvc"> 
-<button type="button" class="collapsible">+ MVC Interview Questions</button>   
+<button type="button" class="collapsible">+ MVC</button>   
 <div class="content" style="display: none;" markdown="1">
- 
+
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-mvcmodel"> 
+  <button type="button" class="collapsible">+ Model<br/>
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+<span class="todo">TODO</span>
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-mvcview"> 
+  <button type="button" class="collapsible">+ View<br/>
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+<span class="todo">TODO</span>
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-mvccontroller"> 
+  <button type="button" class="collapsible">+ Controller<br/>
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+<span class="todo">TODO</span>
+    
+</div>
+</div>
+
 <!-- =========================#####################################################================================ -->
 <div id="interview-getvspost"> 
-  <button type="button" class="collapsible">+ What is the difference between GET and POST?<br/>
+  <button type="button" class="collapsible">+ GET vs POST<br/>
 <code class="ex">
 TODO
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
-<div id="interview-controller"> 
-  <button type="button" class="collapsible">+ In MVC, what is a Controller?<br/>
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+<span class="todo">TODO</span>
 
 </div>
 </div>
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-requestflow"> 
-  <button type="button" class="collapsible">+ In MVC, what is the Request Flow?<br/>
+  <button type="button" class="collapsible">+ Request Flow<br/>
 <code class="ex">
 TODO
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-</div>
-</div>
-
-<!-- =========================#####################################################================================ -->
-<div id="interview-mvcdesc"> 
-  <button type="button" class="collapsible">+ What is MVC?<br/>
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+<span class="todo">TODO</span>
 
 </div>
 </div>
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-viewvssession"> 
-  <button type="button" class="collapsible">+ What is the difference between ViewState and SessionState?<br/>
+  <button type="button" class="collapsible">+ ViewState vs SessionState<br/>
 <code class="ex">
 TODO
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+<span class="todo">TODO</span>
 
 </div>
 </div>
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-xsd"> 
-  <button type="button" class="collapsible">+ What is an XSD file?<br/>
+  <button type="button" class="collapsible">+ XSD<br/>
 <code class="ex">
 TODO
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+<span class="todo">TODO</span>
 
 </div>
 </div>
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-xml"> 
-  <button type="button" class="collapsible">+ What is the difference between an XML Fragment and an XML Document?<br/>
+  <button type="button" class="collapsible">+ XML Fragment vs XML Document<br/>
 <code class="ex">
 TODO
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+<span class="todo">TODO</span>
 
 </div>
 </div>
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-cors"> 
-  <button type="button" class="collapsible">+ What is CORS?<br/>
+  <button type="button" class="collapsible">+ CORS<br/>
 <code class="ex">
 TODO
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+<span class="todo">TODO</span>
 
 </div>
 </div>
