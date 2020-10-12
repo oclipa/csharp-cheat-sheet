@@ -7379,7 +7379,7 @@ class Program
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-gc"> 
-  <button type="button" class="collapsible">+ How does Garbage Collection work?<br/>
+  <button type="button" class="collapsible">+ Garbage Collection<br/>
 <code class="ex">
 TODO
 </code>
@@ -7393,7 +7393,7 @@ TODO
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-remoting"> 
-  <button type="button" class="collapsible">+ What is .NET Remoting?<br/>
+  <button type="button" class="collapsible">+ .NET Remoting<br/>
 <code class="ex">
 Enables interprocess/domain communication (HTTP, TCP, and SMTP protocols)
 Legacy feature.
@@ -7427,7 +7427,7 @@ Windows Communication Framework (WCF) is preferred (better performance, more fle
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-assemblyload"> 
-  <button type="button" class="collapsible">+ When would you use `Assembly.LoadFrom()` or `Assembly.LoadslFile()`?<br/>
+  <button type="button" class="collapsible">+ `Assembly.LoadFrom()` or `Assembly.LoadsFile()`<br/>
 <code class="ex">
 LoadFrom: Searches for assembly, so could load wrong one (useful if don't know/care where assembly is)
 LoadFile: Only loads from the specified path, so avoids risk of loading the wrong assembly.
@@ -7440,7 +7440,7 @@ LoadFile: Only loads from the specified path, so avoids risk of loading the wron
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-strongnaming"> 
-  <button type="button" class="collapsible">+ What are the benefits of Strongly Named Assemblies?<br/>
+  <button type="button" class="collapsible">+ Strongly Named Assemblies<br/>
 <code class="ex">
 Only strongly named assemblies can be included in GAC.
 Creates a unique identifier for the assembly.
@@ -7457,7 +7457,7 @@ Strong name verification can be disabled by user.
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-cicd"> 
-  <button type="button" class="collapsible">+ What is CI/CD?<br/>
+  <button type="button" class="collapsible">+ CI &amp; CD<br/>
 <code class="ex">
 CI: Continuous Integration - every push triggers a build and then runs tests before changes are integrated into master.
 CD: Continuous Deployment - CI + deploys new release build to customers.
@@ -7470,7 +7470,7 @@ CD: Continuous Deployment - CI + deploys new release build to customers.
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-cloud"> 
-  <button type="button" class="collapsible">+ What are differences between Cloud and On-Premise?<br/>
+  <button type="button" class="collapsible">+ Cloud vs On-Premise<br/>
 <code class="ex">
 Cloud reduces complexity of testing and deploying app.
 Cloud allows better data analysis (state + usage).
@@ -7485,7 +7485,7 @@ Cloud means you are responsible for resources, rather than customer.
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-dllvsexe"> 
-  <button type="button" class="collapsible">+ What is the difference between an EXE and a DLL?<br/>
+  <button type="button" class="collapsible">+ EXE vs DLL<br/>
 <code class="ex">
 TODO
 </code>
@@ -7499,7 +7499,7 @@ TODO
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-gac"> 
-  <button type="button" class="collapsible">+ What is the GAC?<br/>
+  <button type="button" class="collapsible">+ The GAC<br/>
 <code class="ex">
 TODO
 </code>
@@ -7513,7 +7513,7 @@ TODO
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-tddvsddd"> 
-  <button type="button" class="collapsible">+ What are TDD and DDD?<br/>
+  <button type="button" class="collapsible">+ TDD &amp; DDD<br/>
 <code class="ex">
 TODO
 </code>
@@ -7525,7 +7525,7 @@ TODO
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-compilation"> 
-  <button type="button" class="collapsible">+ How is C# compiled?<br/>
+  <button type="button" class="collapsible">+ Compilation<br/>
 <code class="ex">
 TODO
 </code>
@@ -7539,7 +7539,7 @@ TODO
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-serialization"> 
-  <button type="button" class="collapsible">+ What is the difference between XML and Binary Serialization?<br/>
+  <button type="button" class="collapsible">+ XML vs Binary Serialization<br/>
 <code class="ex">
 TODO
 </code>
