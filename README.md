@@ -8368,3 +8368,20 @@ To reduce fragmentation:
     loadJS("../collapse.js");
 
 </script>
+
+<!-- Default Statcounter code for C# Cheat Sheet
+https://oclipa.github.io/csharp-cheat-sheet/ -->
+<script type="text/javascript">
+var sc_project=12408535; 
+var sc_invisible=1; 
+var sc_security="e03c2fdd"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="free web stats"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/12408535/0/e03c2fdd/1/"
+alt="free web stats"></a></div></noscript>
+<!-- End of Statcounter Code -->
