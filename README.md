@@ -3787,8 +3787,11 @@ Event: Special case of delegate that facilitates event-driven programming.
 **Be sure to also read the section on Closures.**
 
    * ### Delegate:
-      * An older, generic form of Action, Func, Predicate or Event
-      * Nowadays, prefer one of the other forms, which are generally less complex and easier to read.
+      * An older, generic form of Action, Func, Predicate or Event.
+      * In C#, a `delegate` is actually always an instance of `MulticastDelegate`, which extends the `Delegate` base class and provides an additional invocation list.
+      * `Delegate` is actually a legacy class that has never been removed.  It is rarely used directly, although some methods do still return a `Delegate` instance.  
+      * See the section on "Multicast Delegates" for further info.
+      * In any event, nowadays it is generally preferable to use one of the other forms (`Action`, `Func`, etc.), which are generally less complex and easier to read.
       
 ```cs
 using System;
@@ -4227,7 +4230,8 @@ class Program
 ```
 
 &nbsp;
-* A multicast delegate can be split into its constituent delegates using `Delegate.GetInvocationList()`, as shown in the following example:
+* A multicast delegate can be split into its constituent delegates using `Delegate.GetInvocationList()`.
+* NOTE: Internally, the invocation list will be `null` if the delegate only encapsulates a single method, although `GetInvocationList()` will still return the single method (this may be a little confusing when viewed in a debugger).
 
 ```cs
 using System;
@@ -4274,7 +4278,7 @@ class Program
 
 **Multicast Events**
 
-<span class="todo">WIP - does this need to be expanded?</span>
+.NET events are essentially just multicast delegates, with some additional infrastructure (namely, the `add()` and `remove()` methods).
 
 In the case of events, the `+` and `-` syntax is not supported, however it is possible to assign multiple event handlers using the `+=` operators.  Event handlers can be removed using the `=-` operator.
 
@@ -4292,6 +4296,147 @@ public async Task OnX(EventArgs e) {
       Array.ConvertAll(
         myMulticastEvent.GetInvocationList(),
         d => ((AsyncEventHandler)d)(this, e)));
+}
+```
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="invoke">   
+<button type="button" class="collapsible">+ `()` vs `Invoke()` vs `DynamicInvoke()`
+<code class="ex">
+(): The common method invoke syntax, e.g. doSomething().
+Invoke(): This is effectively identical to (), e.g. doSomething.Invoke().
+DynamicInvoke(): This effectively behaves the same as Invoke() but is a lot slower than Invoke().  It is used if the method being invoked is not known at compile-time.
+</code>
+</button>
+<div class="content" style="display: none;" markdown="1">
+
+**Invoke**
+
+The `Invoke()` method is provided by the common language runtime (it is not part of the published class API) and primarily to aid Reflection.  It behaves exactly the same as `()`.  There is normally no need to call `Invoke()` directly.
+
+```cs
+using System;
+
+class Program
+{
+    static Action del = () => { Console.WriteLine("del()"); };
+    static Action<int> intDel = i => { Console.WriteLine($"del({i})"); };
+
+    static void Main()
+    {
+        del(); // output: del()
+        del.Invoke(); // output: del()
+        intDel(3); // output: del3()
+        intDel.Invoke(3); // output: del(3)
+    }
+}
+```
+
+**BeginInvoke/EndInvoke**
+
+*NOTE: these are not supported in .NET Core!*
+
+`Invoke()` launches a method synchronously (i.e. on the current thread).  To launch a method asynchronously (i.e. on a separate thread), `BeginInvoke()` can be used.  `EndInvoke()` can be used to wait for the invoked method to return, however, because `EndInvoke()` might block, you should never call it from threads that service the user interface.
+
+```cs
+using System;
+using System.Threading;
+
+public class AsyncDemo
+{
+    // The method to be executed asynchronously.
+    public string TestMethod(int callDuration, out int threadId)
+    {
+        Console.WriteLine("Test method begins.");
+        Thread.Sleep(callDuration);
+        threadId = Thread.CurrentThread.ManagedThreadId;
+        return String.Format("My call time was {0}.", callDuration.ToString());
+    }
+}
+
+// The delegate must have the same signature as the method
+// it will call asynchronously.
+public delegate string AsyncMethodCaller(int callDuration, out int threadId);
+
+class Program
+{
+    static Action del = () => { Console.WriteLine("del()"); };
+    static Action<int> intDel = i => { Console.WriteLine($"del({i})"); };
+
+    static void Main()
+    {
+        // The asynchronous method puts the thread id here.
+        int threadId;
+
+        // Create an instance of the test class.
+        AsyncDemo ad = new AsyncDemo();
+
+        // Create the delegate.
+        AsyncMethodCaller caller = new AsyncMethodCaller(ad.TestMethod);
+
+        // Initiate the asychronous call.
+        IAsyncResult result = caller.BeginInvoke(3000,
+            out threadId, null, null);
+
+        Thread.Sleep(0);
+        Console.WriteLine("Main thread {0} does some work.",
+            Thread.CurrentThread.ManagedThreadId);
+
+        // Call EndInvoke to wait for the asynchronous call to complete,
+        // and to retrieve the results.
+        string returnValue = caller.EndInvoke(out threadId, result);
+
+        Console.WriteLine("The call executed on thread {0}, with return value \"{1}\".",
+            threadId, returnValue);
+    }
+}
+```
+
+**DynamicInvoke()**
+
+`DynamicInvoke()` is used if the type of the delegate is not known as compile-time, which means late-binding must be used.  
+
+**NOTE:** It is a lot slower than `Invoke()` and should only be used with care.
+
+```cs
+using System;
+using System.Diagnostics;
+
+class Program
+{
+    static void Main()
+    {
+        int v = 3;
+
+        Func<int, int> twice = x => x * 2;
+
+        const int LOOP = 5000000; // 5M
+
+        var watch = Stopwatch.StartNew();
+
+        for (int i = 0; i < LOOP; i++)
+        {
+            twice.Invoke(v);
+        }
+
+        watch.Stop();
+        Console.WriteLine("Invoke: {0}ms", watch.ElapsedMilliseconds);
+
+        Delegate slowTwice = twice; // this is still the same delegate instance
+        object[] args = { v };
+
+        watch = Stopwatch.StartNew();
+        for (int i = 0; i < LOOP; i++)
+        {
+            twice.DynamicInvoke(args);
+        }
+
+        watch.Stop();
+        Console.WriteLine("DynamicInvoke: {0}ms", watch.ElapsedMilliseconds);
+    }
 }
 ```
 
