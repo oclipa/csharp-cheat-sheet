@@ -4282,20 +4282,76 @@ class Program
 
 In the case of events, the `+` and `-` syntax is not supported, however it is possible to assign multiple event handlers using the `+=` operators.  Event handlers can be removed using the `=-` operator.
 
-A use case for multicast events is in the case of asynchronous event handlers:
+A use case for multicast events is in the case of asynchronous event handlers, where the requirement is that the triggering function does not continue until all of the event handlers have returned (but still allows the event handlers to run asynchronously).
 
 ```cs
-public delegate Task AsyncEventHandler(object sender, EventArgs e);
-public event AsyncEventHandler X;
-public async Task OnX(EventArgs e) {
-  // ...
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-  var myMulticastEvent = X;
-  if (myMulticastEvent != null)
-    await Task.WhenAll(
-      Array.ConvertAll(
-        myMulticastEvent.GetInvocationList(),
-        d => ((AsyncEventHandler)d)(this, e)));
+// ensure that OnMyEvent's task doesn't complete until 
+// all of the registered MyEventHandlers have
+class MyAsyncObject
+{
+    // a delegate for an event handler that will run asynchronously
+    public delegate Task AsyncEventHandler(object sender, EventArgs e);
+
+    // the event handler
+    public event AsyncEventHandler MyEventHandler;
+
+    // trigger the event asynchronously
+    public async Task OnMyEvent(EventArgs e)
+    {
+        // ...
+
+        // if listeners exist
+        if (MyEventHandler != null)
+            // convert the list of delegates to an array of tasks
+            // then return a task that encapsulates the array of tasks
+            // then run the task (which will run all the other tasks)
+            await Task.WhenAll(
+                Array.ConvertAll<Delegate, Task>(
+                    MyEventHandler.GetInvocationList(),
+                    d => ((AsyncEventHandler)d)(this, e)));
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        performTasks();
+    }
+
+    private static void performTasks()
+    {
+        MyAsyncObject myAsyncObject = new MyAsyncObject();
+
+        // add event handlers (these would normally be added throughout
+        // the application)
+        myAsyncObject.MyEventHandler += async (sender, e) => { await Task.Run(() => myTask(1)); };
+        myAsyncObject.MyEventHandler += async (sender, e) => { await Task.Run(() => myTask(2)); };
+        myAsyncObject.MyEventHandler += async (sender, e) => { await Task.Run(() => myTask(3)); };
+        myAsyncObject.MyEventHandler += async (sender, e) => { await Task.Run(() => myTask(4)); };
+        myAsyncObject.MyEventHandler += async (sender, e) => { await Task.Run(() => myTask(5)); };
+
+        // calling OnMyEvent will trigger all of the tasks
+        // then wait for all of the tasks to complete
+        myAsyncObject.OnMyEvent(new EventArgs()).Wait();
+
+        Console.WriteLine("Done.");
+    }
+
+    private static void myTask(int id)
+    {
+        long start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        Console.WriteLine($"Task {id} started  at {start}");
+        Random rnd = new Random();
+        int wait = rnd.Next(1000);
+        Thread.Sleep(wait);
+        long end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        Console.WriteLine($"Task {id} complete at {end}");
+    }
 }
 ```
 
@@ -4308,7 +4364,7 @@ public async Task OnX(EventArgs e) {
 <code class="ex">
 (): The common method invoke syntax, e.g. doSomething().
 Invoke(): This is effectively identical to (), e.g. doSomething.Invoke().
-DynamicInvoke(): This effectively behaves the same as Invoke() but is a lot slower than Invoke().  It is used if the method being invoked is not known at compile-time.
+DynamicInvoke(): This effectively behaves the same as Invoke() but is a lot slower than Invoke().  It is used if the type of the delegate being invoked is not known at compile-time.
 </code>
 </button>
 <div class="content" style="display: none;" markdown="1">
@@ -4339,7 +4395,9 @@ class Program
 
 *NOTE: these are not supported in .NET Core!*
 
-`Invoke()` launches a method synchronously (i.e. on the current thread).  To launch a method asynchronously (i.e. on a separate thread), `BeginInvoke()` can be used.  `EndInvoke()` can be used to wait for the invoked method to return, however, because `EndInvoke()` might block, you should never call it from threads that service the user interface.
+`Invoke()` launches a method synchronously (i.e. on the current thread).  To launch a method asynchronously (i.e. on a separate thread), `BeginInvoke()` can be used.
+
+`EndInvoke()` can be used to wait for the invoked method to return, although, because `EndInvoke()` might block, it should never be called from threads that service the user interface.
 
 ```cs
 using System;
@@ -4399,7 +4457,7 @@ class Program
 
 `DynamicInvoke()` is used if the type of the delegate is not known as compile-time, which means late-binding must be used.  
 
-**NOTE:** It is a lot slower than `Invoke()` and should only be used with care.
+**NOTE:** It is a lot slower than `Invoke()` and must be used with care.
 
 ```cs
 using System;
