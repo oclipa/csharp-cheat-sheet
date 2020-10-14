@@ -337,6 +337,41 @@ class Program
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
+<div id="stupid-parity">
+<button type="button" class="collapsible">+ Checking for Parity</button>
+<div class="content" style="display: none;" markdown="1">
+
+Generally, the two fastest ways to check the parity of a number (whether it is even or odd) are the following:
+
+**Using bitwise &amp;*
+
+*This is normally the fastest method.*
+
+Checks if the last binary digit of the number is 1 (in which case it is odd).
+
+```cs
+private static bool isEven(int i)
+{
+    return (i & 1) == 0;
+}
+```
+
+**Testing the remainder*
+
+*This can be easiest to read.*
+
+Checks if there is any remainder after dividing by 2 (in which case it is odd).
+
+```cs
+private static bool isEven(int i)
+{
+    return (i % 2) == 0;
+}
+```
+</div>
+</div>
+
 </div>
 </div>
 
@@ -6626,7 +6661,111 @@ Operators that operate on `int` and `uint` at a binary level.
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+* `&` (bitwise AND)
+* `|` (bitwise OR)
+* `~` (bitwise NOT)
+* `^` (bitwise XOR)
+* `<<` (bitwise left shift)
+* `>>` (bitwise right shift)
+* `>>>` (bitwise unsigned right shift)
+* `&=` (bitwise AND assignment)
+* `|=` (bitwise OR assignment)
+* `^=` (bitwise XOR assignment)
+* `<<=` (bitwise left shift and assignment)
+* `>>=` (bitwise right shift and assignment)
+* `>>>=` (bitwise unsigned right shift and assignment)
+
+**NOTE**: 
+  * Normally, an `int` and a `unit` take up 4 bytes, or 32 bits.  For the sake of simplicity, some of the following examples pretend that they take up only 1 byte, or 8 bits.
+  * Reminder: 1 = true; 0 = false
+  
+**&amp;**
+
+Compares the binary digits of two integers and returns 1 when both of the digits are 1 (a AND b).
+
+e.g.  `37 & 23`:
+
+```
+  37: 0 0 1 0 0 1 0 1
+& 23: 0 0 0 1 0 1 1 1
+=  5: 0 0 0 0 0 1 0 1
+```
+
+A common example of its use is to check the parity of a number (since the last binary digit is always 1 for an odd number):
+
+```cs
+private static bool isEven(int i)
+{
+    return (i & 1) == 0;
+}
+```
+
+**|**
+
+Compares the binary digits of a two integers and returns 1 when any of the digits are 1 (a OR b).
+
+e.g.  `37 | 23`:
+
+```
+  37: 0 0 1 0 0 1 0 1
+| 23: 0 0 0 1 0 1 1 1
+= 55: 0 0 1 1 0 1 1 1
+```
+
+A practical example of its use is when indicating which combination of buttons to display on a dialog:
+
+```cs
+public partial class PopUpWindow : Form
+{
+    private static const int YES = 1;    // 00000001
+    private static const int NO = 2;     // 00000010
+    private static const int OKAY = 4;   // 00000100
+    private static const int CANCEL = 8; // 00001000
+
+    public static void ShowPopup(int buttons) // receives 00001011
+    {
+        if (buttons & YES)    // does 00001011 contain 00000001
+        {
+            // add YES button
+        }
+
+        if (buttons & NO)     // does 00001011 contain 00000010
+        {
+            // add NO button
+        }
+        
+        if (buttons & OKAY)   // does 00001011 contain 00000100
+        {
+            // add NO button
+        }
+        
+        if (buttons & CANCEL) // does 00001011 contain 00001000
+        {
+            // add NO button
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // passes an int that is 00001011
+        PopupWindow.Show(PopupWindow.YES | PopupWindow.NO | PopupWindow.CANCEL);
+    }
+}
+```
+
+**~**
+
+This inverts the polarity of all of the bits in a number.
+
+e.g.  `~37`:
+
+```
+ 37: 0 0 1 0 0 1 0 1
+~37: 1 1 0 1 1 0 1 0 (= 218)
+```
 
 </div>
 </div>
