@@ -4786,7 +4786,7 @@ class Program
 {
     static void Main()
     {
-        Person[] people1 = { tom, dick, harry, mary, jay };
+        Person[] people1 = { tom, dick, harry, mary, jay, harry2 };
         Person[] people2 = { fred, barney, wilma, betty, tom2 };
 
         lambdaExpression(people1, people2);
@@ -4806,7 +4806,7 @@ class Program
         foreach (string name in query)
             Console.Write(name + "|");
 
-        // RESULT: JAY|MARY|HARRY|
+        // RESULT: JAY|MARY|HARRY|HARRY|
     }
 
     private static void queryComprehensionSyntax(Person[] people1, Person[] names2)
@@ -4820,7 +4820,7 @@ class Program
         foreach (string name in query)
             Console.Write(name + "/");
 
-        // RESULT: JAY/MARY/HARRY/
+        // RESULT: JAY/MARY/HARRY/HARRY/
     }
 
     #region data source 
@@ -4841,6 +4841,7 @@ class Program
     static Person harry = new Person("Harry", 38);
     static Person mary = new Person("Mary", 16);
     static Person jay = new Person("Jay", 23);
+    static Person harry2 = new Person("Harry", 48);
 
     static Person fred = new Person("Fred", 39);
     static Person barney = new Person("Barney", 35);
@@ -4858,243 +4859,565 @@ The following are just some of the most common expressions:
 
 ### Where
 
+Applies a filter to the values in a list.
+
 ```cs
-var query = people1.Where(p => p == "Tom");
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.Where(p => p.Name == "Tom");
+
+    foreach (var res in query)
+        Console.Write(res.Name + "/");
+
+    // RESULT: Tom/
+}
 ```
 &nbsp;
 ```cs
-var query = from p in people1
-            where p.Equals("Tom")
-            select p;
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = from p in people1
+                where p.Name.Equals("Tom")
+                select p;
+
+    foreach (var res in query)
+        Console.Write(res.Name + "|");
+
+    // RESULT: Tom|
+}
 ```
 
 ### Select
 
+Returns values from a list encapsulated in a new object (typically an anonymous type).
+
 ```cs
-var query = people1.Select(p => new
+private static void lambdaExpression(Person[] people1, Person[] people2)
 {
-    Name = p
-});
+    var query = people1.Select(p => new
+    {
+        Name = p.Name
+    });
+
+    foreach (var res in query)
+        Console.Write(res.Name + "/");
+
+    // RESULT: Tom/Dick/Harry/Mary/Jay/Harry/
+}
 ```
 &nbsp;
 ```cs
-var query = from p in people1
-            select new
-            {
-                Name = p
-            };
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = from p in people1
+                select new
+                {
+                    Name = p.Name
+                };
+
+    foreach (var res in query)
+        Console.Write(res.Name + "|");
+
+    // RESULT: Tom|Dick|Harry|Mary|Jay|Harry|
+}
 ```
 
 ### OrderBy
 
+Performs a primary, ascending sort on the values in list.
+
 ```cs
-var query = people1.OrderBy(p => p);
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.OrderBy(p => p.Name);
+
+    foreach (var res in query)
+        Console.Write(res.Name + "/");
+
+    // RESULT: Tom/Dick/Harry/Mary/Jay/Harry/
+}
 ```
 &nbsp;
 ```cs
-var query = from p in people1
-            orderby p
-            select p;
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = from p in people1
+                orderby p.Name
+                select p;
+
+    foreach (var res in query)
+        Console.Write(res.Name + "|");
+
+    // RESULT: Dick|Harry|Harry|Jay|Mary|Tom|
+}
 ```
 
 ### OrderByDescending
 
+Performs a primary, descending sort on the values in list.
+
 ```cs
-var query = people1.OrderByDescending(p => p);
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.OrderByDescending(p => p.Name);
+
+    foreach (var res in query)
+        Console.Write(res.Name + "/");
+
+    // RESULT: Tom/Mary/Jay/Harry/Harry/Dick/
+}
 ```
 &nbsp;
 ```cs
-var query = from p in people1
-            orderby p descending
-            select p;
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = from p in people1
+                orderby p.Name descending
+                select p;
+
+    foreach (var res in query)
+        Console.Write(res.Name + "|");
+
+    // RESULT: Tom|Mary|Jay|Harry|Harry|Dick|
+}
 ```
 
 ### ThenByDescending
 
+Performs a secondary, descending sort on the values in list.
+
 ```cs
-var query = people1.OrderBy(p => p.Prop1).
-               ThenByDescending(p => p.Prop2);
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.OrderBy(p => p.Name).
+                   ThenByDescending(p => p.Age);
+
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age} / ");
+
+    // RESULT: Dick - 23 / Harry - 48 / Harry - 38 / Jay - 23 / Mary - 16 / Tom - 30 /
+}
 ```
 &nbsp;
 ```cs
-var query = from p in people1
-            orderby p.Prop1 descending
-            orderby p.Prop1 ascending
-            select p;
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = from p in people1
+                orderby p.Name ascending, p.Age descending
+                select p;
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age} | ");
+
+    // RESULT: Dick - 23 | Harry - 48 | Harry - 38 | Jay - 23 | Mary - 16 | Tom - 30 |
+}
 ```
 
 ### Join
 
-<span class="todo">WIP - add query syntax example</span>
+Joins the values in two or more lists into a new list, based on key values.
 
 ```cs
-var query = people1.Join(people2,
-                     p1 => p1.Name,
-                     p2 => p2.Name,
-                     (p1, p2) => new
-                     {
-                         p1.Name,
-                         Age1 = p1.Age,
-                         Age2 = p2.Age
-                     }
-                     );
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.Join(people2,
+                                p1 => p1.Name,
+                                p2 => p2.Name,
+                                (p1, p2) => new
+                                {
+                                    p1.Name,
+                                    Age1 = p1.Age,
+                                    Age2 = p2.Age
+                                }
+                            );
+
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age1} - {res.Age2} / ");
+
+    // RESULT: Tom - 30 - 55 / 
+}
+```
+&nbsp;
+```cs
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = from p1 in people1
+                join p2 in people2 on p1.Name equals p2.Name
+                select new { Name = p1.Name, Age1 = p1.Age, Age2 = p2.Age };
+
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age1} - {res.Age2} | ");
+
+    // RESULT: Tom - 30 - 55 | 
+}
 ```
 
 ### GroupBy
 
-<span class="todo">WIP - add query syntax example</span>
+Groups the values in the list, based on a key.
 
 ```cs
-var query = people1.GroupBy(p => p.Prop).
-                 Select(grp => new {
-                     PropId = grp.Key,
-                     PropCount = grp.Count()
-                 }
-             );
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.GroupBy(p => p.Name).
+                     Select(grp => new
+                     {
+                         Name = grp.Key,
+                         Count = grp.Count()
+                     }
+                 );
+
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Count} / ");
+
+    // RESULT: Tom - 1 / Dick - 1 / Harry - 2 / Mary - 1 / Jay - 1 / 
+}
+```
+&nbsp;
+```cs
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = from p1 in people1
+                group p1 by p1.Name
+                into grp
+                select new { Name = grp.Key, Count = grp.Count() };
+
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Count} | ");
+
+    // RESULT: Tom - 1 | Dick - 1 | Harry - 2 | Mary - 1 | Jay - 1 | 
+}
 ```
 
 ### Take
 
-<span class="todo">WIP - add query syntax example</span>
+Takes the first N values from the list.
 
 ```cs
-// select top 3
-var query = people1.Where(
-                     p => p.Prop == x).
-                     Take(3);
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.Where(
+                 p => p.Name.Contains("a")).
+                 Take(3);
+
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age} / ");
+
+    // RESULT: Harry - 38 / Mary - 16 / Jay - 23 / 
+}
+```
+&nbsp;
+**NOTE**: There is no equivalent to `Take()` in query syntax!
+
+```cs
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = (from p1 in people1
+                 where p1.Name.Contains("a")
+                 select p1)
+                .Take(3); // There is no "take" in query syntax, so must use lambda
+
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age} | ");
+
+    // RESULT: Harry - 38 | Mary - 16 | Jay - 23 | 
+}
 ```
 
 ### Skip
 
-<span class="todo">WIP - add query syntax example</span>
+Skips the first N values in the list.
 
 ```cs
-// uses a mixture of query syntax and lambda syntax
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.Where(
+                 p => p.Name.Contains("a")).
+                 Skip(2);
 
-var query = (from p in people1
-                where p.Prop1 == x
-                orderby p.Prop2
-                select p).Skip(2).Take(3);
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age} / ");
+
+    // RESULT: Jay - 23 / Harry - 48 / 
+}
 ```
-
-### Single
-
-<span class="todo">WIP - add query syntax example</span>
+&nbsp;
+**NOTE**: There is no equivalent to `Skip()` in query syntax!
 
 ```cs
-// throws an exception if no elements
+private static void queryComprehensionSyntax(Person[] people1, Person[] people2)
+{
+    var query = (from p1 in people1
+                 where p1.Name.Contains("a")
+                 select p1)
+                .Skip(2); // There is no "skip" in query syntax, so must use lambda
 
-var query = people1.Single(
-                 p => p.Prop == x
-             );
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age} | ");
+
+    // RESULT: Jay - 23 | Harry - 48 | 
+}
 ```
 
-### SingleOrDefault
+### Single and SingleOrDefault
 
-<span class="todo">WIP - add query syntax example</span>
+Returns the single entry from a list.
+
+  * `Single`: If there are zero, or more than one, entries in the list, an exception is thrown.
+  * `SingleOrDefault`: If there are zero entries in the list, a default value is returned; if there are more than one entry, an exception is thrown.  The default value is the default value for the type (e.g. `null` for an object, `0` for an `int` etc.). 
+
+**NOTE**: The main (only?) reason for using this is to explicitly indicate the intent of the code. Otherwise, use `First()`, or `FirstOrDefault()`.  The `Single` methods are less efficient than the `First` methods since the `Single` methods always scan the entire list checking for duplicates (whereas the `First` methods return immediately upon identifying the first value).
 
 ```cs
-// returns null if no elements
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.Single(
+                     p => p.Name == "Tom"
+                 );
 
-var query = people1.SingleOrDefault(
-                 p => p.Prop == x
-             );
+    Console.WriteLine($"{query.Name} - {query.Age} / ");
+
+    // RESULT: Tom - 30 / 
+
+    var defaultQuery = people1.SingleOrDefault(
+                     p => p.Name == "Eric"
+                 );
+
+    Console.WriteLine($"{defaultQuery.Name} - {defaultQuery.Age} / ");
+
+    // RESULT:  - 0 / 
+
+    try
+    {
+        var badQuery = people1.Single(
+                         p => p.Name == "Eric"
+                     );
+    }
+    catch (Exception x)
+    {
+        Console.WriteLine(x.Message);
+    }
+
+    // RESULT: Sequence contains no matching element 
+
+    try
+    {
+        var badQuery = people1.Single(
+                         p => p.Name == "Harry"
+                     );
+    }
+    catch (Exception x)
+    {
+        Console.Write(x.Message);
+    }
+
+    // RESULT: Sequence contains more than one matching element 
+}
 ```
+&nbsp;
+**NOTE**: There is no equivalent to `Single()` or `SingleOrDefault()` in query syntax!
+
+### First or FirstOrDefault
+
+Returns the first entry from a list.
+
+  * `First`: If there are zero entries in the list, an exception is thrown.
+  * `FirstOrDefault`: If there are zero entries in the list, a default value is returned.  The default value is the default value for the type (e.g. `null` for an object, `0` for an `int` etc.). 
+
+```cs
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.First(
+                     p => p.Name == "Tom"
+                 );
+
+    Console.WriteLine($"{query.Name} - {query.Age} / ");
+
+    // RESULT: Tom - 30 / 
+
+    var defaultQuery = people1.FirstOrDefault(
+                     p => p.Name == "Eric"
+                 );
+
+    Console.WriteLine($"{defaultQuery.Name} - {defaultQuery.Age} / ");
+
+    // RESULT:  - 0 / 
+
+    try
+    {
+        var badQuery = people1.First(
+                         p => p.Name == "Eric"
+                     );
+    }
+    catch (Exception x)
+    {
+        Console.WriteLine(x.Message);
+    }
+
+    // RESULT: Sequence contains no matching element 
+}
+```
+&nbsp;
+**NOTE**: There is no equivalent to `First()` or `FirstOrDefault()` in query syntax!
 
 ### DefaultIfEmpty
 
-<span class="todo">WIP - add query syntax example</span>
+Returns the specified default value if the source list is empty.
 
 ```cs
-// returns a new OClass instance if no elements
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    Person defaultPerson = new Person { Name = "Default Person", Age = 0 };
 
-var query = people1.Where(p => p.Prop == x).
-                 DefaultIfEmpty(new OClass()).
-                 Single();
+    List<Person> people = new List<Person>();
+
+    var query = people.DefaultIfEmpty(defaultPerson);
+
+    foreach (var res in query)
+        Console.Write($"{res.Name} - {res.Age} / ");
+
+    // RESULT: Default Person - 0 / 
+}
 ```
+&nbsp;
+**NOTE**: There is no equivalent to `DefaultIfEmpty()` in query syntax!
 
-### Last
+### Last or LastOrDefault
 
-<span class="todo">WIP - add query syntax example</span>
+Returns the last entry from a list.
+
+  * `Last`: If there are zero entries in the list, an exception is thrown.
+  * `LastOrDefault`: If there are zero entries in the list, a default value is returned.  The default value is the default value for the type (e.g. `null` for an object, `0` for an `int` etc.). 
 
 ```cs
-// First, Last and ElementAt used in same way
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    var query = people1.Last(
+                     p => p.Name == "Tom"
+                 );
 
-var query = people1.Where(p => p.Prop == x).
-                 OrderBy(p => p.Prop).
-                 Last();
+    Console.WriteLine($"{query.Name} - {query.Age} / ");
+
+    // RESULT: Tom - 30 / 
+
+    var defaultQuery = people1.LastOrDefault(
+                     p => p.Name == "Eric"
+                 );
+
+    Console.WriteLine($"{defaultQuery.Name} - {defaultQuery.Age} / ");
+
+    // RESULT:  - 0 / 
+
+    try
+    {
+        var badQuery = people1.Last(
+                         p => p.Name == "Eric"
+                     );
+    }
+    catch (Exception x)
+    {
+        Console.WriteLine(x.Message);
+    }
+
+    // RESULT: Sequence contains no matching element 
+}
 ```
-
-### SingleOrDefault
-
-<span class="todo">WIP - add query syntax example</span>
-
-```cs
-// returns 0 if no elements
-
-var query = people1.Where(p => p.Prop == x).
-                 Select(p => p.Prop).
-                 SingleOrDefault();
-```
+&nbsp;
+**NOTE**: There is no equivalent to `Last()` or `LastOrDefault()` in query syntax!
 
 ### ToArray
 
-<span class="todo">WIP - add lamba syntax example</span>
+Copies the returned enumerated values to an array.
 
 ```cs
-// uses query syntax
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    Person[] query = people1.Where(p => p.Name == "Harry").ToArray();
 
-string[] query = (from p in people1
-                select p.Prop).ToArray();
+    foreach (var res in query)
+        Console.Write(res.Name + "/");
+
+    // RESULT: Harry/Harry/
+}
 ```
+&nbsp;
+**NOTE**: There is no equivalent to `ToArray()` in query syntax!
 
 ### ToDictionary
 
-<span class="todo">WIP - add query syntax example</span>
+Copies the returned enumerated values to a dictionary.
+
+**NOTE**: An exception will be thrown if the source list contains duplicate key values.
 
 ```cs
-// uses lambda syntax
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    Person[] people3 = { tom, dick, harry, mary, harry2 };
 
-Dictionary<int, Person> query = 
-        people1.ToDictionary(p => p.Age);
+    Dictionary<int, Person> query =
+            people3.ToDictionary(p => p.Age);
 
-// uses a mixture of query syntax and 
-// lambda syntax
+    foreach (var res in query)
+        Console.Write($"{res.Key} - {res.Value.Name} / ");
 
-Dictionary<string, double> query2 = 
-  (from og in
-    (from p1 in people1
-     join p2 in people2 on p1.Prop p2.Prop
-     select new { p2.StrProp, p1.DblProp})
-      group pg by pg.StrProp into g
-      select g).
-        ToDictionary(g => g.Key, 
-                     g => g.Max(pg => pg.DblProp)
-        );
+    // 30 - Tom / 23 - Dick / 38 - Harry / 16 - Mary / 48 - Harry /
+}
 ```
+&nbsp;
+**NOTE**: There is no equivalent to `ToDictionary()` in query syntax!
 
 ### ToList
 
-<span class="todo">WIP - add lamba syntax example</span>
+Copies the returned enumerated values a list.
 
 ```cs
-// uses query syntax
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    List<Person> query = people1.Where(p => p.Name == "Harry").ToList();
 
-List<Person> query = (from p in people1
-                    where p.Prop > x
-                    orderby p.Prop
-                   ).ToList();
+    foreach (var res in query)
+        Console.Write(res.Name + "/");
+
+    // RESULT: Harry/Harry/
+}
 ```
+&nbsp;
+**NOTE**: There is no equivalent to `ToList()` in query syntax!
 
 ### ToLookup
 
-<span class="todo">WIP - add query syntax example</span>
-
 ```cs
-ILookup<int, string> query = people1.toLookup(p => 
-                      p.IntProp, o.StrProp
-                    );
+    private static void lambdaExpression(Person[] people1, Person[] people2)
+    {
+        ILookup<char, Person> query =
+                people1.ToLookup(p => Convert.ToChar(p.Name.Substring(0, 1)));
+
+        foreach (IGrouping<char, Person> group in query)
+        {
+            // Print the key value of the IGrouping.
+            Console.WriteLine(group.Key);
+            // Iterate through each value in the IGrouping and print its value.
+            foreach (Person person in group)
+                Console.WriteLine($"  {person.Name} - {person.Age}");
+        }
+
+        // RESULT:
+        // T
+        //   Tom - 30
+        // D
+        //   Dick - 23
+        // H
+        //   Harry - 38
+        //   Harry - 48
+        // M
+        //   Mary - 16
+        // J
+        //   Jay - 23
+    }
 ```
+&nbsp;
+**NOTE**: There is no equivalent to `ToLookup()` in query syntax!
+
+**Further Information**
 
 For further info on Lambda Expressions, see the following: 
   * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](System.Linq.Enumerable API Documentation)
