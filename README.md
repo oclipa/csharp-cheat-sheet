@@ -6764,8 +6764,12 @@ e.g.  `~37`:
 
 ```
  37: 0 0 1 0 0 1 0 1
-~37: 1 1 0 1 1 0 1 0 (= 218)
+~37: 1 1 0 1 1 0 1 0
 ```
+
+If the number is a `uint`, this result is 218 (2 + 8 + 16 + 64 + 128).
+
+However, if the number is an `int`, the conversion is little more complex.
 
 </div>
 </div>
