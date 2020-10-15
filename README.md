@@ -6678,10 +6678,14 @@ Operators that operate on `int` and `uint` at a binary level.
 **NOTE**: 
   * Normally, an `int` and a `unit` take up 4 bytes, or 32 bits.  For the sake of simplicity, some of the following examples pretend that they take up only 1 byte, or 8 bits.
   * Reminder: 1 = true; 0 = false
-  
-**&amp;**
 
+<div id="interview-bitwise-amp"> 
+  <button type="button" class="collapsible">+ &amp;
+<code class="ex">
 Compares the binary digits of two integers and returns 1 when both of the digits are 1 (a AND b).
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
 
 e.g.  `37 & 23`:
 
@@ -6700,10 +6704,17 @@ private static bool isEven(int i)
 }
 ```
 
-**|**
+</div>
+</div>
 
+<div id="interview-bitwise-pipe"> 
+  <button type="button" class="collapsible">+ &vert;
+<code class="ex">
 Compares the binary digits of a two integers and returns 1 when any of the digits are 1 (a OR b).
-
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+    
 e.g.  `37 | 23`:
 
 ```
@@ -6756,9 +6767,16 @@ class Program
 }
 ```
 
-**~**
+</div>
+</div>
 
-This inverts the polarity of all of the bits in a number.
+<div id="interview-bitwise-tilde"> 
+  <button type="button" class="collapsible">+ ~
+<code class="ex">
+Inverts the parity of all of the bits in a number.
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
 
 e.g.  `~37`:
 
@@ -6770,6 +6788,118 @@ e.g.  `~37`:
 If the number is a `uint`, this result is 218 (2 + 8 + 16 + 64 + 128).
 
 However, if the number is an `int`, the conversion is little more complex.
+</div>
+</div>
+
+<div id="interview-bitwise-uparrow"> 
+  <button type="button" class="collapsible">+ ^
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-lala"> 
+  <button type="button" class="collapsible">+ &lt;&lt;
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-rara"> 
+  <button type="button" class="collapsible">+ &gt;&gt;
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-rarara"> 
+  <button type="button" class="collapsible">+ &gt;&gt;&gt;
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-ampequals"> 
+  <button type="button" class="collapsible">+ &amp;=
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-pipeequals"> 
+  <button type="button" class="collapsible">+ &vert;=
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-upaequals"> 
+  <button type="button" class="collapsible">+ ^=
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-lalaequals"> 
+  <button type="button" class="collapsible">+ &lt;&lt;=
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-raraequals"> 
+  <button type="button" class="collapsible">+ &gt;&gt;=
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
+<div id="interview-bitwise-rararaequals"> 
+  <button type="button" class="collapsible">+ &gt;&gt;&gt;=
+<code class="ex">
+TODO
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
 
 </div>
 </div>
