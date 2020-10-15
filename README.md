@@ -377,6 +377,313 @@ private static bool isEven(int i)
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
+<div id="stupid-hashcode">
+<button type="button" class="collapsible">+ Creating a Hash Code</button>
+<div class="content" style="display: none;" markdown="1">
+
+To achieve an even distribution of HashCodes, the following technique is generally used:
+   * Combine the properties used to test for equality (i.e. in `Equals()`).
+   * Add some prime numbers to improve the distribution.
+
+There are several approaches to achieve this:
+
+**Method 1: XOR and Primes**
+
+```cs
+public sealed class Point3D
+{
+    private readonly double x;
+    private readonly double y;
+    private readonly double z;
+    private readonly ReadOnlyCollection<string> attrs;
+
+    public Point3D(double x, double y, double z, IEnumerable<string> attrs)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.attrs = new ReadOnlyCollection<string>(attrs.ToList());
+    }
+
+    public double X => this.x;
+    public double Y => this.y;
+    public double Z => this.z;
+    public ReadOnlyCollection<string> Attrs => this.attrs;
+
+    public override bool Equals(object other)
+    {
+        return other is Point3D p
+            && p.X == X
+            && p.Y == Y
+            && p.Z == Z
+            && p.Attrs == Attrs; // simplified for brevity
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked // Allow arithmetic overflow, numbers will just "wrap around"
+        {
+            int hashcode = 1430287;
+            hashcode = hashcode * 7302013 ^ X.GetHashCode();
+            hashcode = hashcode * 7302013 ^ Y.GetHashCode();
+            hashcode = hashcode * 7302013 ^ Z.GetHashCode();
+            hashcode = hashcode * 7302013 ^ Attrs.GetHashCode();
+            return hashcode;
+        }
+    }
+}
+```
+
+**Method 2: Use a Tuple**
+
+With the introduction of tuples in C# 7, this can be simplified to the following:
+
+```cs
+public sealed class Point3D
+{
+    private readonly double x;
+    private readonly double y;
+    private readonly double z;
+    private readonly ReadOnlyCollection<string> attrs;
+
+    public Point3D(double x, double y, double z, IEnumerable<string> attrs)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.attrs = new ReadOnlyCollection<string>(attrs.ToList());
+    }
+
+    public double X => this.x;
+    public double Y => this.y;
+    public double Z => this.z;
+    public ReadOnlyCollection<string> Attrs => this.attrs;
+
+    public override bool Equals(object other)
+    {
+        return other is Point3D p
+            && p.X == X
+            && p.Y == Y
+            && p.Z == Z
+            && p.Attrs == Attrs; // simplified for brevity
+    }
+
+    public override int GetHashCode() => (X, Y, Z, Attrs).GetHashCode();
+}
+```
+
+**Method 2: Helper Struct**
+
+This following approach is taken from Rehan Saeed's "GetHasCode Made Easy":
+  * https://rehansaeed.com/gethashcode-made-easy/
+
+```cs
+// MIT Licensed
+// Copyright (c) 2019 Muhammad Rehan Saeed
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+/// <summary>
+/// A hash code used to help with implementing <see cref="object.GetHashCode()"/>.
+/// </summary>
+public struct HashCode : IEquatable<HashCode>
+{
+    private const int EmptyCollectionPrimeNumber = 19;
+    private readonly int value;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HashCode"/> struct.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    private HashCode(int value) => this.value = value;
+
+    /// <summary>
+    /// Performs an implicit conversion from <see cref="HashCode"/> to <see cref="int"/>.
+    /// </summary>
+    /// <param name="hashCode">The hash code.</param>
+    /// <returns>The result of the conversion.</returns>
+    public static implicit operator int(HashCode hashCode) => hashCode.value;
+
+    /// <summary>
+    /// Implements the operator ==.
+    /// </summary>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>The result of the operator.</returns>
+    public static bool operator ==(HashCode left, HashCode right) => left.Equals(right);
+
+    /// <summary>
+    /// Implements the operator !=.
+    /// </summary>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>The result of the operator.</returns>
+    public static bool operator !=(HashCode left, HashCode right) => !(left == right);
+
+    /// <summary>
+    /// Takes the hash code of the specified item.
+    /// </summary>
+    /// <typeparam name="T">The type of the item.</typeparam>
+    /// <param name="item">The item.</param>
+    /// <returns>The new hash code.</returns>
+    public static HashCode Of<T>(T item) => new HashCode(GetHashCode(item));
+
+    /// <summary>
+    /// Takes the hash code of the specified items.
+    /// </summary>
+    /// <typeparam name="T">The type of the items.</typeparam>
+    /// <param name="items">The collection.</param>
+    /// <returns>The new hash code.</returns>
+    public static HashCode OfEach<T>(IEnumerable<T> items) =>
+        items == null ? new HashCode(0) : new HashCode(GetHashCode(items, 0));
+
+    /// <summary>
+    /// Adds the hash code of the specified item.
+    /// </summary>
+    /// <typeparam name="T">The type of the item.</typeparam>
+    /// <param name="item">The item.</param>
+    /// <returns>The new hash code.</returns>
+    public HashCode And<T>(T item) => 
+        new HashCode(CombineHashCodes(this.value, GetHashCode(item)));
+
+    /// <summary>
+    /// Adds the hash code of the specified items in the collection.
+    /// </summary>
+    /// <typeparam name="T">The type of the items.</typeparam>
+    /// <param name="items">The collection.</param>
+    /// <returns>The new hash code.</returns>
+    public HashCode AndEach<T>(IEnumerable<T> items)
+    {
+        if (items == null)
+        {
+            return new HashCode(this.value);
+        }
+
+        return new HashCode(GetHashCode(items, this.value));
+    }
+
+    /// <inheritdoc />
+    public bool Equals(HashCode other) => this.value.Equals(other.value);
+
+    /// <inheritdoc />
+    public override bool Equals(object obj)
+    {
+        if (obj is HashCode)
+        {
+            return this.Equals((HashCode)obj);
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Throws <see cref="NotSupportedException" />.
+    /// </summary>
+    /// <returns>Does not return.</returns>
+    /// <exception cref="NotSupportedException">Implicitly convert this struct to an <see cref="int" /> to get the hash code.</exception>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override int GetHashCode() =>
+        throw new NotSupportedException(
+            "Implicitly convert this struct to an int to get the hash code.");
+
+    private static int CombineHashCodes(int h1, int h2)
+    {
+        unchecked
+        {
+            // Code copied from System.Tuple so it must be the best way to combine hash codes or at least a good one.
+            return ((h1 << 5) + h1) ^ h2;
+        }
+    }
+
+    private static int GetHashCode<T>(T item) => item?.GetHashCode() ?? 0;
+
+    private static int GetHashCode<T>(IEnumerable<T> items, int startHashCode)
+    {
+        var temp = startHashCode;
+
+        var enumerator = items.GetEnumerator();
+        if (enumerator.MoveNext())
+        {
+            temp = CombineHashCodes(temp, GetHashCode(enumerator.Current));
+
+            while (enumerator.MoveNext())
+            {
+                temp = CombineHashCodes(temp, GetHashCode(enumerator.Current));
+            }
+        }
+        else
+        {
+            temp = CombineHashCodes(temp, EmptyCollectionPrimeNumber);
+        }
+
+        return temp;
+    }
+}
+```
+
+This can then be used in the following manner:
+
+```cs
+public sealed class Point3D
+{
+    private readonly double x;
+    private readonly double y;
+    private readonly double z;
+    private readonly ReadOnlyCollection<string> attrs;
+
+    public Point3D(double x, double y, double z, IEnumerable<string> attrs)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.attrs = new ReadOnlyCollection<string>(attrs.ToList());
+    }
+
+    public double X => this.x;
+    public double Y => this.y;
+    public double Z => this.z;
+    public ReadOnlyCollection<string> Attrs => this.attrs;
+
+    public override bool Equals(object other)
+    {
+        return other is Point3D p
+            && p.X == X
+            && p.Y == Y
+            && p.Z == Z
+            && p.Attrs == Attrs; // simplified for brevity
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode
+            .Of(this.X)
+            .And(this.Y)
+            .And(this.Z)
+            .AndEach(this.Attrs);
+    }
+}
+```
+
+</div>
+</div>
+
 </div>
 </div>
 
@@ -6721,6 +7028,8 @@ Operators that operate on `int` and `uint` at a binary level.
 **NOTE**: 
   * Normally, an `int` and a `uint` take up 4 bytes, or 32 bits.  For the sake of simplicity, some of the following examples pretend that they take up only 1 byte, or 8 bits.
   * Reminder: 1 = true; 0 = false
+  
+In practice, in C#, bitwise operators are rarely used, except in very high-performance applications.  When used, they can also lead to confusing code, and so shoudl probably be avoided unless absolutely necessary.
 
 <div id="interview-bitwise-amp"> 
   <button type="button" class="collapsible">+ &amp; (AND)
@@ -6864,7 +7173,41 @@ e.g.  `37 ^ 23`:
 = 50: 0 0 1 1 0 0 1 0
 ```
 
-<span class="todo">TODO: practical uses...?</span>
+XOR operator is actually quite a powerful operator, however use cases for it are not common (it was more common when systems were more memory-constrained).  
+
+In C#, the most likely place to encounter it is when generating hash-codes:
+
+```cs
+public override int GetHashCode()
+{
+    unchecked // Overflow is fine, just wrap
+    {
+        int hash = 3049; // Start value (prime number).
+
+        // Suitable nullity checks etc, of course :)
+        hash = hash * 5039 + field1.GetHashCode();
+        hash = hash * 883 + field2.GetHashCode();
+        hash = hash * 9719 + field3.GetHashCode();
+        return hash;
+    }
+}
+```
+
+Some things worth noting:
+
+  * A^B == B^A
+  * A^B^A == B
+  * If you know A^B then it's impossible to tell what A and B are, but if you know one of them, you can calculate the other
+  * The operator doesn't suffer from any overflows like multiplication/division/addition/subtraction.
+
+One interesting edge-case: swapping two integer variables without an intermediary variable:
+
+```cs
+A = A^B // A is now XOR of A and B
+B = A^B // B is now the original A
+A = A^B // A is now the original B
+```
+
 </div>
 </div>
 
@@ -7034,8 +7377,56 @@ And: [Join](https://www.geeksforgeeks.org/c-sharp-join-method-set-1/)  (and Spli
 ### Stack
 ### Queue
 ### LinkedList<T> (Doubly-Linked List)
-### HashTable
-### Dictionary<TKey, TValue>
+
+<!-- =========================#####################################################================================ -->
+<div id="hashtable">
+<button type="button" class="collapsible">+ Hash Tables</button>
+<div class="content" style="display: none;" markdown="1">
+
+There are three data structures based on hash table in C#:
+   * `HashSet<T>`: Represents a set of values.  Uses generics.
+   * `Hashtable`: Represents a collection of key/value pairs that are organized based on the hash code of the key.  It will return null if a key is not present.
+   * `Dictionary<TKey, TValue>`: Similar to `Hashtable` but is generic.  It will throw an exception if a key is not present.  It is faster than `Hashtable` because there is no boxing or unboxing.
+
+**Hash Table Principles**
+
+* Hash tables assumes that each object has an associated hash code.
+* Having the same hash code does not guarantee that two objects are equal, however two objects that are equal should have the same hash code.
+* The main (if not only) purpose of a hash code is to be used as a key in a hash table (e.g. Dictionary<TKey, TValue>, HashSet<T>, etc.).
+* Hash tables place items in buckets based on their hash code; the lookup efficiency depends on how evenly the items are distributed across the buckets.
+* To ensure even distribution, the hash codes for the object should be similarly evenly distributed.
+* The performance of hash tables can be increased if their capacity is known in advance (for example, the default capacity for a Dictionary is 16).
+
+The pseudo-logic to add an item to a hash table is similar to the following:
+
+```cs
+// Calculate the hash code of the key
+H = key.GetHashCode()
+// Calculate the index of the bucket where the entry should be added
+bucketIndex = H % B
+// Add the entry to that bucket
+buckets[bucketIndex].Add(entry)
+```
+
+The pseudo-logic to lookup an item in a hash table is similar to the following:
+
+```cs
+// Calculate the hash code of the key
+H = key.GetHashCode()
+// Calculate the index of the bucket where the entry would be, if it exists
+bucketIndex = H % B
+// Enumerate entries in the bucket to find one whose key is equal to the
+// key we're looking for
+entry = buckets[bucketIndex].Find(key)
+```
+
+Note that the lookup is essentially a lookup by index (`O(1)`), followed by an iterative search over a (hopefully) small number of items in the bucket (`O(n)`).
+
+See the section on "Creating a Hash Code" for further details.
+
+</div>
+</div>
+
 ### SortedSet<T> (Red-Black Tree)
 
 See [here](https://stackoverflow.com/questions/1806511/objects-that-represent-trees).
