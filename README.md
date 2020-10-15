@@ -7875,7 +7875,29 @@ TODO
 <div id="performance"> 
   <button type="button" class="collapsible">+ Performance</button>   
 <div class="content" style="display: none;" markdown="1">
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-tips"> 
+  <button type="button" class="collapsible">+ General Tips
+<code class="ex">
+All of these are rules of thumb and should not be taken as gospel (always benchmark!).
     
+* Avoid instantiating large numbers of new objects (see the section on Object Pools)
+* Avoid large structs.
+* Prefer structs over classes for small, immutable objects.
+* Prefer arrays over lists.
+* Avoid boxing/unboxing.
+* Prefer StringBuilder over string concatenation.
+* Prefer for over foreach loops.
+* Avoid performing calculations in the condition of a while/for loop.
+* Prefer bitshift operators for arithmetic using powers of 2.
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+</div>
+</div>
+
 <!-- =========================#####################################################================================ -->
 <div id="interview-caching"> 
   <button type="button" class="collapsible">+ Caching
