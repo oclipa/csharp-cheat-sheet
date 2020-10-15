@@ -6719,7 +6719,7 @@ Operators that operate on `int` and `uint` at a binary level.
 * `>>` (bitwise right shift)
 
 **NOTE**: 
-  * Normally, an `int` and a `unit` take up 4 bytes, or 32 bits.  For the sake of simplicity, some of the following examples pretend that they take up only 1 byte, or 8 bits.
+  * Normally, an `int` and a `uint` take up 4 bytes, or 32 bits.  For the sake of simplicity, some of the following examples pretend that they take up only 1 byte, or 8 bits.
   * Reminder: 1 = true; 0 = false
 
 <div id="interview-bitwise-amp"> 
