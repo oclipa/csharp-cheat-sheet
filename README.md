@@ -8305,12 +8305,97 @@ public string FirstName { get; set; } = "Jane";
 <div id="interview-yield"> 
   <button type="button" class="collapsible">+ `yield return`
 <code class="ex">
-TODO
+Returns the current element of a list and waits for the next element to be requested.
+For a method to use yield return, the return type must be IEnumerable or IEnumerable<T>.
+The list resets to the beginning each time GetEnumerator() is called.
+The Reset() method only works if this has been explicitly implemented in the enumerator (which it is not by default).
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+Consider the following example:
+
+```cs
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        doTest(newEnumerator);      // ><
+        doTest(reuseEnumerator);    // >he<
+        doTest(foreachEnumerator);  // >hello<
+    }
+
+    private static void doTest(Action testYield)
+    {
+        Console.Write(">");
+        testYield();
+        Console.WriteLine("<");
+    }
+
+    private static IEnumerable<string> sayHello()
+    {
+        yield return "h";
+        yield return "e";
+        yield return "l";
+        yield return "l";
+        yield return "o";
+    }
+    
+    // ...enumerator test methods...
+}
+```
+
+In this first case, calling `GetEnumerator()` each time results in a new enumerator being created each time.  This means that the enumerator never moves beyond the first value.
+
+Resulting output: `><`
+
+```cs
+    private static void newEnumerator()
+    {
+        Console.Write(sayHello().GetEnumerator().Current);
+        sayHello().GetEnumerator().MoveNext();
+        Console.Write(sayHello().GetEnumerator().Current);
+        sayHello().GetEnumerator().MoveNext();
+        Console.Write(sayHello().GetEnumerator().Current);
+    }
+ ```
+
+In this second case, the same instance of `GetEnumerator()` is used for each call, which means that the enumerator processes across the list.
+
+Resulting output: `>he<`
+
+```cs
+    private static void reuseEnumerator()
+    {
+        IEnumerator<string> text = sayHello().GetEnumerator();
+        Console.Write(text.Current);
+        text.MoveNext();
+        Console.Write(text.Current);
+        text.MoveNext();
+        Console.Write(text.Current);
+    }
+```
+
+In this third case, `foreach` automatically processes across the entire list.
+
+Resulting output: `>hello<`
+
+```cs
+    private static void foreachEnumerator()
+    {
+        foreach (string c in sayHello())
+            Console.Write(c);
+    }
+```
+
+**Incomplete Lists**
+
+A useful feature of lists that implement `yield return` is that the list can be processed even if it is not yet full (for example, in the case of a long running process).  As long at the elements already added to the list do not change, the enumerator can continue (otherwise an exception will be thrown and the enumerator invalidated).
+
+Although `IEnumerator` does not have a `HasNext()` method, there is nothing to prevent the `Current` property being polled until an object is available (at which point `MoveNext()` can be called)
 
 </div>
 </div>
