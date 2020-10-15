@@ -258,6 +258,11 @@ String Interpolation:
 ```cs
 Console.WriteLine($"{var1} & {var2}");
 ```
+
+**Displaying Bytes**
+
+To display the bytes for a number, use: `Convert.ToString(num, toBase: 2)`
+
 </div>
 </div>
 
@@ -6653,6 +6658,51 @@ Console.WriteLine(obj.GetType()); // ==> System.String
 
 
 <!-- =========================#####################################################================================ -->
+<div id="interview-twoscomplement"> 
+  <button type="button" class="collapsible">+ Two's Complement
+<code class="ex">
+A system for storing binary numbers that simplifies arithmetic.
+The left-most (or "most signficant") bit indicates the parity of the number (0 = positive; 1= negative).
+For negative binary numbers, 0 is treated as 1, and 1 is treated as 0.
+For two's complement storage, 1 is added to the negative number.
+
+Positive Number:  37 = 0 0 1 0 0 1 0 1
+   Flipped Bits: ~37 = 1 1 0 1 1 0 1 0 (flipped using bitwise NOT operator: ~)
+Negative Number: -37 = 1 1 0 1 1 0 1 1 (stored using two's complement, i.e. + 1)
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+To find the two's complement of a binary number, flip all of the bits (i.e. using `~`) and add one.
+
+e.g., using 37 (only 8 bits are used, for brevity):
+
+```
+ 37: 0 0 1 0 0 1 0 1
+~37: 1 1 0 1 1 0 1 0
+ +1: 1 1 0 1 1 0 1 1
+```
+
+So, in summary, `~37 + 1` equals `-37`.
+
+To convert the resulting binary number back to base 10, ignore the left-most bit, then invert all bits (i.e. treat 0 as 1, and 1 as 0), then calculate from base 2 as normal.
+
+**NOTE**: A shorthand way to calculate the two's complement is to find the first 1 when reading from the right and then flip all of the following digits.
+
+To confirm that `11011010` is the inverse of `0100101`, calculate `37 + -37`:
+
+```
+   37:   0 0 1 0 0 1 0 1
++ -37:   1 1 0 1 1 0 1 0
+   +1: 1 0 0 0 0 0 0 0 0
+```
+
+Since these integers only hold 8 bits, the 9th digit (1) is dropped, so the answer is 0 (as would be expected).
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
 <div id="interview-bitwise"> 
   <button type="button" class="collapsible">+ Bitwise Operators
 <code class="ex">
@@ -6667,20 +6717,13 @@ Operators that operate on `int` and `uint` at a binary level.
 * `^` (bitwise XOR)
 * `<<` (bitwise left shift)
 * `>>` (bitwise right shift)
-* `>>>` (bitwise unsigned right shift)
-* `&=` (bitwise AND assignment)
-* `|=` (bitwise OR assignment)
-* `^=` (bitwise XOR assignment)
-* `<<=` (bitwise left shift and assignment)
-* `>>=` (bitwise right shift and assignment)
-* `>>>=` (bitwise unsigned right shift and assignment)
 
 **NOTE**: 
   * Normally, an `int` and a `unit` take up 4 bytes, or 32 bits.  For the sake of simplicity, some of the following examples pretend that they take up only 1 byte, or 8 bits.
   * Reminder: 1 = true; 0 = false
 
 <div id="interview-bitwise-amp"> 
-  <button type="button" class="collapsible">+ &amp;
+  <button type="button" class="collapsible">+ &amp; (AND)
 <code class="ex">
 Compares the binary digits of two integers and returns 1 when both of the digits are 1 (a AND b).
 </code>
@@ -6708,7 +6751,7 @@ private static bool isEven(int i)
 </div>
 
 <div id="interview-bitwise-pipe"> 
-  <button type="button" class="collapsible">+ &vert;
+  <button type="button" class="collapsible">+ &vert; (OR)
 <code class="ex">
 Compares the binary digits of a two integers and returns 1 when any of the digits are 1 (a OR b).
 </code>
@@ -6771,9 +6814,10 @@ class Program
 </div>
 
 <div id="interview-bitwise-tilde"> 
-  <button type="button" class="collapsible">+ ~
+  <button type="button" class="collapsible">+ ~ (NOT)
 <code class="ex">
 Inverts the parity of all of the bits in a number.
+See the section on Two's Complement.
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
@@ -6785,118 +6829,177 @@ e.g.  `~37`:
 ~37: 1 1 0 1 1 0 1 0
 ```
 
-If the number is a `uint`, this result is 218 (2 + 8 + 16 + 64 + 128).
+If the number is a `uint`, this result is 218 (2 + 8 + 16 + 64 + 128). As the type suggests, this will always be a positive number.
 
-However, if the number is an `int`, the conversion is little more complex.
+However, if the number is an `int`, the conversion is little more complex because the left-most (most signficant) binary digit of an `int` indicates the sign of the number.  To account for this, negative numbers are stored using the **two's complement** system.
+
+To find the two's complement of a binary number, flip all of the bits (i.e. using `~`) and add one.
+
+e.g., using 37:
+
+```
+ 37: 0 0 1 0 0 1 0 1
+~37: 1 1 0 1 1 0 1 0
+ +1: 1 1 0 1 1 0 1 1
+```
+
+So, in summary, `~37 + 1` equals `-37`.
+
 </div>
 </div>
 
 <div id="interview-bitwise-uparrow"> 
-  <button type="button" class="collapsible">+ ^
+  <button type="button" class="collapsible">+ ^ (XOR)
 <code class="ex">
-TODO
+Compares the binary digits of a two integers and returns 1 when one (and only one) of the digits are 1, otherwise it returns 0 (a XOR b).
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+e.g.  `37 ^ 23`:
+
+```
+  37: 0 0 1 0 0 1 0 1
+^ 23: 0 0 0 1 0 1 1 1
+= 50: 0 0 1 1 0 0 1 0
+```
+
+<span class="todo">TODO: practical uses...?</span>
 </div>
 </div>
 
 <div id="interview-bitwise-lala"> 
-  <button type="button" class="collapsible">+ &lt;&lt;
+  <button type="button" class="collapsible">+ &lt;&lt; (Bitshift Left)
 <code class="ex">
-TODO
+Shifts the digits of a binary number to the left (and fills the gaps with 0).
+Is the same as multiplying the base 10 number by 2 to the power of N.
+e.g.  37 << 3 == 37 * Math.pow(2,3) == 37 * 8
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
+
+e.g.  `37 << 3`:
+
+(using a 32bit digit to avoid losing digits)
+
+```
+   37: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1
+ << 3: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
+= 296: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 0
+```
+
+A practical use of `<<` is that it is significantly quicker than using `Math.Pow()`, if the goal is to multiply a number by 2 to the power of N.
+
+e.g.
+
+```cs
+using System;
+using System.Diagnostics;
+
+class Program
+{
+    private static int iterations = 5000000;
+
+    static void Main()
+    {
+        doCalc(useShift); // 22ms
+        doCalc(usePow); // 180ms
+    }
+
+    private static double usePow()
+    {
+        return 37 * Math.Pow(2, 3);
+    }
+
+    private static double useShift()
+    {
+        return 37 << 3;
+    }
+
+    private static void doCalc(Func<double> calculator)
+    {
+        double x = 0;
+        int iterLimit = iterations - 1;
+        Stopwatch s = new Stopwatch();
+        s.Start();
+
+        for (int i = 0; i < iterLimit; i++)
+            x = calculator();
+
+        s.Stop();
+
+        Console.WriteLine($"{x} : {s.ElapsedMilliseconds}");
+    }
+}
+```
 
 </div>
 </div>
 
 <div id="interview-bitwise-rara"> 
-  <button type="button" class="collapsible">+ &gt;&gt;
+  <button type="button" class="collapsible">+ &gt;&gt; (Bitshift Right)
 <code class="ex">
-TODO
+Shifts the digits of a binary number to the right (and fills the gaps with 0 if the number is positive, and with 1 if the number is negative).
+Is the same as multiplying the base 10 number by 2 to the power of N.
+e.g.  37 >> 3 == 37 / Math.pow(2,3) == 37 / 8
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-</div>
-</div>
+e.g.  `37 >> 3`:
 
-<div id="interview-bitwise-rarara"> 
-  <button type="button" class="collapsible">+ &gt;&gt;&gt;
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+```
+  37: 0 0 1 0 0 1 0 1
+>> 3: 0 0 0 0 1 0 0 0
+ = 4: 0 0 0 0 0 1 0 0
+```
 
-</div>
-</div>
+**NOTE**: `>>` only operates on `int`, so any decimal values will be lost (`37 / 8` = `4.625`, however `37 >> 3` = `4`).
 
-<div id="interview-bitwise-ampequals"> 
-  <button type="button" class="collapsible">+ &amp;=
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+A practical use of `<<` is that it is significantly quicker than using `Math.Pow()`, if the goal is to divide a number by 2 to the power of N.
 
-</div>
-</div>
+e.g.
 
-<div id="interview-bitwise-pipeequals"> 
-  <button type="button" class="collapsible">+ &vert;=
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+```cs
+using System;
+using System.Diagnostics;
 
-</div>
-</div>
+class Program
+{
+    private static int iterations = 5000000;
 
-<div id="interview-bitwise-upaequals"> 
-  <button type="button" class="collapsible">+ ^=
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+    static void Main()
+    {
+        doCalc(useShift); // 22ms
+        doCalc(usePow); // 180ms
+    }
 
-</div>
-</div>
+    private static double usePow()
+    {
+        return 37 * Math.Pow(2, 3);
+    }
 
-<div id="interview-bitwise-lalaequals"> 
-  <button type="button" class="collapsible">+ &lt;&lt;=
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+    private static double useShift()
+    {
+        return 37 << 3;
+    }
 
-</div>
-</div>
+    private static void doCalc(Func<double> calculator)
+    {
+        double x = 0;
+        int iterLimit = iterations - 1;
+        Stopwatch s = new Stopwatch();
+        s.Start();
 
-<div id="interview-bitwise-raraequals"> 
-  <button type="button" class="collapsible">+ &gt;&gt;=
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+        for (int i = 0; i < iterLimit; i++)
+            x = calculator();
 
-</div>
-</div>
+        s.Stop();
 
-<div id="interview-bitwise-rararaequals"> 
-  <button type="button" class="collapsible">+ &gt;&gt;&gt;=
-<code class="ex">
-TODO
-</code>
-  </button>   
-<div class="content" style="display: none;" markdown="1">
+        Console.WriteLine($"{x} : {s.ElapsedMilliseconds}");
+    }
+}
+```
 
 </div>
 </div>
