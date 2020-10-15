@@ -8197,7 +8197,9 @@ as: cast an object to the specified type; will return null if the object cannot 
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-Generally speaking, `as` is a safer alternative to a traditional cast (e.g. `(int)myObject`), since it will not throw an exception if the cast cannot proceed.
+Generally speaking, `as` is a safer alternative to a traditional cast (e.g. `(List)myObject`), since it will not throw an exception if the cast cannot proceed.
+
+**NOTE**: `as` cannot be used with value types.
 
 </div>
 </div>
@@ -8482,14 +8484,37 @@ TODO
     
 <!-- =========================#####################################################================================ -->
 <div id="interview-genericconstraints"> 
-  <button type="button" class="collapsible">+ Can you set Constraints on Generic Classes?
+  <button type="button" class="collapsible">+ Constraints on Generic Classes
 <code class="ex">
-TODO
+public class MyGenericClass<T> where T : <constraint>
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+Some examples:
+ 
+  * public class MyGenericClass<T> where T : <interface name>
+    * T must implement the specified interface
+
+  * public class MyGenericClass<T> where T : <base class name>
+    * T must extend the specified base class
+
+  * public class MyGenericClass<T> where T : new()
+    * T must have a parameterless constructor
+
+  * public class MyGenericClass<T, U> where T : U 
+    * T must derive from U
+
+  * public class MyGenericClass<A, B, C> where B : C
+    * B must derive from C
+
+It is also possible to apply multiple constraints to the same class:
+
+```cs
+public class MyGenericClass<T, U> 
+    where U : new() 
+    where T : BaseClass, new()
+```
 
 </div>
 </div>
