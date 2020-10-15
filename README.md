@@ -8306,7 +8306,7 @@ public string FirstName { get; set; } = "Jane";
   <button type="button" class="collapsible">+ `yield return`
 <code class="ex">
 Returns the current element of a list and waits for the next element to be requested.
-For a method to use yield return, the return type must be IEnumerable or IEnumerable<T>.
+For a method to use yield return, the return type must be IEnumerable or IEnumerable&lt;T&gt;.
 The list resets to the beginning each time GetEnumerator() is called.
 The Reset() method only works if this has been explicitly implemented in the enumerator (which it is not by default).
 </code>
