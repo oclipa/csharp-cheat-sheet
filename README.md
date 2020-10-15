@@ -8191,12 +8191,13 @@ For further information on `in`, see here:
 <div id="interview-asvsis"> 
   <button type="button" class="collapsible">+ `as` vs `is`
 <code class="ex">
-TODO
+is: verify that an object is of the specified type.
+as: cast an object to the specified type; will return null if the object cannot be cast (or is null).
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+Generally speaking, `as` is a safer alternative to a traditional cast (e.g. `(int)myObject`), since it will not throw an exception if the cast cannot proceed.
 
 </div>
 </div>
@@ -8205,14 +8206,40 @@ TODO
 <div id="interview-exceptions"> 
   <button type="button" class="collapsible">+ `throw`
 <code class="ex">
-TODO
+A stack-trace will start at the point that an exception is thrown (e.g. throw new Exception();).
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+If an exception is caught, with the intention to rethrow, there are two approaches, each of which affects the stack-trace differently.
 
-`throw ex` vs `throw`
+```cs
+public void Method2() 
+{ 
+    try 
+    { 
+        Method1();
+    } 
+    catch (Exception) 
+    {
+        throw; // maintains the existing stack-trace
+    } 
+}
+```
+&nbsp;
+```cs
+public void Method2() 
+{ 
+    try 
+    { 
+        Method1();
+    } 
+    catch (Exception ex) 
+    {
+        throw ex; // resets the base of the stack-trace to this point
+    } 
+}
+```
 
 </div>
 </div>
@@ -8221,12 +8248,12 @@ TODO
 <div id="interview-tryblock"> 
   <button type="button" class="collapsible">+ `try`, `catch` &amp; `finally`
 <code class="ex">
-TODO
+try: to be useful, a try block requires either a catch or finally block (or both).
+catch: this is optional; if missing, the exception will simply be thrown up the call-stack.
+finally: this is optional; if the exception in the try block kills this process, this will not be executed!
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
-
-<span class="todo">TODO</span>
 
 </div>
 </div>
@@ -8235,12 +8262,41 @@ TODO
 <div id="interview-getset"> 
   <button type="button" class="collapsible">+ `get` &amp; `set`
 <code class="ex">
-TODO
+Property getters and setters are used to provide a layer of abstraction on top of the internal private properties of class.
+
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+The long-form of a property looks like this:
+
+```cs
+private string _firstName; 
+
+public string FirstName 
+{ 
+    get 
+    { 
+        return this._firstName; 
+    } 
+    set 
+    { 
+        this._firstName = value; 
+    } 
+}
+```
+
+For trivial cases, this can be simplied to the following, which is known as an auto-implemented property:
+
+```cs
+public string FirstName { get; set; };
+```
+
+Since C# 6, it is possible to initialize auto-implemented properties in the following manner:
+
+```cs
+public string FirstName { get; set; } = "Jane";
+```
 
 </div>
 </div>
