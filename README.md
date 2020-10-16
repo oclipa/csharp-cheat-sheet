@@ -5998,8 +5998,8 @@ private static void lambdaExpression(Person[] people1, Person[] people2)
 **Further Information**
 
 For further info on Lambda Expressions, see the following: 
-  * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable](System.Linq.Enumerable API Documentation)
-  * [https://docs.microsoft.com/en-us/dotnet/api/system.linq.queryable](System.Linq.Queryable API Documentation)
+  * [System.Linq.Enumerable API Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable)
+  * [System.Linq.Queryable API Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.linq.queryable)
 
 Query comprehension syntax can be summarized using the following diagram:
 
@@ -9348,7 +9348,7 @@ TODO
   <button type="button" class="collapsible">+ C# 8 Updates</button>   
 <div class="content" style="display: none;" markdown="1">
 
-[https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf](CSharp8CheatSheetUpdated.pdf)
+[CSharp8CheatSheetUpdated.pdf](https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf)
 
 * Default interface methods.
 * Nullable reference types.
