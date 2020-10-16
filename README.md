@@ -4087,6 +4087,85 @@ public class MyStruct
 </div>
 
 <!-- =========================#####################################################================================ -->
+<div id="tuples">  
+<button type="button" class="collapsible">+ Tuples
+<code class="ex">
+There are two forms of tuple: Tuple and ValueTuple.
+
+// Tuple format
+Tuple <int, string, string> person = new Tuple <int, string, string>(1, "Steve", "Jobs");
+Tuple <int, string, string> person = Tuple.Create(1, "Steve", "Jobs");
+
+A Tuple can hold a maximum of 8 elements, however tuples can be nested (preferably with the nested tuple placed as the last element, since it can then be accessed via the Rest property).
+
+// ValueTuple format
+ValueTuple<int, string, string> person = (1, "Steve", "Jobs");
+(int, string, string) person = (1, "Steve", "Jobs"); 
+
+A ValueTuple can hold more than 8 values.
+</code>
+</button>
+<div class="content" style="display: none;" markdown="1">
+
+**Accessing Tuples**
+
+```cs
+private void tupleTest()
+{
+    var myTuple = Tuple.Create("a", "b", "c", "d", "e", "f", "g", Tuple.Create(1, 2, 3, 4));
+
+    Console.WriteLine(myTuple.Item1); // returns "a"
+    Console.WriteLine(myTuple.Item2); // returns "b"
+    Console.WriteLine(myTuple.Item3); // returns "c"
+
+    Console.WriteLine(myTuple.Rest); // returns "((1, 2, 3, 4))"
+    Console.WriteLine(myTuple.Rest.Item1.Item1); // returns "1"
+    Console.WriteLine(myTuple.Rest.Item1.Item2); // returns "2"
+
+    // named tuple elements
+    
+    var names1 = LookupName();
+    Console.WriteLine($"found {names1.first} {names1.last}.");
+
+    // or
+
+    var names2 = (id: 1, first: "Steve", last: "Jobs");
+    Console.WriteLine($"found {names2.first} {names2.last}.");
+
+    // or
+
+    var names1 = LookupName();
+    Console.WriteLine($"found {names1.first} {names1.last}.");
+
+    // or
+
+    (var id1, var first1, var last1) = LookupName();
+    Console.WriteLine($"found {first1} {last1}.");
+
+    // or
+
+    var (id2, first2, last2) = LookupName();
+    Console.WriteLine($"found {first2} {last2}.");
+
+    // or
+    
+    int id3 = 0;
+    string first3 = "";
+    string last3 = "";
+    (id3, first3, last3) = LookupName();
+    Console.WriteLine($"found {first3} {last3}.");
+}
+
+private (int id, string first, string last) LookupName() // tuple return type
+{
+    return (1, "Steve", "Jobs"); // tuple literal
+}
+```
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
 <div id="boxing">  
 <button type="button" class="collapsible">+ Boxing vs Unboxing
 <code class="ex">
@@ -4843,6 +4922,158 @@ class Program
         Console.WriteLine("DynamicInvoke: {0}ms", watch.ElapsedMilliseconds);
     }
 }
+```
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="local-functions">  
+<button type="button" class="collapsible">+ Local Functions
+<code class="ex">
+Private methods nested within other members.
+</code>
+</button>
+<div class="content" style="display: none;" markdown="1">
+
+In C# 7, the concept of local functions was added:
+
+```cs
+public int Fibonacci(int x)
+{
+    if (x < 0) throw new ArgumentException("Less negativity please!", nameof(x));
+    return Fib(x).current;
+
+    (int current, int previous) Fib(int i)
+    {
+        if (i == 0) return (1, 0);
+        var (p, pp) = Fib(i - 1);
+        return (p + pp, p);
+    }
+}
+```
+
+A useful feature of local functions is that they can allow exceptions to surface immediately.  For example, for method iterators, exceptions are surfaced only when the returned sequence is enumerated, and not when the iterator is retrieved. For async methods, any exceptions thrown in an async method are observed when the returned task is awaited.
+
+Compare the following:
+
+```cs
+using System;
+using System.Collections.Generic;
+
+public class IteratorWithoutLocalExample
+{
+   public static void Main()
+   {
+      IEnumerable<int> xs = OddSequence(50, 110);
+      Console.WriteLine("Retrieved enumerator...");
+
+      foreach (var x in xs)  // line 11
+      {
+         Console.Write($"{x} ");
+      }
+   }
+
+   public static IEnumerable<int> OddSequence(int start, int end)
+   {
+      if (start < 0 || start > 99)
+         throw new ArgumentOutOfRangeException(nameof(start), "start must be between 0 and 99.");
+      if (end > 100)
+         throw new ArgumentOutOfRangeException(nameof(end), "end must be less than or equal to 100.");
+      if (start >= end)
+         throw new ArgumentException("start must be less than end.");
+
+      for (int i = start; i <= end; i++)
+      {
+         if (i % 2 == 1)
+            yield return i;
+      }
+   }
+}
+// The example displays the output like this:
+//
+//    Retrieved enumerator...
+//    Unhandled exception. System.ArgumentOutOfRangeException: end must be less than or equal to 100. (Parameter 'end')
+//    at IteratorWithoutLocalExample.OddSequence(Int32 start, Int32 end)+MoveNext() in IteratorWithoutLocal.cs:line 22
+//    at IteratorWithoutLocalExample.Main() in IteratorWithoutLocal.cs:line 11
+```
+&nbsp;
+```cs
+using System;
+using System.Collections.Generic;
+
+public class IteratorWithLocalExample
+{
+   public static void Main()
+   {
+      IEnumerable<int> xs = OddSequence(50, 110);  // line 8
+      Console.WriteLine("Retrieved enumerator...");
+
+      foreach (var x in xs)
+      {
+         Console.Write($"{x} ");
+      }
+   }
+
+   public static IEnumerable<int> OddSequence(int start, int end)
+   {
+      if (start < 0 || start > 99)
+         throw new ArgumentOutOfRangeException(nameof(start), "start must be between 0 and 99.");
+      if (end > 100)
+         throw new ArgumentOutOfRangeException(nameof(end), "end must be less than or equal to 100.");
+      if (start >= end)
+         throw new ArgumentException("start must be less than end.");
+
+      return GetOddSequenceEnumerator();
+
+      IEnumerable<int> GetOddSequenceEnumerator()
+      {
+         for (int i = start; i <= end; i++)
+         {
+            if (i % 2 == 1)
+               yield return i;
+         }
+      }
+   }
+}
+// The example displays the output like this:
+//
+//    Unhandled exception. System.ArgumentOutOfRangeException: end must be less than or equal to 100. (Parameter 'end')
+//    at IteratorWithLocalExample.OddSequence(Int32 start, Int32 end) in IteratorWithLocal.cs:line 22
+//    at IteratorWithLocalExample.Main() in IteratorWithLocal.cs:line 8
+```
+
+In addition, local functions have the following advantages over lambda expressions:
+
+(taken from: [https://www.commentout.com/localfunc.html](https://www.commentout.com/localfunc.html))
+
+* Local functions can be called without converting to a delegate, so you don't need to wrap them in Func or Action if you're just calling from your current method
+* Local functions can be recursive
+* Local functions can be iterators
+* Since iterators don't start running until you start iterating over them this can be very useful if you want to do a little early-validation for your iterator method. You can stick the body of your iterator in a local function, do your validation up front, and then call your iterator.
+* Local functions can be generic (e.g., bool Local<T>(T t) => t == default(T);)
+* Local functions have strictly more precise definite assignment rules
+* In certain cases, local functions do not need to allocate memory on the heap
+
+(taken from: [https://stackoverflow.com/questions/40943117/local-function-vs-lambda-c-sharp-7-0](https://stackoverflow.com/questions/40943117/local-function-vs-lambda-c-sharp-7-0))
+
+* Performance.
+  * When creating a lambda, a delegate has to be created, which is an unnecessary allocation in this case. Local functions are really just functions, no delegates are necessary.
+  * Also, local functions are more efficient with capturing local variables: lambdas usually capture variables into a class, while local functions can use a struct (passed using ref), which again avoids an allocation.
+  * This also means calling local functions is cheaper and they can be inlined, possibly increasing performance even further.
+* Local functions can be recursive.
+  * Lambdas can be recursive too, but it requires awkward code, where you first assign null to a delegate variable and then the lambda. Local functions can naturally be recursive (including mutually recursive).
+* Local functions can be generic.
+  * Lambdas cannot be generic, since they have to be assigned to a variable with a concrete type (that type can use generic variables from the outer scope, but that's not the same thing).
+* Local functions can be implemented as an iterator.
+  * Lambdas cannot use the yield return (and yield break) keyword to implement IEnumerable<T>-returning function. Local functions can.
+* Local functions look better
+  * This is more personal preference.
+  * Compare:
+
+```cs
+int add(int x, int y) => x + y;
+Func<int, int, int> add = (x, y) => x + y;
 ```
 
 </div>
@@ -6354,7 +6585,7 @@ Back in the parent method/frame, the `strMain` reference remains pointing to the
 Console.WriteLine(strMain); // output: main
 ```
 
-**Why are "normal" object different?**
+**Why are "normal" objects different?**
 
 The primary difference between the majority of objects and strings are that strings are immutable, while other objects are not.
 
@@ -8112,7 +8343,7 @@ An alternative approach would be to use `Thread.Sleep(5)`, rather than `Task.Del
 <div id="interview-refvsout"> 
   <button type="button" class="collapsible">+ `ref` vs `out` vs `in`
 <code class="ex">
-ref: forces an existing object to be passed by reference into a method.
+ref: forces an existing object to be passed by reference into a method (in C#7, can also return by ref)
 out: forces a method to assign a value to a variable before returning.
 in: prevents a method from changing the passed in object.
 </code>
@@ -8135,6 +8366,31 @@ void Main()
     Console.WriteLine(strMain);   // Prints "local"
 }
 ```
+
+In addition, in C# 7, the concept of a `ref` return was introduced:
+
+```cs
+public ref int Find(int number, int[] numbers)
+{
+    for (int i = 0; i < numbers.Length; i++)
+    {
+        if (numbers[i] == number) 
+        {
+            return ref numbers[i]; // return the memory location, not the value
+        }
+    }
+    throw new IndexOutOfRangeException($"{nameof(number)} not found");
+}
+
+void Main()
+{
+    int[] array = { 1, 15, -39, 0, 7, 14, -12 };
+    ref int place = ref Find(7, array); // returns memory location of 7 in the array
+    place = 9; // overwrite memory location with 9
+    Console.WriteLine(array[4]); // prints 9
+}
+```
+
 
 **`out`**
 
@@ -8201,6 +8457,56 @@ Generally speaking, `as` is a safer alternative to a traditional cast (e.g. `(Li
 
 **NOTE**: `as` cannot be used with value types.
 
+**NOTE**: See the section on "Pattern Matching" for an additional use of `is`.
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-patterns"> 
+  <button type="button" class="collapsible">+ Pattern Matching (`is`, `when`)
+<code class="ex">
+is: verify that an object is of the specified type.
+as: cast an object to the specified type; will return null if the object cannot be cast (or is null).
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+In C# 7, the concept of pattern matching was introduced:
+
+```cs
+public void PrintStars(object o)
+{
+    if (o is null) return;     // constant pattern "null"
+    if (!(o is int i)) return; // type pattern "int i"; if pattern match is successful, assign o to i
+    WriteLine(new string('*', i));
+}
+```
+
+The `when` keyword can be used in `switch` statements:
+
+```cs
+public void PrintArea(object shape)
+{
+    switch(shape)
+    {
+        case Circle c:
+            WriteLine($"circle with radius {c.Radius}");
+            break;
+        case Rectangle s when (s.Length == s.Height):
+            WriteLine($"{s.Length} x {s.Height} square");
+            break;
+        case Rectangle r:
+            WriteLine($"{r.Length} x {r.Height} rectangle");
+            break;
+        default:
+            WriteLine("<unknown shape>");
+            break;
+        case null:
+            throw new ArgumentNullException(nameof(shape));
+    }
+}
+```
 </div>
 </div>
 
@@ -9034,6 +9340,35 @@ TODO
 
 </div>
 </div>
+
+<hr/>
+
+<!-- =========================#####################################################================================ -->
+<div id="csharp8"> 
+  <button type="button" class="collapsible">+ C# 8 Updates<br/>
+<code class="ex">
+Default interface methods.
+Nullable reference types.
+    Pattern matching enhancements.
+    Asynchronous streams.
+    Using declarations.
+    Enhancement of interpolated verbatim strings.
+    Null-coalescing assignment.
+    Static local functions.
+    Indices and ranges.
+    Unmanaged constructed types.
+    Readonly members.
+    Stackalloc in nested expressions.
+    Disposable ref structs.
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+
+[https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf](https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf)
+
+</div>
+</div>
+
 
 <hr/>
 
