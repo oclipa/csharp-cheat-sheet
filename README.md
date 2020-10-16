@@ -8838,6 +8838,8 @@ Contravariance: Applies to parameter types; accept a super-class where a sub-cla
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+<span class="todo">TODO: requires more explanation</span>
+
 The following is taken from: [msdn-covariance-contravariance](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/)
 
 ```cs
@@ -8983,13 +8985,32 @@ fido.Bury<Cow,Cat>(new Cow("Bessie"), new Cat("Puffy"));
 <div id="interview-threadvsprocess"> 
   <button type="button" class="collapsible">+ Thread vs Process
 <code class="ex">
-TODO
+Process: the running program.
+Thread: runs in the content of a process.
+    
+A thread is the basic unit to which the operating system allocates processor time. 
+A thread can execute any part of the process code, including parts currently being executed by another thread.
+
+Threads share heap memory with other threads, while processes have an isolated memory space.
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+To start a process:
 
+```cs
+Process.Start("notepad.exe");
+```
+
+To start a thread:
+
+```cs
+Thread t = new Thread( ()=>{ 
+            //code 
+        } 
+    ); 
+t.Start();
+```
 </div>
 </div>
 
@@ -8997,13 +9018,212 @@ TODO
 <div id="interview-deadlocks"> 
   <button type="button" class="collapsible">+ Locks, Semaphores &amp; Mutexes
 <code class="ex">
-lock, semaphores, mutex
+lock: process-wide; locks a block of code so that only one thread can access it at a time.
+    * Typically used to prevent deadlocks and concurrent access to memory.
+semaphore: process-wide; locks a block of code so that a specific number of threads can access it at a time .
+    * This is good for limiting memory use by an intensive task.
+mutex: system-wide; locks a resource at an OS-level so that only one thread from one process can access it at a time.
+    * A mutex can be used to synchronize access to a file, a database and so on.
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+**Lock Example**
 
+```cs
+private readonly object syncLock = new object();
+public void ThreadSafeMethod() {
+    lock(syncLock) {
+        /* critical code */
+    }
+}
+```
+
+**Semaphore Example** (taken from [what-is-a-semaphore](https://stackoverflow.com/questions/34519/what-is-a-semaphore)):
+
+*Think of semaphores as bouncers at a nightclub. There are a dedicated number of people that are allowed in the club at once. If the club is full no one is allowed to enter, but as soon as one person leaves another person might enter.*
+
+*It's simply a way to limit the number of consumers for a specific resource. For example, to limit the number of simultaneous calls to a database in an application.*
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+
+namespace TheNightclub
+{
+    public class Program
+    {
+        public static Semaphore Bouncer { get; set; }
+
+        public static void Main(string[] args)
+        {
+            // Create the semaphore with 3 slots, where 3 are available.
+            Bouncer = new Semaphore(3, 3);
+
+            // Open the nightclub.
+            OpenNightclub();
+        }
+
+        public static void OpenNightclub()
+        {
+            for (int i = 1; i <= 50; i++)
+            {
+                // Let each guest enter on an own thread.
+                Thread thread = new Thread(new ParameterizedThreadStart(Guest));
+                thread.Start(i);
+            }
+        }
+
+        public static void Guest(object args)
+        {
+            // Wait to enter the nightclub (a semaphore to be released).
+            Console.WriteLine("Guest {0} is waiting to entering nightclub.", args);
+            Bouncer.WaitOne();          
+
+            // Do some dancing.
+            Console.WriteLine("Guest {0} is doing some dancing.", args);
+            Thread.Sleep(500);
+
+            // Let one guest out (release one semaphore).
+            Console.WriteLine("Guest {0} is leaving the nightclub.", args);
+            Bouncer.Release(1);
+        }
+    }
+}
+```
+
+**Mutex Example**
+
+Taken from [what-is-a-good-pattern-for-using-a-global-mutex-in-c](https://stackoverflow.com/questions/229565/what-is-a-good-pattern-for-using-a-global-mutex-in-c):
+
+```cs
+using System.Runtime.InteropServices;   //GuidAttribute
+using System.Reflection;                //Assembly
+using System.Threading;                 //Mutex
+using System.Security.AccessControl;    //MutexAccessRule
+using System.Security.Principal;        //SecurityIdentifier
+
+static void Main(string[] args)
+{
+    // get application GUID as defined in AssemblyInfo.cs
+    string appGuid =
+        ((GuidAttribute)Assembly.GetExecutingAssembly().
+            GetCustomAttributes(typeof(GuidAttribute), false).
+                GetValue(0)).Value.ToString();
+
+    // unique id for global mutex - Global prefix means it is global to the machine
+    string mutexId = string.Format( "Global\\{{{0}}}", appGuid );
+
+    // Need a place to store a return value in Mutex() constructor call
+    bool createdNew;
+
+    // example of setting up security for multi-user usage
+    // works also on localized systems (don't use just "Everyone") 
+    var allowEveryoneRule =
+        new MutexAccessRule( new SecurityIdentifier( WellKnownSidType.WorldSid
+                                                   , null)
+                           , MutexRights.FullControl
+                           , AccessControlType.Allow
+                           );
+    var securitySettings = new MutexSecurity();
+    securitySettings.AddAccessRule(allowEveryoneRule);
+
+    // avoid race condition on security settings
+    using (var mutex = new Mutex(false, mutexId, out createdNew, securitySettings))
+    {
+        var hasHandle = false;
+        try
+        {
+            try
+            {
+                // note, may want to time out here instead of waiting forever
+                // mutex.WaitOne(Timeout.Infinite, false);
+                hasHandle = mutex.WaitOne(5000, false);
+                if (hasHandle == false)
+                    throw new TimeoutException("Timeout waiting for exclusive access");
+            }
+            catch (AbandonedMutexException)
+            {
+                // Log the fact that the mutex was abandoned in another process,
+                // it will still get acquired
+                hasHandle = true;
+            }
+
+            // Perform your work here.
+        }
+        finally
+        {
+            if(hasHandle)
+                mutex.ReleaseMutex();
+        }
+    }
+}
+```
+
+Additionally, a helper class for the mutex:
+
+```cs
+class SingleGlobalInstance : IDisposable
+{
+    //edit by user "jitbit" - renamed private fields to "_"
+    public bool _hasHandle = false;
+    Mutex _mutex;
+
+    private void InitMutex()
+    {
+        string appGuid = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), false).GetValue(0)).Value;
+        string mutexId = string.Format("Global\\{{{0}}}", appGuid);
+        _mutex = new Mutex(false, mutexId);
+
+        var allowEveryoneRule = new MutexAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);
+        var securitySettings = new MutexSecurity();
+        securitySettings.AddAccessRule(allowEveryoneRule);
+        _mutex.SetAccessControl(securitySettings);
+    }
+
+    public SingleGlobalInstance(int timeOut)
+    {
+        InitMutex();
+        try
+        {
+            if(timeOut < 0)
+                _hasHandle = _mutex.WaitOne(Timeout.Infinite, false);
+            else
+                _hasHandle = _mutex.WaitOne(timeOut, false);
+
+            if (_hasHandle == false)
+                throw new TimeoutException("Timeout waiting for exclusive access on SingleInstance");
+        }
+        catch (AbandonedMutexException)
+        {
+            _hasHandle = true;
+        }
+    }
+
+
+    public void Dispose()
+    {
+        if (_mutex != null)
+        {
+            if (_hasHandle)
+                _mutex.ReleaseMutex();
+            _mutex.Close();
+        }
+    }
+}
+```
+
+Usage:
+
+```cs
+using (new SingleGlobalInstance(1000)) //1000ms timeout on global lock
+{
+    //Only 1 of these runs at a time
+    RunSomeStuff();
+}
+```
 </div>
 </div>
 
