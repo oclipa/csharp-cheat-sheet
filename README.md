@@ -4093,13 +4093,13 @@ public class MyStruct
 There are two forms of tuple: Tuple and ValueTuple.
 
 // Tuple format
-Tuple <int, string, string> person = new Tuple <int, string, string>(1, "Steve", "Jobs");
-Tuple <int, string, string> person = Tuple.Create(1, "Steve", "Jobs");
+Tuple &lt;int, string, string&gt; person = new Tuple &lt;int, string, string&gt;(1, "Steve", "Jobs");
+Tuple &lt;int, string, string&gt; person = Tuple.Create(1, "Steve", "Jobs");
 
 A Tuple can hold a maximum of 8 elements, however tuples can be nested (preferably with the nested tuple placed as the last element, since it can then be accessed via the Rest property).
 
 // ValueTuple format
-ValueTuple<int, string, string> person = (1, "Steve", "Jobs");
+ValueTuple&lt;int, string, string&gt; person = (1, "Steve", "Jobs");
 (int, string, string) person = (1, "Steve", "Jobs"); 
 
 A ValueTuple can hold more than 8 values.
@@ -8792,7 +8792,7 @@ TODO
 <div id="interview-genericconstraints"> 
   <button type="button" class="collapsible">+ Constraints on Generic Classes
 <code class="ex">
-public class MyGenericClass<T> where T : <constraint>
+public class MyGenericClass&lt;T&gt; where T : &lt;constraint&gt;
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
