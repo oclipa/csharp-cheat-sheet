@@ -8917,7 +8917,11 @@ cHat.pull();                   // Pull a marsh rabbit out of a cottontail hat??
 <div id="interview-overloadgeneric"> 
   <button type="button" class="collapsible">+ Overloading a Generic Method
 <code class="ex">
-Yes - Method(), Method&lt;T&gt;(T t), Method&lt;T&gt;(T t, int i), Method&lt;T1, T2&gt;(T1 t1, T2 t2), etc.
+Method()
+Method&lt;T&gt;(T t)
+Method&lt;T&gt;(T t, int i)
+Method&lt;T1, T2&gt;(T1 t1, T2 t2)
+etc.
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
