@@ -9345,26 +9345,24 @@ TODO
 
 <!-- =========================#####################################################================================ -->
 <div id="csharp8"> 
-  <button type="button" class="collapsible">+ C# 8 Updates<br/>
-<code class="ex">
-Default interface methods.
-Nullable reference types.
-    Pattern matching enhancements.
-    Asynchronous streams.
-    Using declarations.
-    Enhancement of interpolated verbatim strings.
-    Null-coalescing assignment.
-    Static local functions.
-    Indices and ranges.
-    Unmanaged constructed types.
-    Readonly members.
-    Stackalloc in nested expressions.
-    Disposable ref structs.
-</code>
-  </button>   
+  <button type="button" class="collapsible">+ C# 8 Updates</button>   
 <div class="content" style="display: none;" markdown="1">
 
 [https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf](https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf)
+
+* Default interface methods.
+* Nullable reference types.
+* Pattern matching enhancements.
+* Asynchronous streams.
+* Using declarations.
+* Enhancement of interpolated verbatim strings.
+* Null-coalescing assignment.
+* Static local functions.
+* Indices and ranges.
+* Unmanaged constructed types.
+* Readonly members.
+* Stackalloc in nested expressions.
+* Disposable ref structs.
 
 </div>
 </div>
