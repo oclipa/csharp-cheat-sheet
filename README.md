@@ -9348,7 +9348,7 @@ TODO
   <button type="button" class="collapsible">+ C# 8 Updates</button>   
 <div class="content" style="display: none;" markdown="1">
 
-[https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf](https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf)
+[https://oclipa.github.io/assets/pdf/CSharp8CheatSheetUpdated.pdf](CSharp8CheatSheetUpdated.pdf)
 
 * Default interface methods.
 * Nullable reference types.
