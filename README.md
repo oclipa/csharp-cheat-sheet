@@ -8829,13 +8829,85 @@ public class MyGenericClass<T, U>
 <div id="interview-covar"> 
   <button type="button" class="collapsible">+ Covariance vs Contravariance
 <code class="ex">
-TODO
+Covariance and contravariance enable implicit reference conversion for array types, delegate types, and generic type arguments.
+
+Covariance: Applies to return types; return a sub-class where a super-class is expected.
+
+Contravariance: Applies to parameter types; accept a super-class where a sub-class is expected.
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
-<span class="todo">TODO</span>
+The following is taken from: [msdn-covariance-contravariance](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/)
 
+```cs
+// Assignment compatibility.
+string str = "test";  
+// An object of a more derived type is assigned to an object of a less derived type.
+object obj = str;  
+  
+// Covariance.
+IEnumerable<string> strings = new List<string>();  
+// An object that is instantiated with a more derived type argument
+// is assigned to an object instantiated with a less derived type argument.
+// Assignment compatibility is preserved.
+IEnumerable<object> objects = strings;  
+  
+// Contravariance.
+// Assume that the following method is in the class:
+// static void SetObject(object o) { }
+Action<object> actObject = SetObject;  
+// An object that is instantiated with a less derived type argument
+// is assigned to an object instantiated with a more derived type argument.
+// Assignment compatibility is reversed.
+Action<string> actString = actObject;
+```
+
+The following is taken from: [covariance-and-contravariance-real-world-example](https://stackoverflow.com/questions/2662369/covariance-and-contravariance-real-world-example)
+
+```cs
+// Contravariance
+interface IGobbler<in T> {
+    void gobble(T t);
+}
+
+// Since a QuadrupedGobbler can gobble any four-footed
+// creature, it is OK to treat it as a donkey gobbler.
+IGobbler<Donkey> dg = new QuadrupedGobbler();
+dg.gobble(MyDonkey());
+
+// Covariance
+interface ISpewer<out T> {
+    T spew();
+}
+
+// A MouseSpewer obviously spews rodents (all mice are
+// rodents), so we can treat it as a rodent spewer.
+ISpewer<Rodent> rs = new MouseSpewer();
+Rodent r = rs.spew();
+```
+
+```cs
+// Invariance
+interface IHat<T> {
+    void hide(T t);
+    T pull();
+}
+
+// A RabbitHat…
+IHat<Rabbit> rHat = RabbitHat();
+
+// …cannot be treated covariantly as a mammal hat…
+IHat<Mammal> mHat = rHat;      // Compiler error
+// …because…
+mHat.hide(new Dolphin());      // Hide a dolphin in a rabbit hat??
+
+// It also cannot be treated contravariantly as a cottontail hat…
+IHat<CottonTail> cHat = rHat;  // Compiler error
+// …because…
+rHat.hide(new MarshRabbit());
+cHat.pull();                   // Pull a marsh rabbit out of a cottontail hat??
+```
 </div>
 </div>
 
