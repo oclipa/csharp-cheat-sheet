@@ -3,7 +3,7 @@
 <a class="link" href="http://oclipa.github.io/toolbox.html">&lt; toolbox</a>
 </div> 
 
-## C#
+## C# (work in progress...)
 
 &nbsp;
 
@@ -267,7 +267,7 @@ To display the bytes for a number, use: `Convert.ToString(num, toBase: 2)`
 </div>
 
 <!-- =========================#####################################################================================ -->
-<div id="stupid-strings">
+<div id="stupid-json">
 <button type="button" class="collapsible">+ Serialize to JSON</button>
 <div class="content" style="display: none;" markdown="1">
 
@@ -349,7 +349,7 @@ class Program
 
 Generally, the two fastest ways to check the parity of a number (whether it is even or odd) are the following:
 
-**Using bitwise &amp;*
+**Using bitwise &amp;**
 
 *This is normally the fastest method.*
 
@@ -362,7 +362,7 @@ private static bool isEven(int i)
 }
 ```
 
-**Testing the remainder*
+**Testing the remainder**
 
 *This can be easiest to read.*
 
@@ -7514,7 +7514,7 @@ class Program
   <button type="button" class="collapsible">+ &gt;&gt; (Bitshift Right)
 <code class="ex">
 Shifts the digits of a binary number to the right (and fills the gaps with 0 if the number is positive, and with 1 if the number is negative).
-Is the same as multiplying the base 10 number by 2 to the power of N.
+Is the same as dividing the base 10 number by 2 to the power of N.
 e.g.  37 >> 3 == 37 / Math.pow(2,3) == 37 / 8
 </code>
   </button>   
