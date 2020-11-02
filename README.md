@@ -5995,6 +5995,30 @@ private static void lambdaExpression(Person[] people1, Person[] people2)
 &nbsp;
 **NOTE**: There is no equivalent to `ToLookup()` in query syntax!
 
+### Aggregate
+
+Applies a function that aggregates all of the values in the list and returns the aggregated result.
+
+```cs
+private static void lambdaExpression(Person[] people1, Person[] people2)
+{
+    // Identifies the person in the array with the longest name, assuming it is longer than "Tom".
+    string longestName =
+        people1.Aggregate("Tom",
+                        (longest, next) =>
+                            next.Name.Length > longest.Length ? next.Name : longest,
+        // Return the final result as an upper case string.
+                        name => name.ToUpper());
+                    
+    Console.Write(longestName + "/");
+
+    // RESULT: HARRY/
+}
+```
+&nbsp;
+**NOTE**: There is no equivalent to `Aggregate()` in query syntax!
+
+
 **Further Information**
 
 For further info on Lambda Expressions, see the following: 
