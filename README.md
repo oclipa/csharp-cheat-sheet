@@ -4048,16 +4048,16 @@ public struct MyStruct
    * Cons: 
       * Cannot usually have multiple objects reference the same struct; each requires its own copy of the struct.
       * Large structs can be slow to copy, which can impact performance.
-      * Boxing a struct (i.e. converting it in an objects) can impact performance
+      * Boxing a struct (i.e. casting it to another object) can impact performance
 
 Use a struct when:
 
-   1 It logically represents a single value, similar to primitive types (integer, double, and so on).
-   1 It has an instance size smaller than 16 bytes.
-   1 It is immutable.
-   1 It will not have to be boxed frequently.
+   * It logically represents a single value, similar to primitive types (integer, double, and so on).
+   * It has an instance size smaller than 16 bytes.
+   * It is immutable.
+   * It will not have to be boxed frequently.
 
-(although it is common for these rules to be violated, particularly #2 & #3)
+(although it is common for these rules to be violated)
 
 ### Classes:
 
