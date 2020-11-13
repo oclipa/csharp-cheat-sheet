@@ -18,6 +18,25 @@
 <div class="content" style="display: none;" markdown="1">
 
 <!-- =========================#####################################################================================ -->
+<div id="stupid-vscode">
+<button type="button" class="collapsible">+ Create a C# Console App in VSCode</button>
+<div class="content" style="display: none;" markdown="1">
+
+1. Create a folder
+1. Open the folder in VSCode
+1. Run the following command:
+   * `dotnet new console`
+
+To run the app:
+
+Either,
+   * F5
+Or,
+   * In the VSCode Terminal: `dotnet run`
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
 <div id="stupid-class">
 <button type="button" class="collapsible">+ Class Syntax</button>
 <div class="content" style="display: none;" markdown="1">
