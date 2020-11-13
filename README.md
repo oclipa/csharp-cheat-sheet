@@ -25,18 +25,18 @@
 1. Create a folder
 1. Open the folder in VSCode
 1. Run the following command:
-   * `dotnet new console`
+  - `dotnet new console`
 
 To run the app:
 
 Either,
-   * F5
+   - F5
    
 Or,
-   * In the VSCode Terminal: `dotnet run`
+   - In the VSCode Terminal: `dotnet run`
    
 To compile a Release build:
-   * `dotnet run -c Release`
+   - `dotnet run -c Release`
 </div>
 </div>
 
