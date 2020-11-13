@@ -33,7 +33,8 @@ Either,
    - F5
    
 Or,
-   - In the VSCode Terminal: `dotnet run`
+   - In the VSCode Terminal: 
+      - `dotnet run`
    
 To compile a Release build:
    - `dotnet run -c Release`
