@@ -14,7 +14,7 @@
 
 <!-- =========================#####################################################================================ -->
 <div id="stupid">
-<button type="button" class="collapsible">+ Stupid, Simple Stuff I Keep Forgetting</button>
+<button type="button" class="collapsible">+ Simple Stuff I Keep Forgetting</button>
 <div class="content" style="display: none;" markdown="1">
 
 <!-- =========================#####################################################================================ -->
