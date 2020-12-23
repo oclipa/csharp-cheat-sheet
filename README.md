@@ -188,7 +188,9 @@ namespace MyNamespace
 <button type="button" class="collapsible">+ Switch Syntax</button>
 <div class="content" style="display: none;" markdown="1">
 
-NOTE: Once a case matches, **all** statements following that case (including other cases!) will be executed until a 'break' or 'return' statement is encountered.
+NOTE: Once a case matches, **all** statements following that case (including other cases!) will be executed until a `break` or `return` statement is encountered.
+
+It should also be noted, however, that leaving out `break` statements is generally considered bad practice.
 
 ```cs
 using System;
