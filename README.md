@@ -216,7 +216,7 @@ namespace MyNamespace
                     // both "15" and "20" will trigger 
                     // the "20" case
                 case 20:
-                    Console.WriteLine("Value of x is 15");
+                    Console.WriteLine("Value of x is 15 or 20");
                     break;
                 default:
                     Console.WriteLine("Unknown value");
