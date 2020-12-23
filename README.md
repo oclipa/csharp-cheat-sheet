@@ -188,6 +188,8 @@ namespace MyNamespace
 <button type="button" class="collapsible">+ Switch Syntax</button>
 <div class="content" style="display: none;" markdown="1">
 
+NOTE: Once a case matches, **all** statements following that case (including other cases!) will be executed until a 'break' or 'return' statement is encountered.
+
 ```cs
 using System;
 
@@ -208,6 +210,10 @@ namespace MyNamespace
                     Console.WriteLine("Value of x is 10");
                     break;
                 case 15:
+                    // if there is no break statement
+                    // both "15" and "20" will trigger 
+                    // the "20" case
+                case 20:
                     Console.WriteLine("Value of x is 15");
                     break;
                 default:
