@@ -8621,6 +8621,36 @@ finally: this is optional; if the exception in the try block kills this process,
   </button>   
 <div class="content" style="display: none;" markdown="1">
 
+A delegate can be used to create a try/catch method that can wrap any other method:
+
+```cs
+private void MyMethod()
+{
+    ...etc...
+
+    if (TryExecute( () => AnotherMethod(myArg1, myArg2) ))
+    {
+        ...etc...
+    }
+}
+
+private bool TryExecute(Action method)
+{
+    try
+    {
+        method();
+
+        return true;
+    }
+    catch (Exception ex)
+    {
+        ...etc...
+    }
+
+    return false;
+}
+```
+
 </div>
 </div>
 
