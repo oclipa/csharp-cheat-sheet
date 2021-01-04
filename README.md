@@ -8796,6 +8796,56 @@ Although `IEnumerator` does not have a `HasNext()` method, there is nothing to p
 </div>
 </div>
 
+<!-- =========================#####################################################================================ -->
+<div id="interview-lazy"> 
+  <button type="button" class="collapsible">+ `Lazy<T>`
+<code class="ex">
+Replaces: get { if (foo == null) foo = new Foo(); return foo; }
+For example: Lazy<Foo> obj = new Lazy<Foo>(() => new Foo());
+
+Lazy<T> is thread-safe (however the object produced is not guaranteed to be thread-safe).
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+An alternative example:
+  
+```cs
+public class Foo
+{
+    public int Id { get; set; }
+    public Lazy<IList<Bar>> Bars => new Lazy<IList<Bar>>(() => GetBar(this.Id));
+    private IList<Bar> GetBar(int Id)
+    {
+      // Write code here to retrieve all Bar details for the specified id.
+    }
+}
+```
+
+</div>
+</div>
+
+<!-- =========================#####################################################================================ -->
+<div id="interview-volatile"> 
+  <button type="button" class="collapsible">+ `volatile`
+<code class="ex">
+Indicates that the field of a class of struct might be modified by multiple threads simultaneously.
+
+Can be applied to most types, but not all (see inside).
+</code>
+  </button>   
+<div class="content" style="display: none;" markdown="1">
+Can be applied to:
+- Reference types.
+- Pointer types (in an unsafe context). Note that although the pointer itself can be volatile, the object that it points to cannot. In other words, you cannot declare a "pointer to volatile."
+- Simple types such as sbyte, byte, short, ushort, int, uint, char, float, and bool.
+- An enum type with one of the following base types: byte, sbyte, short, ushort, int, or uint.
+- Generic type parameters known to be reference types.
+- IntPtr and UIntPtr.
+
+Other types, including double and long, cannot be marked volatile because reads and writes to fields of those types cannot be guaranteed to be atomic. To protect multi-threaded access to those types of fields, use the Interlocked class members or protect access using the lock statement.
+</div>
+</div>
+
 </div>
 </div>
 
