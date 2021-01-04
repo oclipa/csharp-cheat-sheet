@@ -8798,12 +8798,12 @@ Although `IEnumerator` does not have a `HasNext()` method, there is nothing to p
 
 <!-- =========================#####################################################================================ -->
 <div id="interview-lazy"> 
-  <button type="button" class="collapsible">+ `Lazy<T>`
+  <button type="button" class="collapsible">+ `Lazy&lt;T&gt;`
 <code class="ex">
 Replaces: get { if (foo == null) foo = new Foo(); return foo; }
 For example: Lazy<Foo> obj = new Lazy<Foo>(() => new Foo());
 
-Lazy<T> is thread-safe (however the object produced is not guaranteed to be thread-safe).
+Lazy&lt;T&gt; is thread-safe (however the object produced is not guaranteed to be thread-safe).
 </code>
   </button>   
 <div class="content" style="display: none;" markdown="1">
