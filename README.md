@@ -8803,6 +8803,8 @@ Although `IEnumerator` does not have a `HasNext()` method, there is nothing to p
 Replaces: get { if (foo == null) foo = new Foo(); return foo; }
 For example: Lazy&lt;Foo&gt; obj = new Lazy&lt;Foo&gt;(() => new Foo());
 
+Access the object using: Foo foo = obj.Value;
+
 Lazy&lt;T&gt; is thread-safe (however the object produced is not guaranteed to be thread-safe).
 </code>
   </button>   
